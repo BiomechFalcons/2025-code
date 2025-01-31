@@ -32,8 +32,6 @@ public final class Constants {
     //previous speed - 2
     public static final SparkMaxConfig drivingConfig = new SparkMaxConfig();
     public static final SparkMaxConfig turningConfig = new SparkMaxConfig();
-
-    drivingConfig
       
 
 

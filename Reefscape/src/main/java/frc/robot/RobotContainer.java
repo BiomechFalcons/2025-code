@@ -15,15 +15,23 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
+import frc.robot.Commands.Climb;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import java.util.List;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -37,7 +45,7 @@ public class RobotContainer {
 
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
-
+  SparkMax m_climberMotor = new SparkMax(0, MotorType.kBrushless);
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -72,6 +80,9 @@ public class RobotContainer {
         .whileTrue(new RunCommand(
             () -> m_robotDrive.setX(),
             m_robotDrive));
+
+        new JoystickButton(m_driverController, XboxController.Button.kX.value) // X Button
+      .whileTrue(new Climb(1.0, m_climberMotor));
   }
 
   /**
@@ -119,4 +130,39 @@ public class RobotContainer {
     // Run path following command, then stop at the end.
     return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false));
   }
+  /**
+   * Autonomous Functions
+   */
+  public Command threeCoralAutoLeft() {
+    try {
+      PathPlannerPath threeCoralAuto = PathPlannerPath.fromPathFile("3 Coral Auto Left");
+      return AutoBuilder.followPath(threeCoralAuto);
+    } catch (Exception e) {
+      System.out.println("Error " + e);
+      return Commands.none();
+    }
+  }
+
+  public Command oneCoralAutoLeft() {
+    try {
+      PathPlannerPath oneCoralAuto = PathPlannerPath.fromPathFile("1 Coral Auto Left");
+      return AutoBuilder.followPath(oneCoralAuto);
+    } catch (Exception e) {
+      System.out.println("Error " + e);
+      return Commands.none();
+    }
+  }
+
+  public Command fourCoralAutoRight() {
+    try {
+      PathPlannerPath fourCoralAutoRight = PathPlannerPath.fromPathFile("4 Coral Auto Right");
+      return AutoBuilder.followPath(fourCoralAutoRight);
+    } catch(Exception e) {
+      System.out.println("Error " + e);
+      return Commands.none();
+    }
+  }
+  /**
+   * End of Autonomous Functions
+   */
 }
