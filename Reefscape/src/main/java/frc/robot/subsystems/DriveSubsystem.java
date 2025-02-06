@@ -54,7 +54,7 @@ public class DriveSubsystem extends SubsystemBase {
       DriveConstants.kBackRightChassisAngularOffset);
 
   // The gyro sensor
-  private final PigeonIMU m_gyro = new PigeonIMU(0);
+  private final PigeonIMU m_gyro = new PigeonIMU(12);
 
   // Odometry class for tracking robot pose
   SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
@@ -71,16 +71,16 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() {
     // Usage reporting for MAXSwerve template
     HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_MaxSwerve);
-    AutoBuilder.configure(
-      this::getPose, 
-      this::resetOdometry, 
-      this::getRobotRelativeSpeeds, 
-      (speeds, feedsforwards) -> drive(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond, false),
-      new PPHolonomicDriveController(
-        new PIDConstants(5.0, 0.0, 0.0), 
-        new PIDConstants(5.0, 0.0, 0.0)
-        ), 
-        robotConfigRaiseYourYaYaYa(), () -> true, this);
+    // AutoBuilder.configure(
+    //   this::getPose, 
+    //   this::resetOdometry, 
+    //   this::getRobotRelativeSpeeds, 
+    //   (speeds, feedsforwards) -> drive(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond, false),
+    //   new PPHolonomicDriveController(
+    //     new PIDConstants(5.0, 0.0, 0.0), 
+    //     new PIDConstants(5.0, 0.0, 0.0)
+    //     ), 
+    //     robotConfigRaiseYourYaYaYa(), () -> true, this);
 
   }
 

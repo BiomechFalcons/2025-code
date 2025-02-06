@@ -54,6 +54,9 @@ public static Object RobotContainer;
   TalonFX shooterMotorController1 = new TalonFX(14);
   TalonFX shooterMotorController2 = new TalonFX(13);
 
+  NetworkTable limelighttable = NetworkTableInstance.getDefault().getTable("limelight");
+
+  double[] botPose;
   // TalonSRX (dID TBD) used for grabbing chain
   // WPI_VictorSPX armMotorController1 = new WPI_VictorSPX(6);
   // WPI_TalonSRX armMotorController2 = new WPI_TalonSRX(12);

@@ -13,12 +13,18 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
+import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
 import frc.robot.Commands.Climb;
+import frc.robot.Commands.IntakeCorral;
+import frc.robot.Commands.LFour;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -32,6 +38,9 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -42,10 +51,17 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  private final ArmSubsystem m_armsubsystem = new ArmSubsystem();
 
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
-  SparkMax m_climberMotor = new SparkMax(0, MotorType.kBrushless);
+  SparkMax m_climberMotor = new SparkMax(9, MotorType.kBrushless);
+  PWMVictorSPX m_corralholder = new PWMVictorSPX(0);
+  
+  // NetworkTable limelighttable = NetworkTableInstance.getDefault().getTable("limelight");
+
+  // double[] botPose;
+  
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -76,17 +92,25 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(m_driverController, Button.kR1.value)
+    new JoystickButton(m_driverController, Button.kR1.value) // Right Trigger (Analog)
         .whileTrue(new RunCommand(
             () -> m_robotDrive.setX(),
             m_robotDrive));
 
-        new JoystickButton(m_driverController, XboxController.Button.kX.value) // X Button
-      .whileTrue(new Climb(1.0, m_climberMotor));
-  }
+    new JoystickButton(m_driverController, XboxController.Button.kA.value)
+      .whileTrue(new Climb(0.5, m_climberMotor));
+    new JoystickButton(m_driverController, XboxController.Button.kB.value)
+      .whileTrue(new Climb(-0.25, m_climberMotor));
+    new JoystickButton(m_driverController, XboxController.Button.kX.value)
+      .whileTrue(new IntakeCorral(0.5, m_corralholder));
+    new JoystickButton(m_driverController, XboxController.Button.kY.value)
+      .onTrue(new LFour(m_armsubsystem, 50, m_corralholder));
 
+  }
+//Rory Was Here
   /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
+   * Use this to pass the autonomous command to the main 
+   * {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
@@ -130,6 +154,20 @@ public class RobotContainer {
     // Run path following command, then stop at the end.
     return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false));
   }
+
+
+  public void getLimelightBotPose() {
+    // if (botPose.length > 0) {
+    //   double x = botPose[0]; // x position (meters)
+    //   double y = botPose[1]; // y position (meters)
+    //   double z = botPose[2]; // z position (meters)
+    //   double pitch = botPose[3]; // pitch (degrees)
+    //   double yaw = botPose[4]; // yaw (degrees)
+    //   double roll = botPose[5]; // roll (degrees)
+    // }
+  }
+
+
   /**
    * Autonomous Functions
    */
@@ -142,6 +180,7 @@ public class RobotContainer {
       return Commands.none();
     }
   }
+  
 
   public Command oneCoralAutoLeft() {
     try {
