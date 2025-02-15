@@ -1,4 +1,5 @@
 package frc.robot.subsystems;
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
@@ -17,16 +18,16 @@ public class ArmSubsystem extends SubsystemBase {
     private SparkMaxConfig sparkMaxConfig = new SparkMaxConfig();
     private SparkClosedLoopController m_closedloopcontroller = armMotor.getClosedLoopController();
     private double position;
-    private RelativeEncoder m_encoder = armMotor.getEncoder();
+    private AbsoluteEncoder m_encoder = armMotor.getAbsoluteEncoder();
     private ArmFeedforward m_ArmFeedforward;
 
     public ArmSubsystem() {
         sparkMaxConfig.closedLoop.pid(0.05,0, 0);
-        m_encoder.setPosition(0);
+        //m_encoder.setPosition(0);
         armMotor.configure(sparkMaxConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         position = 0;
         m_closedloopcontroller.setReference(position, ControlType.kPosition);
-        m_ArmFeedforward = new ArmFeedforward(0, 0.05, 0.2, 0);
+        m_ArmFeedforward = new ArmFeedforward(0, 0.063, 0.35, 0.04);
     }
     public void setArmPosition(double pos) {
         position = pos;
@@ -34,6 +35,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
     public void setArmPower(double armPower) {
         double power = armPower;
+
         armMotor.set(power);
     }
     public void setArmFeedForward(double velocity) {
@@ -49,6 +51,6 @@ public class ArmSubsystem extends SubsystemBase {
         return m_encoder.getPosition();
     }
     public double getArmPositionInRadians() {
-        return m_encoder.getPosition() * 2 * Math.PI;
+        return m_encoder.getPosition();// * 2 * Math.PI;
     }
 }

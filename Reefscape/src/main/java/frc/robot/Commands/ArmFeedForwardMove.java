@@ -13,7 +13,7 @@ public class ArmFeedForwardMove extends Command {
 
     public ArmFeedForwardMove(double rotationsPerSec, ArmSubsystem m_ArmSubsystem) {
         this.m_ArmSubsystem = m_ArmSubsystem;
-        radiansPerSec = rotationsPerSec * Math.PI * -2;
+        radiansPerSec = rotationsPerSec * Math.PI * 2;
     }
 
     @Override

@@ -115,19 +115,19 @@ public class RobotContainer {
 
     // Y Button
     new JoystickButton(m_driverController, XboxController.Button.kY.value)
-      .whileTrue(new ArmFeedForwardMove(0.07, m_armsubsystem));
+      .whileTrue(new ArmFeedForwardMove(0.06, m_armsubsystem));
 
     // A Button
     new JoystickButton(m_driverController, XboxController.Button.kA.value)
-      .whileTrue(new ArmFeedForwardMove(-0.07, m_armsubsystem));
+      .whileTrue(new ArmFeedForwardMove(-0.06, m_armsubsystem));
 
     // Left Bumper
     new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value)
-      .whileTrue(new Intakecoral(0.1, m_coralholder));
+      .whileTrue(new Intakecoral(0.2, m_coralholder));
 
     // Right Bumper
     new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value)
-      .whileTrue(new Intakecoral(-0.1, m_coralholder));
+      .whileTrue(new Intakecoral(-0.2, m_coralholder));
 
     // B Button(Not sure which direction B and X go)
     new JoystickButton(m_driverController, XboxController.Button.kB.value)
@@ -142,11 +142,13 @@ public class RobotContainer {
     // new POVButton(m_driverController, 0)
     //   .onTrue(new LFour(m_armsubsystem, 50, m_coralholder));
 
-    // DPad down
-    new POVButton(m_driverController, 180)
-      .whileTrue(new ArmFeedForwardHold(m_armsubsystem));
+    // // DPad down
+    // new POVButton(m_driverController, 180)
+    //   .whileTrue(new ArmFeedForwardHold(m_armsubsystem));
 
-
+    // Start Button (test)
+    new JoystickButton(m_driverController, XboxController.Button.kStart.value)
+      .whileTrue(new test(m_armsubsystem));
   }
 //Rory Was Here
   /**

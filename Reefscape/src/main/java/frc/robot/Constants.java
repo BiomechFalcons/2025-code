@@ -102,6 +102,6 @@ public final class Constants {
     public static final double kFreeSpeedRpm = 5676;
   }
   public static final class ArmConstants {
-    public static final double kArmInitPos = 42.5; //Degrees
+    public static final double kArmInitPos = 44.2; //Degrees
   }
 }
