@@ -1,5 +1,6 @@
 package frc.robot.Commands;
 
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -10,12 +11,12 @@ import frc.robot.subsystems.ArmSubsystem;
 public class LFour extends Command {
     ArmSubsystem m_armSubsystem;
     double position;
-    PWMVictorSPX m_corralHolderMotor;
+    VictorSPX m_coralHolderMotor;
 
-    public LFour(ArmSubsystem armSubsystem, double position, PWMVictorSPX corralMotor) {
+    public LFour(ArmSubsystem armSubsystem, double position, VictorSPX coralMotor) {
         m_armSubsystem = armSubsystem;
         this.position = position;
-        m_corralHolderMotor = corralMotor;
+        m_coralHolderMotor = coralMotor;
         addRequirements(armSubsystem);
     }
 

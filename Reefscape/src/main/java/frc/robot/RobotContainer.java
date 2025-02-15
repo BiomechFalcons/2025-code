@@ -15,11 +15,14 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.AnalogTriggerOutput;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
+import frc.robot.Commands.Armsimple;
 import frc.robot.Commands.Climb;
-import frc.robot.Commands.IntakeCorral;
+import frc.robot.Commands.Intakecoral;
 import frc.robot.Commands.LFour;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
@@ -28,9 +31,13 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
+
+import java.nio.channels.AsynchronousChannelGroup;
 import java.util.List;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -38,9 +45,13 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkLowLevel.PeriodicFrame;
+
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import frc.robot.subsystems.ArmSubsystem;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -56,7 +67,7 @@ public class RobotContainer {
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   SparkMax m_climberMotor = new SparkMax(9, MotorType.kBrushless);
-  PWMVictorSPX m_corralholder = new PWMVictorSPX(0);
+  VictorSPX m_coralholder = new VictorSPX(10);
   
   // NetworkTable limelighttable = NetworkTableInstance.getDefault().getTable("limelight");
 
@@ -80,6 +91,8 @@ public class RobotContainer {
                 -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
                 true),
             m_robotDrive));
+        
+        
   }
 
   /**
@@ -92,21 +105,47 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(m_driverController, Button.kR1.value) // Right Trigger (Analog)
-        .whileTrue(new RunCommand(
-            () -> m_robotDrive.setX(),
-            m_robotDrive));
+    // new JoystickButton(m_driverController, Button.kR1.value) // Right Trigger (Analog)
+    //     .whileTrue(new RunCommand(
+    //         () -> m_robotDrive.setX(),
+    //         m_robotDrive));
 
+
+    // A Button
     new JoystickButton(m_driverController, XboxController.Button.kA.value)
-      .whileTrue(new Climb(0.5, m_climberMotor));
+      .whileTrue(new Climb(0.75, m_climberMotor));
+
+    // B Button
     new JoystickButton(m_driverController, XboxController.Button.kB.value)
       .whileTrue(new Climb(-0.25, m_climberMotor));
-    new JoystickButton(m_driverController, XboxController.Button.kX.value)
-      .whileTrue(new IntakeCorral(0.5, m_corralholder));
-    new JoystickButton(m_driverController, XboxController.Button.kY.value)
-      .onTrue(new LFour(m_armsubsystem, 50, m_corralholder));
 
-  }
+    // Left Bumper
+    new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value)
+      .whileTrue(new Intakecoral(0.1, m_coralholder));
+
+    // Right Bumper
+    new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value)
+      .whileTrue(new Intakecoral(-0.1, m_coralholder));
+
+    // X Button
+    new JoystickButton(m_driverController, XboxController.Button.kX.value)
+      .whileTrue(new Armsimple(-0.15, m_armsubsystem));
+
+    // Y Button
+    new JoystickButton(m_driverController, XboxController.Button.kY.value)
+      .whileTrue(new Armsimple(0.05, m_armsubsystem));
+
+    // DPad Up
+    new POVButton(m_driverController, 0)
+      .onTrue(new LFour(m_armsubsystem, 50, m_coralholder));
+
+    // new JoystickButton(m_driverController, XboxController.Button.kY.value)
+    //   .onTrue(new LFour(m_armsubsystem, 50, m_coralholder));
+    // new JoystickButton(m_driverController, XboxController.Axis.kRightTrigger.value)
+    //  .onChange(ConditionalCommand(new Climb(m_driverController.getRightTriggerAxis() * 0.6, m_climberMotor), new Climb(0, m_climberMotor), (m_driverController.getRightTriggerAxis() != 0)));
+    // new JoystickButton(m_driverController, XboxController.Axis.kLeftTrigger.value)
+    //   .onChange(new Climb(-m_driverController.getLeftTriggerAxis() * 0.4, m_climberMotor));
+    }
 //Rory Was Here
   /**
    * Use this to pass the autonomous command to the main 
@@ -167,6 +206,7 @@ public class RobotContainer {
     // }
   }
 
+  
 
   /**
    * Autonomous Functions
@@ -192,6 +232,8 @@ public class RobotContainer {
     }
   }
 
+//Four coral at once? That's a steal!
+
   public Command fourCoralAutoRight() {
     try {
       PathPlannerPath fourCoralAutoRight = PathPlannerPath.fromPathFile("4 Coral Auto Right");
@@ -203,5 +245,9 @@ public class RobotContainer {
   }
   /**
    * End of Autonomous Functions
-   */
+      * @return 
+      */
+  public double getArmPositionButContainer() {
+    return m_armsubsystem.getArmPosition();
+  }
 }

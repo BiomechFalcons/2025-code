@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class Climb extends Command {
     SparkMax climbMotor;
     double power;
+
+    
     public Climb(double power, SparkMax climbMotor) {
         this.climbMotor = climbMotor;
         this.power = power;
