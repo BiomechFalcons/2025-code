@@ -5,27 +5,33 @@
 package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.ArmSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ArmFeedforward extends Command {
-  /** Creates a new ArmFeedforward. */
-  public ArmFeedforward() {
-    // Use addRequirements() here to declare subsystem dependencies.
+public class ArmFeedForwardHold extends Command {
+  ArmSubsystem m_ArmSubsystem;
+  
+  public ArmFeedForwardHold(ArmSubsystem armSubsystem) {
+    m_ArmSubsystem = armSubsystem;
   }
 
-  // Called when the command is initially scheduled.
+  
   @Override
   public void initialize() {}
 
-  // Called every time the scheduler runs while the command is scheduled.
+  
   @Override
-  public void execute() {}
+  public void execute() {
+    m_ArmSubsystem.setArmFeedForward(0);
+  }
 
-  // Called once the command ends or is interrupted.
+  
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_ArmSubsystem.setArmPower(0);
+  }
 
-  // Returns true when the command should end.
+  
   @Override
   public boolean isFinished() {
     return false;

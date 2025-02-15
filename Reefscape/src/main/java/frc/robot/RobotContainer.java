@@ -20,10 +20,12 @@ import edu.wpi.first.wpilibj.AnalogTriggerOutput;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
-import frc.robot.Commands.Armsimple;
+import frc.robot.Commands.ArmFeedForwardHold;
+import frc.robot.Commands.ArmFeedForwardMove;
 import frc.robot.Commands.Climb;
 import frc.robot.Commands.Intakecoral;
 import frc.robot.Commands.LFour;
+import frc.robot.Commands.test;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
@@ -111,13 +113,13 @@ public class RobotContainer {
     //         m_robotDrive));
 
 
+    // Y Button
+    new JoystickButton(m_driverController, XboxController.Button.kY.value)
+      .whileTrue(new ArmFeedForwardMove(0.07, m_armsubsystem));
+
     // A Button
     new JoystickButton(m_driverController, XboxController.Button.kA.value)
-      .whileTrue(new Climb(0.75, m_climberMotor));
-
-    // B Button
-    new JoystickButton(m_driverController, XboxController.Button.kB.value)
-      .whileTrue(new Climb(-0.25, m_climberMotor));
+      .whileTrue(new ArmFeedForwardMove(-0.07, m_armsubsystem));
 
     // Left Bumper
     new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value)
@@ -127,25 +129,25 @@ public class RobotContainer {
     new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value)
       .whileTrue(new Intakecoral(-0.1, m_coralholder));
 
+    // B Button(Not sure which direction B and X go)
+    new JoystickButton(m_driverController, XboxController.Button.kB.value)
+      .whileTrue(new Climb(-0.25, m_climberMotor));
+    
     // X Button
     new JoystickButton(m_driverController, XboxController.Button.kX.value)
-      .whileTrue(new Armsimple(-0.15, m_armsubsystem));
+      .whileTrue(new Climb(0.75, m_climberMotor));
+    
 
-    // Y Button
-    new JoystickButton(m_driverController, XboxController.Button.kY.value)
-      .whileTrue(new Armsimple(0.05, m_armsubsystem));
-
-    // DPad Up
-    new POVButton(m_driverController, 0)
-      .onTrue(new LFour(m_armsubsystem, 50, m_coralholder));
-
-    // new JoystickButton(m_driverController, XboxController.Button.kY.value)
+    // // DPad Up
+    // new POVButton(m_driverController, 0)
     //   .onTrue(new LFour(m_armsubsystem, 50, m_coralholder));
-    // new JoystickButton(m_driverController, XboxController.Axis.kRightTrigger.value)
-    //  .onChange(ConditionalCommand(new Climb(m_driverController.getRightTriggerAxis() * 0.6, m_climberMotor), new Climb(0, m_climberMotor), (m_driverController.getRightTriggerAxis() != 0)));
-    // new JoystickButton(m_driverController, XboxController.Axis.kLeftTrigger.value)
-    //   .onChange(new Climb(-m_driverController.getLeftTriggerAxis() * 0.4, m_climberMotor));
-    }
+
+    // DPad down
+    new POVButton(m_driverController, 180)
+      .whileTrue(new ArmFeedForwardHold(m_armsubsystem));
+
+
+  }
 //Rory Was Here
   /**
    * Use this to pass the autonomous command to the main 
@@ -247,7 +249,5 @@ public class RobotContainer {
    * End of Autonomous Functions
       * @return 
       */
-  public double getArmPositionButContainer() {
-    return m_armsubsystem.getArmPosition();
-  }
+
 }

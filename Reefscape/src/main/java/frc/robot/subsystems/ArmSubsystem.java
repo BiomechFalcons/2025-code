@@ -26,7 +26,7 @@ public class ArmSubsystem extends SubsystemBase {
         armMotor.configure(sparkMaxConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         position = 0;
         m_closedloopcontroller.setReference(position, ControlType.kPosition);
-        m_ArmFeedforward = new ArmFeedforward(0, 0.03, 0, 0);
+        m_ArmFeedforward = new ArmFeedforward(0, 0.05, 0.2, 0);
     }
     public void setArmPosition(double pos) {
         position = pos;
@@ -36,16 +36,16 @@ public class ArmSubsystem extends SubsystemBase {
         double power = armPower;
         armMotor.set(power);
     }
-    public void setArmFeedForward() {
+    public void setArmFeedForward(double velocity) {
         double pos = (ArmConstants.kArmInitPos / 180 * Math.PI) + getArmPositionInRadians();
    
         
-        double feedForward = m_ArmFeedforward.calculate(pos, 0);
+        double feedForward = m_ArmFeedforward.calculate(pos, velocity) * -1;
+        System.out.println("feedforward: " + feedForward);
         armMotor.set(feedForward);
     }
 
     public double getArmPosition() {
-        System.out.println(m_encoder.getPosition());
         return m_encoder.getPosition();
     }
     public double getArmPositionInRadians() {
