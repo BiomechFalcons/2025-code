@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
 import frc.robot.Commands.ArmFeedForwardHold;
 import frc.robot.Commands.ArmFeedForwardMove;
+import frc.robot.Commands.ArmFeedForwardSetZero;
 import frc.robot.Commands.Climb;
 import frc.robot.Commands.Intakecoral;
 import frc.robot.Commands.LFour;
@@ -142,13 +143,13 @@ public class RobotContainer {
     // new POVButton(m_driverController, 0)
     //   .onTrue(new LFour(m_armsubsystem, 50, m_coralholder));
 
-    // // DPad down
-    // new POVButton(m_driverController, 180)
-    //   .whileTrue(new ArmFeedForwardHold(m_armsubsystem));
+    // DPad down
+    new POVButton(m_driverController, 180)
+      .whileTrue(new ArmFeedForwardHold(m_armsubsystem));
 
-    // Start Button (test)
+    // Start Button
     new JoystickButton(m_driverController, XboxController.Button.kStart.value)
-      .whileTrue(new test(m_armsubsystem));
+      .onTrue(new ArmFeedForwardSetZero(m_armsubsystem));
   }
 //Rory Was Here
   /**
