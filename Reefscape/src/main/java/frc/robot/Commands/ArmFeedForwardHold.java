@@ -16,8 +16,7 @@ public class ArmFeedForwardHold extends Command {
   }
 
   
-  @Override
-  public void initialize() {}
+
 
   
   @Override
@@ -28,7 +27,7 @@ public class ArmFeedForwardHold extends Command {
   
   @Override
   public void end(boolean interrupted) {
-    m_ArmSubsystem.setArmPower(0);
+    // m_ArmSubsystem.setArmPower(0);
   }
 
   

@@ -19,7 +19,7 @@ public class ArmFeedForwardMove extends Command {
     @Override
     public void initialize() {
         m_ArmSubsystem.setArmFeedForward(radiansPerSec);
-
+        System.out.println(m_ArmSubsystem.getArmPosition());
     }
     @Override
     public void execute() {

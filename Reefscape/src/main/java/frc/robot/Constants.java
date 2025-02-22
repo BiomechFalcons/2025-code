@@ -27,6 +27,7 @@ public final class Constants {
     // the robot, rather the allowed maximum speeds
     public static final double kMaxSpeedMetersPerSecond = 2;
     public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
+    public static boolean fieldRelative = true;
 
     // Chassis configuration
     public static final double kTrackWidth = Units.inchesToMeters(26.5);
@@ -102,6 +103,9 @@ public final class Constants {
     public static final double kFreeSpeedRpm = 5676;
   }
   public static final class ArmConstants {
-    public static final double kArmInitPos = 44.2; //Degrees
+    // public static final double kArmInitPos = 44.2; //Degrees
+    public static final double kArmInitOffset = -0.127; // Rotations
+    public static final double kLFourPosition = -108.5; // degrees
+  
   }
 }

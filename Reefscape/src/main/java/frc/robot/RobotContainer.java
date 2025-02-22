@@ -22,10 +22,11 @@ import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
 import frc.robot.Commands.ArmFeedForwardHold;
 import frc.robot.Commands.ArmFeedForwardMove;
-import frc.robot.Commands.ArmFeedForwardSetZero;
 import frc.robot.Commands.Climb;
 import frc.robot.Commands.Intakecoral;
 import frc.robot.Commands.LFour;
+// import frc.robot.Commands.LFour;
+import frc.robot.Commands.ResetFieldRelative;
 import frc.robot.Commands.test;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
@@ -92,7 +93,7 @@ public class RobotContainer {
                 -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
-                true),
+                Constants.DriveConstants.fieldRelative),
             m_robotDrive));
         
         
@@ -116,19 +117,22 @@ public class RobotContainer {
 
     // Y Button
     new JoystickButton(m_driverController, XboxController.Button.kY.value)
-      .whileTrue(new ArmFeedForwardMove(0.06, m_armsubsystem));
+      .whileTrue(new ArmFeedForwardMove(0.07, m_armsubsystem));
+
+    // new JoystickButton(m_driverController, XboxController.Button.kY.value)
+      // .whileTrue(new LFour(m_armsubsystem, 0.07));
 
     // A Button
     new JoystickButton(m_driverController, XboxController.Button.kA.value)
-      .whileTrue(new ArmFeedForwardMove(-0.06, m_armsubsystem));
+      .whileTrue(new ArmFeedForwardMove(-0.07, m_armsubsystem));
 
     // Left Bumper
     new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value)
-      .whileTrue(new Intakecoral(0.2, m_coralholder));
+      .whileTrue(new Intakecoral(0.3, m_coralholder));
 
     // Right Bumper
     new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value)
-      .whileTrue(new Intakecoral(-0.2, m_coralholder));
+      .whileTrue(new Intakecoral(-0.3, m_coralholder));
 
     // B Button(Not sure which direction B and X go)
     new JoystickButton(m_driverController, XboxController.Button.kB.value)
@@ -140,16 +144,19 @@ public class RobotContainer {
     
 
     // // DPad Up
-    // new POVButton(m_driverController, 0)
-    //   .onTrue(new LFour(m_armsubsystem, 50, m_coralholder));
+    new POVButton(m_driverController, 0)
+      .onTrue(new LFour(m_armsubsystem, 0.07));
 
     // DPad down
-    new POVButton(m_driverController, 180)
-      .whileTrue(new ArmFeedForwardHold(m_armsubsystem));
+    // new POVButton(m_driverController, 180)
+    //   .whileTrue(new ArmFeedForwardHold(m_armsubsystem));
 
     // Start Button
     new JoystickButton(m_driverController, XboxController.Button.kStart.value)
-      .onTrue(new ArmFeedForwardSetZero(m_armsubsystem));
+      .whileTrue(new ArmFeedForwardHold(m_armsubsystem));
+    // Select Button
+    new JoystickButton(m_driverController, XboxController.Button.kBack.value)
+      .onTrue(new ResetFieldRelative(m_robotDrive));
   }
 //Rory Was Here
   /**

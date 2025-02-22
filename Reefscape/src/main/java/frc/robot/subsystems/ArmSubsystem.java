@@ -19,38 +19,41 @@ public class ArmSubsystem extends SubsystemBase {
     private SparkClosedLoopController m_closedloopcontroller = armMotor.getClosedLoopController();
     private double position;
     private AbsoluteEncoder m_encoder = armMotor.getAbsoluteEncoder();
-    private ArmFeedforward m_ArmFeedforward;
+    private ArmFeedforward m_ArmFeedforwardEmpty;
+    private ArmFeedforward m_ArmFeedforwardCoral;
+    private boolean hasCoral;
 
     public ArmSubsystem() {
-        sparkMaxConfig.closedLoop.pid(0.05,0, 0);
+        // sparkMaxConfig.closedLoop.pid(0.05,0, 0);
         //m_encoder.setPosition(0);
-        armMotor.configure(sparkMaxConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        position = 0;
-        m_closedloopcontroller.setReference(position, ControlType.kPosition);
-        m_ArmFeedforward = new ArmFeedforward(0, 0.063, 0.35, 0.04);
+        // armMotor.configure(sparkMaxConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        // position = 0;
+        // m_closedloopcontroller.setReference(position, ControlType.kPosition);
+    //    m_ArmFeedforwardEmpty = new ArmFeedforward(0, 0.0625, 0.35, 0.04);
+    //    m_ArmFeedforwardCoral = new ArmFeedforward(0, 0.0625, 0.35, 0.04);
+        m_ArmFeedforwardEmpty = new ArmFeedforward(0, 0.04, 0.2, 0);
     }
-    public void setArmPosition(double pos) {
-        position = pos;
-        m_closedloopcontroller.setReference(position, ControlType.kPosition);
-    }
+
+    // public void setArmPosition(double pos) {
+    //     position = pos;
+    //     m_closedloopcontroller.setReference(position, ControlType.kPosition);
+    // }
+
     public void setArmPower(double armPower) {
         double power = armPower;
 
         armMotor.set(power);
     }
+
     public void setArmFeedForward(double velocity) {
-        double pos = (ArmConstants.kArmInitPos / 180 * Math.PI) + getArmPositionInRadians();
-   
-        
-        double feedForward = m_ArmFeedforward.calculate(pos, velocity) * -1;
-        System.out.println("feedforward: " + feedForward);
+        // velocity will be in rad/s
+        double pos = (ArmConstants.kArmInitOffset + getArmPosition())*2*Math.PI;
+        double feedForward = m_ArmFeedforwardEmpty.calculate(pos, velocity) * -1;
+        System.out.println("ANGLE: " + pos);
         armMotor.set(feedForward);
     }
 
     public double getArmPosition() {
         return m_encoder.getPosition();
-    }
-    public double getArmPositionInRadians() {
-        return m_encoder.getPosition();// * 2 * Math.PI;
     }
 }
