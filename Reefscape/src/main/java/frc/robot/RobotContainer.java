@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
 import frc.robot.Commands.ArmFeedForwardHold;
 import frc.robot.Commands.ArmFeedForwardMove;
 import frc.robot.Commands.Climb;
+import frc.robot.Commands.DriveStraightAuto;
 import frc.robot.Commands.Intakecoral;
 import frc.robot.Commands.LFour;
 // import frc.robot.Commands.LFour;
@@ -32,11 +33,13 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -65,12 +68,12 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
  */
 public class RobotContainer {
   // The robot's subsystems
-  private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  public final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final ArmSubsystem m_armsubsystem = new ArmSubsystem();
+  private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
 
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
-  SparkMax m_climberMotor = new SparkMax(9, MotorType.kBrushless);
   VictorSPX m_coralholder = new VictorSPX(10);
   
   // NetworkTable limelighttable = NetworkTableInstance.getDefault().getTable("limelight");
@@ -85,18 +88,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     // Configure default commands
-    m_robotDrive.setDefaultCommand(
-        // The left stick controls translation of the robot.
-        // Turning is controlled by the X axis of the right stick.
-        new RunCommand(
-            () -> m_robotDrive.drive(
-                -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
-                Constants.DriveConstants.fieldRelative),
-            m_robotDrive));
-        
-        
+
   }
 
   /**
@@ -128,24 +120,24 @@ public class RobotContainer {
 
     // Left Bumper
     new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value)
-      .whileTrue(new Intakecoral(0.3, m_coralholder));
+      .whileTrue(new Intakecoral(0.25, m_coralholder));
 
     // Right Bumper
     new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value)
-      .whileTrue(new Intakecoral(-0.3, m_coralholder));
+      .whileTrue(new Intakecoral(-0.25, m_coralholder));
 
     // B Button(Not sure which direction B and X go)
     new JoystickButton(m_driverController, XboxController.Button.kB.value)
-      .whileTrue(new Climb(-0.25, m_climberMotor));
+      .whileTrue(new Climb(-0.25, m_climbSubsystem));
     
     // X Button
     new JoystickButton(m_driverController, XboxController.Button.kX.value)
-      .whileTrue(new Climb(0.75, m_climberMotor));
+      .whileTrue(new Climb(0.65, m_climbSubsystem));
     
 
     // // DPad Up
     new POVButton(m_driverController, 0)
-      .onTrue(new LFour(m_armsubsystem, 0.07));
+      .onTrue(new LFour(m_armsubsystem, 0.12));
 
     // DPad down
     // new POVButton(m_driverController, 180)
@@ -219,6 +211,9 @@ public class RobotContainer {
   }
 
   
+  public Command autoDriveStraight() {
+    return new DriveStraightAuto(m_robotDrive);
+  }
 
   /**
    * Autonomous Functions

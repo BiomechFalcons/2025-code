@@ -20,6 +20,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
+import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
@@ -71,20 +72,20 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() {
     // Usage reporting for MAXSwerve template
     HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_MaxSwerve);
-    // AutoBuilder.configure(
-    //   this::getPose, 
-    //   this::resetOdometry, 
-    //   this::getRobotRelativeSpeeds, 
-    //   (speeds, feedsforwards) -> drive(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond, false),
-    //   new PPHolonomicDriveController(
-    //     new PIDConstants(5.0, 0.0, 0.0), 
-    //     new PIDConstants(5.0, 0.0, 0.0)
-    //     ), 
-    //     robotConfigRaiseYourYaYaYa(), () -> true, this);
+    AutoBuilder.configure(
+      this::getPose, 
+      this::resetOdometry, 
+      this::getRobotRelativeSpeeds, 
+      (speeds, feedsforwards) -> drive(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond, false),
+      new PPHolonomicDriveController(
+        new PIDConstants(0.05, 0.0, 0.0), 
+        new PIDConstants(0.05, 0.0, 0.0)
+        ), 
+        getRobotConfig(), () -> true, this);
 
   }
 
-  public RobotConfig robotConfigRaiseYourYaYaYa() {
+  public RobotConfig getRobotConfig() {
     try {
       return RobotConfig.fromGUISettings();
     } catch (Exception e) {

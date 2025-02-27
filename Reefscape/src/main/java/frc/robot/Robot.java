@@ -6,13 +6,20 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController.Axis;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.ArmSubsystem;
+
+//Devlyn was here :3
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -22,8 +29,10 @@ import frc.robot.subsystems.ArmSubsystem;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-
+  private final String fourcoralautoright = "4coralautoright";
   private RobotContainer m_robotContainer;
+  // NetworkTable table = NetworkTableInstance.getDefault();
+  private final SendableChooser<String> autoChooser = new SendableChooser<>();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -34,6 +43,9 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
+    // autoChooser.addOption("4 Coral Auto Right", fourcoralautoright);
+    // SmartDashboard.putData(autoChooser);
   }
 
   /**
@@ -62,7 +74,7 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    // m_robotContainer.autoDriveStraight().schedule();
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -72,9 +84,7 @@ public class Robot extends TimedRobot {
      */
 
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
-    }
+    
   }
 
   /** This function is called periodically during autonomous. */
@@ -90,6 +100,18 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+        m_robotContainer.m_robotDrive.setDefaultCommand(
+        // The left stick controls translation of the robot.
+        // Turning is controlled by the X axis of the right stick.
+        new RunCommand(
+            () -> m_robotContainer.m_robotDrive.drive(
+                -MathUtil.applyDeadband(m_robotContainer.m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(m_robotContainer.m_driverController.getLeftX(), OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(m_robotContainer.m_driverController.getRightX(), OIConstants.kDriveDeadband),
+                Constants.DriveConstants.fieldRelative),
+            m_robotContainer.m_robotDrive));
+        
+        
   }
 
   /** This function is called periodically during operator control. */

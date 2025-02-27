@@ -16,21 +16,28 @@ public class LFour extends Command {
 
     public LFour(ArmSubsystem armSubsystem, double rotationsPerSec) {
         m_armSubsystem = armSubsystem;
-        this.radiansPerSec = rotationsPerSec;
+        this.radiansPerSec = 2*Math.PI*rotationsPerSec;
         addRequirements(armSubsystem);
+    }
+
+    public void initialize() {
+        System.out.println("LFour Command");
     }
 
     public void execute() {
         int sign = 1;
-        if (Constants.ArmConstants.kLFourPosition - (m_armSubsystem.getArmPosition()*360) < 0) {
-            sign = -1;
-        }
-        m_armSubsystem.setArmFeedForward(radiansPerSec*sign);
+        System.out.println(m_armSubsystem.getArmPosition()*360);
+        // if (Constants.ArmConstants.kLFourPosition - (m_armSubsystem.getArmPosition()*360) < 0) {
+        //     sign = 1;
+        // }
+        m_armSubsystem.setArmFeedForward(radiansPerSec);
     }
-
     public boolean isFinished() {
-        double offset = 0.5;
-        if ((m_armSubsystem.getArmPosition()*360) > Constants.ArmConstants.kLFourPosition+offset && (m_armSubsystem.getArmPosition()*360) < Constants.ArmConstants.kLFourPosition-offset) {
+        // double offset = 0.5;
+        // double minimum = Constants.ArmConstants.kLFourPosition+offset;
+        // double maximum = Constants.ArmConstants.kLFourPosition-offset;
+        if (Math.abs(Constants.ArmConstants.kLFourPosition - (m_armSubsystem.getArmPosition()*360)) < 1 ) {
+            m_armSubsystem.setArmFeedForward(0);
             return true;
         } else {
             return false;

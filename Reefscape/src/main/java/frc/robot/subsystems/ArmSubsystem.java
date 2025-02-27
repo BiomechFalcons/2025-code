@@ -49,7 +49,7 @@ public class ArmSubsystem extends SubsystemBase {
         // velocity will be in rad/s
         double pos = (ArmConstants.kArmInitOffset + getArmPosition())*2*Math.PI;
         double feedForward = m_ArmFeedforwardEmpty.calculate(pos, velocity) * -1;
-        System.out.println("ANGLE: " + pos);
+        System.out.println("ANG" + getArmPosition()*360);
         armMotor.set(feedForward);
     }
 

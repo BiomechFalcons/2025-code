@@ -85,9 +85,9 @@ public final class Constants {
   }
 
   public static final class AutoConstants {
-    public static final double kMaxSpeedMetersPerSecond = 3;
+    public static final double kMaxSpeedMetersPerSecond = 2;
     public static final double kMaxAccelerationMetersPerSecondSquared = 3;
-    public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
+    public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI*.8;
     public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
 
     public static final double kPXController = 1;
@@ -104,8 +104,8 @@ public final class Constants {
   }
   public static final class ArmConstants {
     // public static final double kArmInitPos = 44.2; //Degrees
-    public static final double kArmInitOffset = -0.127; // Rotations
-    public static final double kLFourPosition = -108.5; // degrees
+    public static final double kArmInitOffset = -0.139; // Rotations
+    public static final double kLFourPosition = 161; // degrees
   
   }
 }
