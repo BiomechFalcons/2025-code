@@ -2,6 +2,8 @@ package frc.robot.Commands;
 
 
 
+import static edu.wpi.first.units.Units.Radians;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.ArmSubsystem;
@@ -23,6 +25,7 @@ public class ArmFeedForwardMove extends Command {
     }
     @Override
     public void execute() {
+        System.out.println(radiansPerSec);
         m_ArmSubsystem.setArmFeedForward(radiansPerSec);
 
     }

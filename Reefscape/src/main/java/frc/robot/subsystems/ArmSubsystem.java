@@ -31,7 +31,7 @@ public class ArmSubsystem extends SubsystemBase {
         // m_closedloopcontroller.setReference(position, ControlType.kPosition);
     //    m_ArmFeedforwardEmpty = new ArmFeedforward(0, 0.0625, 0.35, 0.04);
     //    m_ArmFeedforwardCoral = new ArmFeedforward(0, 0.0625, 0.35, 0.04);
-        m_ArmFeedforwardEmpty = new ArmFeedforward(0, 0.04, 0.2, 0);
+        m_ArmFeedforwardEmpty = new ArmFeedforward(0, 0.038, 0.2, 0);
     }
 
     // public void setArmPosition(double pos) {

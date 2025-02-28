@@ -105,7 +105,7 @@ public final class Constants {
   public static final class ArmConstants {
     // public static final double kArmInitPos = 44.2; //Degrees
     public static final double kArmInitOffset = -0.139; // Rotations
-    public static final double kLFourPosition = 161; // degrees
+    public static final double kLFourPosition = 146 ; // degrees
   
   }
 }

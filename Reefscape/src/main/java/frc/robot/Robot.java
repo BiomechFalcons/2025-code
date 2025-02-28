@@ -30,9 +30,11 @@ import frc.robot.subsystems.ArmSubsystem;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private final String fourcoralautoright = "4coralautoright";
+  private final String threecoralautoleft = "3coralautoleft";
+  private final String onecoralautoleft ="1coralautoleft";
+  private final SendableChooser<String> autoChooser = new SendableChooser<>();
   private RobotContainer m_robotContainer;
   // NetworkTable table = NetworkTableInstance.getDefault();
-  private final SendableChooser<String> autoChooser = new SendableChooser<>();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -43,7 +45,10 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-
+    autoChooser.addOption("Four Coral Autonomous Right", fourcoralautoright);
+    autoChooser.addOption("Three Coral Autonomous Left", threecoralautoleft);
+    autoChooser.addOption("One Coral Autonomous Left", onecoralautoleft);
+    SmartDashboard.putData(autoChooser);
     // autoChooser.addOption("4 Coral Auto Right", fourcoralautoright);
     // SmartDashboard.putData(autoChooser);
   }
@@ -75,7 +80,18 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     // m_robotContainer.autoDriveStraight().schedule();
-
+    String autoSelected = autoChooser.getSelected();
+    switch (autoSelected) {
+      case fourcoralautoright:
+        m_robotContainer.fourCoralAutoRight().schedule();
+        break;
+      case threecoralautoleft:
+        m_robotContainer.threeCoralAutoLeft().schedule();
+        break;
+      case onecoralautoleft:
+        m_robotContainer.oneCoralAutoLeft().schedule();
+        break;
+    }
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
      * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -117,6 +133,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+    System.out.println(m_robotContainer.limelighttable.getEntry("tid").getInteger(-1));
   }
 
   @Override
