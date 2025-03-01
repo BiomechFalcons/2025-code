@@ -29,10 +29,14 @@ import frc.robot.subsystems.ArmSubsystem;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-  private final String fourcoralautoright = "4coralautoright";
-  private final String threecoralautoleft = "3coralautoleft";
-  private final String onecoralautoleft ="1coralautoleft";
-  private final SendableChooser<String> autoChooser = new SendableChooser<>();
+  private enum Autos {
+    DRIVE_STRAIGHT,
+    ONE_CORAL_LEFT,
+    FOUR_CORAL_RIGHT,
+    THREE_CORAL_LEFT
+  }
+    
+  private final SendableChooser<Autos> autoChooser = new SendableChooser<>();
   private RobotContainer m_robotContainer;
   // NetworkTable table = NetworkTableInstance.getDefault();
 
@@ -45,10 +49,11 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-    autoChooser.addOption("Four Coral Autonomous Right", fourcoralautoright);
-    autoChooser.addOption("Three Coral Autonomous Left", threecoralautoleft);
-    autoChooser.addOption("One Coral Autonomous Left", onecoralautoleft);
-    SmartDashboard.putData(autoChooser);
+    // autoChooser.addOption("Four Coral Autonomous Right", Autos.FOUR_CORAL_RIGHT);
+    // autoChooser.addOption("Three Coral Autonomous Left", Autos.THREE_CORAL_LEFT);
+    // autoChooser.addOption("One Coral Autonomous Left", Autos.ONE_CORAL_LEFT);
+    // autoChooser.addOption("Drive Straight", Autos.DRIVE_STRAIGHT);
+    // SmartDashboard.putData(autoChooser);
     // autoChooser.addOption("4 Coral Auto Right", fourcoralautoright);
     // SmartDashboard.putData(autoChooser);
   }
@@ -79,33 +84,41 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    // m_robotContainer.autoDriveStraight().schedule();
-    String autoSelected = autoChooser.getSelected();
-    switch (autoSelected) {
-      case fourcoralautoright:
-        m_robotContainer.fourCoralAutoRight().schedule();
-        break;
-      case threecoralautoleft:
-        m_robotContainer.threeCoralAutoLeft().schedule();
-        break;
-      case onecoralautoleft:
-        m_robotContainer.oneCoralAutoLeft().schedule();
-        break;
-    }
-    /*
-     * String autoSelected = SmartDashboard.getString("Auto Selector",
-     * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-     * = new MyAutoCommand(); break; case "Default Auto": default:
-     * autonomousCommand = new ExampleCommand(); break; }
-     */
+    m_robotContainer.m_robotDrive.zeroHeading();
+    m_robotContainer.oneCoralAutoLeft().schedule();
+    // m_robotContainer.m_robotDrive.resetEncoders();
+    Autos autoSelected = autoChooser.getSelected();
+    SmartDashboard.putNumber("Pose X Init", m_robotContainer.m_robotDrive.getPoseForPathPlanner().getX());
+    SmartDashboard.putNumber("Pose Y Init", m_robotContainer.m_robotDrive.getPoseForPathPlanner().getY());
 
-    // schedule the autonomous command (example)
-    
+
+    // switch (autoSelected) {
+    //   case FOUR_CORAL_RIGHT:
+    //     m_robotContainer.fourCoralAutoRight().schedule();
+    //     System.out.println("Four Coral Right");
+    //     break;
+    //   case THREE_CORAL_LEFT:
+    //     m_robotContainer.threeCoralAutoLeft().schedule();
+    //     System.out.println("Three Coral left");
+    //     break;
+    //   case ONE_CORAL_LEFT:
+    //     m_robotContainer.oneCoralAutoLeft().schedule();
+    //     System.out.println("One Coral left");
+    //     break;
+    //   case DRIVE_STRAIGHT:
+    //     m_robotContainer.driveStraight().schedule();
+    //     System.out.println("Striaght");
+    //     break;
+    // }
   }
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    SmartDashboard.putNumber("Heading", m_robotContainer.m_robotDrive.getHeading());
+    SmartDashboard.putNumber("Pose X", m_robotContainer.m_robotDrive.getPoseForPathPlanner().getX());
+    SmartDashboard.putNumber("Pose Y", m_robotContainer.m_robotDrive.getPoseForPathPlanner().getY());
+  }
 
   @Override
   public void teleopInit() {

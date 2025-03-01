@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.11110197368421,
-        "y": 5.035279605263158
+        "x": 7.2165983606557385,
+        "y": 2.9640881147540985
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.485348360655738,
-        "y": 2.4665983606557367
+        "x": 6.641188524590164,
+        "y": 2.7962602459016397
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.358504098360656,
-        "y": 2.418647540983607
+        "x": 5.394467213114754,
+        "y": 2.5721217105286223
       },
       "prevControl": {
-        "x": 5.3610938629341565,
-        "y": 2.6978309771773246
+        "x": 5.412271174191829,
+        "y": 2.8501245388510226
       },
       "nextControl": {
-        "x": 5.3465163934426245,
-        "y": 1.1263414042254762
+        "x": 5.3105532786885234,
+        "y": 1.2618340163934432
       },
       "isLocked": false,
       "linkedName": null
@@ -84,12 +84,12 @@
         "y": 2.5721217105286223
       },
       "prevControl": {
-        "x": 3.804530217893415,
-        "y": 2.4304895048089623
+        "x": 3.812090163934426,
+        "y": 2.41265368852459
       },
       "nextControl": {
-        "x": 3.3925092557908334,
-        "y": 2.7137539162482813
+        "x": 3.3982006269943774,
+        "y": 2.721695285166007
       },
       "isLocked": false,
       "linkedName": null
@@ -127,7 +127,7 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 1,
-      "rotationDegrees": 121.75948008495922
+      "rotationDegrees": 120.1602937649497
     },
     {
       "waypointRelativePos": 2,
@@ -152,7 +152,141 @@
   ],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Score",
+      "waypointRelativePos": 0.9642133693450354,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Score"
+        }
+      }
+    },
+    {
+      "name": "ArmDown",
+      "waypointRelativePos": 1.1721809588115972,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "ArmDown"
+        }
+      }
+    },
+    {
+      "name": "Intake",
+      "waypointRelativePos": 1.9851451721809774,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Intake"
+        }
+      }
+    },
+    {
+      "name": "LFourPos",
+      "waypointRelativePos": 2.363268062120178,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "LFourPos"
+        }
+      }
+    },
+    {
+      "name": "Score",
+      "waypointRelativePos": 3.024983119513742,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Score"
+        }
+      }
+    },
+    {
+      "name": "ArmDown",
+      "waypointRelativePos": 3.1573261309925753,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "ArmDown"
+        }
+      }
+    },
+    {
+      "name": "Intake",
+      "waypointRelativePos": 3.9891964888587665,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Intake"
+        }
+      }
+    },
+    {
+      "name": "LFourPos",
+      "waypointRelativePos": 4.3673193787979985,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "Score",
+      "waypointRelativePos": 5.029034436191492,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Score"
+        }
+      }
+    },
+    {
+      "name": "ArmDown",
+      "waypointRelativePos": 5.199189736664298,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "ArmDown"
+        }
+      }
+    },
+    {
+      "name": "Intake",
+      "waypointRelativePos": 6.049966239027436,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Intake"
+        }
+      }
+    },
+    {
+      "name": "LFourPos",
+      "waypointRelativePos": 6.40918298446946,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "Score",
+      "waypointRelativePos": 7.0,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Score"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,

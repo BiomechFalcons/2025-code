@@ -10,17 +10,17 @@ import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClimbSubsystem extends SubsystemBase {
-  // SparkMax m_climberMotor = new SparkMax(9, MotorType.kBrushless);
+  SparkMax m_climberMotor = new SparkMax(9, MotorType.kBrushless);
 
   public ClimbSubsystem() {
   }
 
   public void setClimbPower(double pow) {
-    // m_climberMotor.set(pow);
+    m_climberMotor.set(pow);
   } 
 
   @Override
   public void periodic() {
     
   }
-}
+} 

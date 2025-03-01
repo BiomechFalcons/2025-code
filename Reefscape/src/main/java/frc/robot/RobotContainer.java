@@ -23,14 +23,18 @@ import edu.wpi.first.wpilibj.AnalogTriggerOutput;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
+import frc.robot.Commands.ArmDown;
 import frc.robot.Commands.ArmFeedForwardHold;
 import frc.robot.Commands.ArmFeedForwardMove;
 import frc.robot.Commands.Climb;
 import frc.robot.Commands.DriveStraightAuto;
 import frc.robot.Commands.Intakecoral;
-import frc.robot.Commands.LFour;
+import frc.robot.Commands.L4;
+import frc.robot.Commands.L3;
+import frc.robot.Commands.L2;
 // import frc.robot.Commands.LFour;
 import frc.robot.Commands.ResetFieldRelative;
+import frc.robot.Commands.Score;
 import frc.robot.Commands.test;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
@@ -88,6 +92,14 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the button bindings
+    // NamedCommands.registerCommand("LFourPos", new L4(m_armsubsystem, 0.1, m_driverController));
+    // NamedCommands.registerCommand("ScoreThenArmDown", new SequentialCommandGroup(
+    //   new Score(-0.1, m_coralholder),
+    //   new ArmDown(m_armsubsystem, -0.1, m_driverController)
+    // ));
+    // NamedCommands.registerCommand("Score", new Score(-0.1, m_coralholder));
+    // NamedCommands.registerCommand("ArmDown", new ArmDown(m_armsubsystem, -0.1, m_driverController));
+
     configureButtonBindings();
 
     // Configure default commands
@@ -110,6 +122,7 @@ public class RobotContainer {
     //         m_robotDrive));
 
 
+
     // Y Button
     new JoystickButton(m_driverController, XboxController.Button.kY.value)
       .whileTrue(new ArmFeedForwardMove(0.07, m_armsubsystem));
@@ -123,11 +136,11 @@ public class RobotContainer {
 
     // Left Bumper
     new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value)
-      .whileTrue(new Intakecoral(0.25, m_coralholder));
+      .whileTrue(new Intakecoral(0.15, m_coralholder));
 
     // Right Bumper
     new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value)
-      .whileTrue(new Intakecoral(-0.25, m_coralholder));
+      .whileTrue(new Intakecoral(-0.15, m_coralholder));
 
     // B Button(Not sure which direction B and X go)
     new JoystickButton(m_driverController, XboxController.Button.kB.value)
@@ -138,10 +151,22 @@ public class RobotContainer {
       .whileTrue(new Climb(0.65, m_climbSubsystem));
     
 
-    // // DPad Up
-    new POVButton(m_driverController, 0)
-      .onTrue(new LFour(m_armsubsystem, 0.1, m_driverController));
+    // L4 Dpad Right
+    new POVButton(m_driverController, 90)
+      .onTrue(new L4(m_armsubsystem, 0.1, m_driverController));
 
+    // ArmDown DPAD Down
+    new POVButton(m_driverController, 180)
+    .onTrue(new ArmDown(m_armsubsystem, -0.1, m_driverController));
+
+    // L3 Dpad UP
+    new POVButton(m_driverController, 0)
+    .onTrue(new L3(m_armsubsystem, 0.1, m_driverController));
+
+    // L2 DPAD Left
+    new POVButton(m_driverController, 270)
+    .onTrue(new L2(m_armsubsystem, 0.1, m_driverController));
+    
     // DPad down
     // new POVButton(m_driverController, 180)
     //   .whileTrue(new ArmFeedForwardHold(m_armsubsystem));
@@ -237,8 +262,22 @@ public class RobotContainer {
 
   public Command oneCoralAutoLeft() {
     try {
-      PathPlannerPath oneCoralAuto = PathPlannerPath.fromPathFile("1 Coral Auto Left");
-      return AutoBuilder.followPath(oneCoralAuto);
+      return new PathPlannerAuto("1 Coral Auto Left");
+      // PathPlannerPath straight = PathPlannerPath.fromPathFile("Drive Straight");
+      // return AutoBuilder.followPath(straight);
+    } catch (Exception e) {
+      System.out.println("Error " + e);
+      return Commands.none();
+    }
+  }
+
+  // 1 Coral Auto Left
+
+  public Command driveStraight() {
+    try {
+      return new PathPlannerAuto("Drive Straight");
+      // PathPlannerPath straight = PathPlannerPath.fromPathFile("Drive Straight");
+      // return AutoBuilder.followPath(straight);
     } catch (Exception e) {
       System.out.println("Error " + e);
       return Commands.none();

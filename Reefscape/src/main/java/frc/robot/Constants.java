@@ -74,7 +74,8 @@ public final class Constants {
     public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
     // 45 teeth on the wheel's bevel gear, 22 teeth on the first-stage spur gear, 15
     // teeth on the bevel pinion
-    public static final double kDrivingMotorReduction = (45.0 * 22) / (kDrivingMotorPinionTeeth * 15);
+    // public static final double kDrivingMotorReduction = (45.0 * 22) / (kDrivingMotorPinionTeeth * 15);
+    public static final double kDrivingMotorReduction = 5.08;
     public static final double kDriveWheelFreeSpeedRps = (kDrivingMotorFreeSpeedRps * kWheelCircumferenceMeters)
         / kDrivingMotorReduction;
   }
@@ -105,7 +106,13 @@ public final class Constants {
   public static final class ArmConstants {
     // public static final double kArmInitPos = 44.2; //Degrees
     public static final double kArmInitOffset = -0.139; // Rotations
-    public static final double kLFourPosition = 146 ; // degrees
-  
+    public static final double kLFourPosition = 144 ; // degrees
+    public static final double kLThreePosition = 65;
+    public static final double kLTwoPosition = 50;
+    public static final double kArmDownPosition = 4;
+    public static final double kS = 0;
+    public static final double kG = 0.05;
+    public static final double kV = 0.2;
+    public static final double kA = 0;
   }
 }

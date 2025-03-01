@@ -31,7 +31,7 @@ public class ArmSubsystem extends SubsystemBase {
         // m_closedloopcontroller.setReference(position, ControlType.kPosition);
     //    m_ArmFeedforwardEmpty = new ArmFeedforward(0, 0.0625, 0.35, 0.04);
     //    m_ArmFeedforwardCoral = new ArmFeedforward(0, 0.0625, 0.35, 0.04);
-        m_ArmFeedforwardEmpty = new ArmFeedforward(0, 0.038, 0.2, 0);
+        m_ArmFeedforwardEmpty = new ArmFeedforward(ArmConstants.kS, ArmConstants.kG, ArmConstants.kV, ArmConstants.kA);
     }
 
     // public void setArmPosition(double pos) {
@@ -49,8 +49,23 @@ public class ArmSubsystem extends SubsystemBase {
         // velocity will be in rad/s
         double pos = (ArmConstants.kArmInitOffset + getArmPosition())*2*Math.PI;
         double feedForward = m_ArmFeedforwardEmpty.calculate(pos, velocity) * -1;
-        System.out.println("ANG" + getArmPosition()*360);
         armMotor.set(feedForward);
+    }
+
+    public boolean isAtSetpoint(double target, boolean isReversed) {
+        if (isReversed) {
+            if ((getArmPosition()*360) < target) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            if ((getArmPosition()*360) > target) {
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 
     public double getArmPosition() {

@@ -25,8 +25,8 @@ public class ArmFeedForwardMove extends Command {
     }
     @Override
     public void execute() {
-        System.out.println(radiansPerSec);
         m_ArmSubsystem.setArmFeedForward(radiansPerSec);
+        System.out.println("Angle is " + m_ArmSubsystem.getArmPosition()*360);
 
     }
 

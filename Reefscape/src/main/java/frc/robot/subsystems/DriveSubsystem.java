@@ -12,6 +12,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -27,6 +28,7 @@ import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
@@ -71,17 +73,17 @@ public class DriveSubsystem extends SubsystemBase {
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
     // Usage reporting for MAXSwerve template
-    HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_MaxSwerve);
+    HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_MaxSwerve);    
     AutoBuilder.configure(
-      this::getPose, 
+      this::getPoseForPathPlanner, 
       this::resetOdometry, 
       this::getRobotRelativeSpeeds, 
       (speeds, feedsforwards) -> drive(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond, false),
       new PPHolonomicDriveController(
-        new PIDConstants(0.05, 0.0, 0.0), 
+        new PIDConstants(4, 0.0, 0.0), 
         new PIDConstants(0.05, 0.0, 0.0)
         ), 
-        getRobotConfig(), () -> true, this);
+        getRobotConfig(), this::shouldFlipPath, this);
 
   }
 
@@ -91,6 +93,15 @@ public class DriveSubsystem extends SubsystemBase {
     } catch (Exception e) {
       e.printStackTrace();
       return null;
+    }
+  }
+
+  public boolean shouldFlipPath() {
+    var alliance = DriverStation.getAlliance();
+    if (alliance.get() == DriverStation.Alliance.Red) {
+      return true;
+    } else {
+      return false;
     }
   }
   
@@ -113,6 +124,12 @@ public class DriveSubsystem extends SubsystemBase {
             return alliance.get() == DriverStation.Alliance.Red;
           }
           return false;
+  }
+
+  public Pose2d getPoseForPathPlanner() {
+    Rotation2d rot = Rotation2d.fromDegrees(getHeading());
+    Translation2d translation = m_odometry.getPoseMeters().getTranslation();
+    return new Pose2d(translation, rot);
   }
 
   /**
@@ -162,15 +179,15 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
     // Convert the commanded speeds into the correct units for the drivetrain
-    double xSpeedDelivered = xSpeed * DriveConstants.kMaxSpeedMetersPerSecond;
-    double ySpeedDelivered = ySpeed * DriveConstants.kMaxSpeedMetersPerSecond;
+    // double xSpeedDelivered = xSpeed * DriveConstants.kMaxSpeedMetersPerSecond;
+    // double ySpeedDelivered = ySpeed * DriveConstants.kMaxSpeedMetersPerSecond;
     double rotDelivered = rot * DriveConstants.kMaxAngularSpeed;
 
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
         fieldRelative
-            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,
+            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotDelivered,
                 Rotation2d.fromDegrees(m_gyro.getYaw()))
-            : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
+            : new ChassisSpeeds(xSpeed, ySpeed, rotDelivered));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
     m_frontLeft.setDesiredState(swerveModuleStates[0]);
