@@ -5,6 +5,8 @@
 package frc.robot;
 
 import edu.wpi.first.apriltag.AprilTag;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.apriltag.AprilTagPoseEstimate;
 import edu.wpi.first.apriltag.AprilTagPoseEstimator;
 import edu.wpi.first.math.MathUtil;
@@ -78,6 +80,9 @@ public class RobotContainer {
   public final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final ArmSubsystem m_armsubsystem = new ArmSubsystem();
   private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
+  private AprilTagFieldLayout fieldLayout = AprilTagFields.k2025ReefscapeWelded.loadAprilTagLayoutField();
+
+  
 
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
@@ -92,13 +97,13 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the button bindings
-    // NamedCommands.registerCommand("LFourPos", new L4(m_armsubsystem, 0.1, m_driverController));
-    // NamedCommands.registerCommand("ScoreThenArmDown", new SequentialCommandGroup(
-    //   new Score(-0.1, m_coralholder),
-    //   new ArmDown(m_armsubsystem, -0.1, m_driverController)
-    // ));
-    // NamedCommands.registerCommand("Score", new Score(-0.1, m_coralholder));
-    // NamedCommands.registerCommand("ArmDown", new ArmDown(m_armsubsystem, -0.1, m_driverController));
+    NamedCommands.registerCommand("LFourPos", new L4(m_armsubsystem, 0.1, m_driverController));
+    NamedCommands.registerCommand("ScoreThenArmDown", new SequentialCommandGroup(
+      new Score(-0.1, m_coralholder),
+      new ArmDown(m_armsubsystem, -0.1, m_driverController)
+    ));
+    NamedCommands.registerCommand("Score", new Score(-0.1, m_coralholder));
+    NamedCommands.registerCommand("ArmDown", new ArmDown(m_armsubsystem, -0.1, m_driverController));
 
     configureButtonBindings();
 
