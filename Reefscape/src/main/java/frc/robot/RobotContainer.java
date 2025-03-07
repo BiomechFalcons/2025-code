@@ -22,6 +22,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogTriggerOutput;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
@@ -36,6 +37,7 @@ import frc.robot.Commands.L3;
 import frc.robot.Commands.L2;
 // import frc.robot.Commands.LFour;
 import frc.robot.Commands.ResetFieldRelative;
+import frc.robot.Commands.RevampCoral;
 import frc.robot.Commands.Score;
 import frc.robot.Commands.test;
 import frc.robot.Constants.AutoConstants;
@@ -44,9 +46,11 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.Limelight;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -80,7 +84,9 @@ public class RobotContainer {
   public final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final ArmSubsystem m_armsubsystem = new ArmSubsystem();
   private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
-  private AprilTagFieldLayout fieldLayout = AprilTagFields.k2025ReefscapeWelded.loadAprilTagLayoutField();
+  private final Limelight limelight = new Limelight();
+  public final DigitalInput sensor = new DigitalInput(0);
+
 
   
 
@@ -88,7 +94,7 @@ public class RobotContainer {
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   VictorSPX m_coralholder = new VictorSPX(10);
   
-  NetworkTable limelighttable = NetworkTableInstance.getDefault().getTable("limelight");
+
 
   // double[] botPose;
   
@@ -104,7 +110,14 @@ public class RobotContainer {
     ));
     NamedCommands.registerCommand("Score", new Score(-0.1, m_coralholder));
     NamedCommands.registerCommand("ArmDown", new ArmDown(m_armsubsystem, -0.1, m_driverController));
-
+    NamedCommands.registerCommand("LFourThenScore", new SequentialCommandGroup(
+      new ParallelCommandGroup(
+        new L4(m_armsubsystem, 0.1, m_driverController),
+        new RevampCoral(sensor, m_coralholder)
+      ),
+      new Score(0.4, m_coralholder)
+    ));
+    
     configureButtonBindings();
 
     // Configure default commands
@@ -131,14 +144,14 @@ public class RobotContainer {
     // Y Button
     new JoystickButton(m_driverController, XboxController.Button.kY.value)
       .whileTrue(new ArmFeedForwardMove(0.07, m_armsubsystem));
-
+      
     // new JoystickButton(m_driverController, XboxController.Button.kY.value)
       // .whileTrue(new LFour(m_armsubsystem, 0.07));
 
     // A Button
     new JoystickButton(m_driverController, XboxController.Button.kA.value)
       .whileTrue(new ArmFeedForwardMove(-0.07, m_armsubsystem));
-
+      
     // Left Bumper
     new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value)
       .whileTrue(new Intakecoral(0.15, m_coralholder));
@@ -152,9 +165,12 @@ public class RobotContainer {
       .whileTrue(new Climb(-0.25, m_climbSubsystem));
     
     // X Button
-    new JoystickButton(m_driverController, XboxController.Button.kX.value)
-      .whileTrue(new Climb(0.65, m_climbSubsystem));
+    // new JoystickButton(m_driverController, XboxController.Button.kX.value)
+    //   .whileTrue(new Climb(0.65, m_climbSubsystem));
     
+    new JoystickButton(m_driverController, XboxController.Button.kX.value)
+    .onTrue(new RevampCoral(sensor, m_coralholder));
+
 
     // L4 Dpad Right
     new POVButton(m_driverController, 90)
@@ -178,11 +194,16 @@ public class RobotContainer {
 
     // Start Button
     new JoystickButton(m_driverController, XboxController.Button.kStart.value)
-      .whileTrue(new ArmFeedForwardHold(m_armsubsystem));
+      .whileFalse(new ArmFeedForwardHold(m_armsubsystem));
     // Select Button
     new JoystickButton(m_driverController, XboxController.Button.kBack.value)
       .onTrue(new ResetFieldRelative(m_robotDrive));
 
+    // if (aprilTagId != -1) {
+    //   Pose2d targetPose = new Pose2d(new Translation2d(aprilTagId, aprilTagId), null)
+    //   // new JoystickButton(m_driverController, XboxController.Button.kBack.value)
+    //   // .onTrue(new ResetFieldRelative(m_robotDrive));
+    // }
     
 
   }
@@ -233,6 +254,8 @@ public class RobotContainer {
     // Run path following command, then stop at the end.
     return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false));
   }
+
+
 
 
   public void getLimelightBotPose() {

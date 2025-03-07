@@ -78,7 +78,7 @@ public class DriveSubsystem extends SubsystemBase {
       this::getPoseForPathPlanner, 
       this::resetOdometry, 
       this::getRobotRelativeSpeeds, 
-      (speeds, feedsforwards) -> autoDrive(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond, false),
+      (speeds, feedsforwards) -> autoDrive(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond, true),
       new PPHolonomicDriveController(
         new PIDConstants(4, 0.0, 0.0), 
         new PIDConstants(0.05, 0.0, 0.0)

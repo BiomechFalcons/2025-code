@@ -5,9 +5,28 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Drive Straight"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Drive Straight"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "LFourThenScore"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ArmDown"
           }
         }
       ]

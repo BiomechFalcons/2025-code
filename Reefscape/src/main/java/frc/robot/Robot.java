@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -85,7 +87,9 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_robotContainer.m_robotDrive.zeroHeading();
-    m_robotContainer.oneCoralAutoLeft().schedule();
+    SwerveModuleState[] states = {new SwerveModuleState(0, new Rotation2d(0)), new SwerveModuleState(0, new Rotation2d(0)),new SwerveModuleState(0, new Rotation2d(0)), new SwerveModuleState(0, new Rotation2d(0))};
+    m_robotContainer.m_robotDrive.setModuleStates(states);
+    m_robotContainer.driveStraight().schedule();
     // m_robotContainer.m_robotDrive.resetEncoders();
     Autos autoSelected = autoChooser.getSelected();
     SmartDashboard.putNumber("Pose X Init", m_robotContainer.m_robotDrive.getPoseForPathPlanner().getX());
@@ -146,7 +150,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    System.out.println(m_robotContainer.limelighttable.getEntry("tid"));
+    System.out.println(m_robotContainer.sensor.get());
   }
 
   @Override

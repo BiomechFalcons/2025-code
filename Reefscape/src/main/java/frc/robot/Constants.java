@@ -106,12 +106,12 @@ public final class Constants {
   public static final class ArmConstants {
     // public static final double kArmInitPos = 44.2; //Degrees
     public static final double kArmInitOffset = -0.139; // Rotations
-    public static final double kLFourPosition = 144 ; // degrees
+    public static final double kLFourPosition = 150 ; // degrees
     public static final double kLThreePosition = 65;
     public static final double kLTwoPosition = 50;
     public static final double kArmDownPosition = 4;
     public static final double kS = 0;
-    public static final double kG = 0.05;
+    public static final double kG = 0.055;
     public static final double kV = 0.2;
     public static final double kA = 0;
   }
