@@ -8,9 +8,15 @@ import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
+
+import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTableValue;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmSubsystem extends SubsystemBase {
@@ -22,6 +28,9 @@ public class ArmSubsystem extends SubsystemBase {
     private ArmFeedforward m_ArmFeedforwardEmpty;
     private ArmFeedforward m_ArmFeedforwardCoral;
     private boolean hasCoral;
+    private NetworkTable table;
+    private DigitalInput sensor = new DigitalInput(0);
+    private double kG;
 
     public ArmSubsystem() {
         // sparkMaxConfig.closedLoop.pid(0.05,0, 0);
@@ -31,7 +40,7 @@ public class ArmSubsystem extends SubsystemBase {
         // m_closedloopcontroller.setReference(position, ControlType.kPosition);
     //    m_ArmFeedforwardEmpty = new ArmFeedforward(0, 0.0625, 0.35, 0.04);
     //    m_ArmFeedforwardCoral = new ArmFeedforward(0, 0.0625, 0.35, 0.04);
-        m_ArmFeedforwardEmpty = new ArmFeedforward(ArmConstants.kS, ArmConstants.kG, ArmConstants.kV, ArmConstants.kA);
+        this.table = NetworkTableInstance.getDefault().getTable("Arm");
     }
 
     // public void setArmPosition(double pos) {
@@ -44,6 +53,7 @@ public class ArmSubsystem extends SubsystemBase {
 
         armMotor.set(power);
     }
+
 
     public void setArmFeedForward(double velocity) {
         // velocity will be in rad/s
@@ -71,4 +81,22 @@ public class ArmSubsystem extends SubsystemBase {
     public double getArmPosition() {
         return m_encoder.getPosition();
     }
+
+    public boolean getSensor() {
+        return sensor.get();
+    }
+
+    @Override
+    public void periodic() {
+      table.putValue("Arm Angle", NetworkTableValue.makeDouble(getArmPosition()*360));
+      table.putValue("Arm Velocity", NetworkTableValue.makeDouble(armMotor.get()));
+
+      table.putValue("Sensor", NetworkTableValue.makeBoolean(getSensor()));
+
+      if (getSensor()) {
+    m_ArmFeedforwardEmpty = new ArmFeedforward(ArmConstants.kS, ArmConstants.kGC, ArmConstants.kV, ArmConstants.kA);
+      } else {
+        m_ArmFeedforwardEmpty = new ArmFeedforward(ArmConstants.kS, ArmConstants.kGE, ArmConstants.kV, ArmConstants.kA);
+      }
+     }
 }

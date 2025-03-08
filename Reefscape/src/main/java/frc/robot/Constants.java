@@ -25,7 +25,8 @@ public final class Constants {
   public static final class DriveConstants {
     // Driving Parameters - Note that these are not the maximum capable speeds of
     // the robot, rather the allowed maximum speeds
-    public static final double kMaxSpeedMetersPerSecond = 0.6;
+    public static double kMaxSpeedMetersPerSecond = 1.5;
+    public static final double kMaxSpeed = 1.5;
     public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
     public static boolean fieldRelative = true;
 
@@ -106,13 +107,16 @@ public final class Constants {
   public static final class ArmConstants {
     // public static final double kArmInitPos = 44.2; //Degrees
     public static final double kArmInitOffset = -0.139; // Rotations
-    public static final double kLFourPosition = 150 ; // degrees
+    public static final double kLFourPosition = 146 ; // degrees
     public static final double kLThreePosition = 65;
     public static final double kLTwoPosition = 50;
     public static final double kArmDownPosition = 4;
+    // Coral FeedForward values
     public static final double kS = 0;
-    public static final double kG = 0.055;
+    public static final double kGC = 0.055;
     public static final double kV = 0.2;
     public static final double kA = 0;
+    // Empty FeedForward values
+    public static final double kGE = 0.05;
   }
 }

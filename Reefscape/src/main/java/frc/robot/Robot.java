@@ -13,14 +13,18 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTableValue;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.ArmSubsystem;
-
+import frc.robot.subsystems.ClimbSubsystem;
 //Devlyn was here :3
 
 /**
@@ -51,11 +55,11 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-    // autoChooser.addOption("Four Coral Autonomous Right", Autos.FOUR_CORAL_RIGHT);
-    // autoChooser.addOption("Three Coral Autonomous Left", Autos.THREE_CORAL_LEFT);
-    // autoChooser.addOption("One Coral Autonomous Left", Autos.ONE_CORAL_LEFT);
-    // autoChooser.addOption("Drive Straight", Autos.DRIVE_STRAIGHT);
-    // SmartDashboard.putData(autoChooser);
+    autoChooser.addOption("Four Coral Autonomous Right", Autos.FOUR_CORAL_RIGHT);
+    autoChooser.addOption("Three Coral Autonomous Left", Autos.THREE_CORAL_LEFT);
+    autoChooser.addOption("One Coral Autonomous Left", Autos.ONE_CORAL_LEFT);
+    autoChooser.addOption("Drive Straight", Autos.DRIVE_STRAIGHT);
+    SmartDashboard.putData(autoChooser);
     // autoChooser.addOption("4 Coral Auto Right", fourcoralautoright);
     // SmartDashboard.putData(autoChooser);
   }
@@ -74,6 +78,7 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -96,24 +101,24 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Pose Y Init", m_robotContainer.m_robotDrive.getPoseForPathPlanner().getY());
 
 
-    // switch (autoSelected) {
-    //   case FOUR_CORAL_RIGHT:
-    //     m_robotContainer.fourCoralAutoRight().schedule();
-    //     System.out.println("Four Coral Right");
-    //     break;
-    //   case THREE_CORAL_LEFT:
-    //     m_robotContainer.threeCoralAutoLeft().schedule();
-    //     System.out.println("Three Coral left");
-    //     break;
-    //   case ONE_CORAL_LEFT:
-    //     m_robotContainer.oneCoralAutoLeft().schedule();
-    //     System.out.println("One Coral left");
-    //     break;
-    //   case DRIVE_STRAIGHT:
-    //     m_robotContainer.driveStraight().schedule();
-    //     System.out.println("Striaght");
-    //     break;
-    // }
+    switch (autoSelected) {
+      case FOUR_CORAL_RIGHT:
+        m_robotContainer.fourCoralAutoRight().schedule();
+        System.out.println("Four Coral Right");
+        break;
+      case THREE_CORAL_LEFT:
+        m_robotContainer.threeCoralAutoLeft().schedule();
+        System.out.println("Three Coral left");
+        break;
+      case ONE_CORAL_LEFT:
+        m_robotContainer.oneCoralAutoLeft().schedule();
+        System.out.println("One Coral left");
+        break;
+      case DRIVE_STRAIGHT:
+        m_robotContainer.driveStraight().schedule();
+        System.out.println("Striaght");
+        break;
+    }
   }
 
   /** This function is called periodically during autonomous. */
@@ -130,6 +135,7 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    m_robotContainer.m_robotDrive.resetOdometry(new Pose2d(new Translation2d(0, 0), new Rotation2d(0)));
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -149,8 +155,19 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {
-    System.out.println(m_robotContainer.sensor.get());
+  public void teleopPeriodic() {    
+    if (m_robotContainer.m_driverController.getLeftTriggerAxis() >= 0.7) {
+      Constants.DriveConstants.kMaxSpeedMetersPerSecond = 0.75;
+    } else {
+      Constants.DriveConstants.kMaxSpeedMetersPerSecond = DriveConstants.kMaxSpeed;
+    }
+    // if (m_robotContainer.m_driverController.getRightTriggerAxis() > 0) {
+    //   ClimbSubsystem);
+    // }
+    // else {
+
+    // }
+     
   }
 
   @Override

@@ -7,7 +7,9 @@ package frc.robot.subsystems;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -25,10 +27,26 @@ public class Limelight extends SubsystemBase {
   }
 
 
-  public Pose2d getAprilTagPose() {
-    Translation2d translation = new Translation2d(fieldLayout.getTagPose(aprilTagId).get().getX(), fieldLayout.getTagPose(aprilTagId).get().getY());
-    Rotation2d rot = new Rotation2d(fieldLayout.getTagPose(aprilTagId).get().getRotation().getAngle());
-    return new Pose2d(translation, rot);
+  public Pose2d getTargetPose() {
+    Translation2d finalTranslation;
+    Rotation2d aprilTagRotation;
+    Pose3d aprilTagpose = fieldLayout.getTagPose(aprilTagId).get();
+    Translation2d aprilTagTranslation = new Translation2d(aprilTagpose.getX(), aprilTagpose.getY());
+    aprilTagRotation = new Rotation2d(aprilTagpose.getRotation().getAngle());
+    finalTranslation = new Translation2d(aprilTagTranslation.getX()-Math.cos(aprilTagRotation.getDegrees())*.45, aprilTagTranslation.getY()-Math.sin(aprilTagRotation.getDegrees())*.45);  
+
+    // if (isLeft) {
+    //   Translation2d aprilTagTranslation = new Translation2d(aprilTagpose.getX(), aprilTagpose.getY());
+    //   aprilTagRotation = new Rotation2d(aprilTagpose.getRotation().getAngle());
+    //   finalTranslation = new Translation2d(aprilTagTranslation.getX()-Math.cos(aprilTagRotation.getDegrees())*.45, aprilTagTranslation.getY()-Math.sin(aprilTagRotation.getDegrees())*.45);  
+    // } else {
+    //   Translation2d aprilTagTranslation = new Translation2d(aprilTagpose.getX(), aprilTagpose.getY());
+    //   aprilTagRotation = new Rotation2d(aprilTagpose.getRotation().getAngle());
+    //   finalTranslation = new Translation2d(aprilTagTranslation.getX()-Math.sin(aprilTagRotation.getDegrees())*.45, aprilTagTranslation.getY()-Math.sin(aprilTagRotation.getDegrees())*.45);  
+    // }
+    
+    
+    return new Pose2d(finalTranslation, aprilTagRotation);
   }
 
   @Override

@@ -29,6 +29,8 @@ import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
 import frc.robot.Commands.ArmDown;
 import frc.robot.Commands.ArmFeedForwardHold;
 import frc.robot.Commands.ArmFeedForwardMove;
+import frc.robot.Commands.ArmToSetpoint;
+import frc.robot.Commands.AutoAlign;
 import frc.robot.Commands.Climb;
 import frc.robot.Commands.DriveStraightAuto;
 import frc.robot.Commands.Intakecoral;
@@ -40,6 +42,7 @@ import frc.robot.Commands.ResetFieldRelative;
 import frc.robot.Commands.RevampCoral;
 import frc.robot.Commands.Score;
 import frc.robot.Commands.test;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
@@ -82,10 +85,9 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 public class RobotContainer {
   // The robot's subsystems
   public final DriveSubsystem m_robotDrive = new DriveSubsystem();
-  private final ArmSubsystem m_armsubsystem = new ArmSubsystem();
+  public final ArmSubsystem m_armsubsystem = new ArmSubsystem();
   private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
   private final Limelight limelight = new Limelight();
-  public final DigitalInput sensor = new DigitalInput(0);
 
 
   
@@ -113,7 +115,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("LFourThenScore", new SequentialCommandGroup(
       new ParallelCommandGroup(
         new L4(m_armsubsystem, 0.1, m_driverController),
-        new RevampCoral(sensor, m_coralholder)
+        new RevampCoral(m_armsubsystem, m_coralholder)
       ),
       new Score(0.4, m_coralholder)
     ));
@@ -154,11 +156,11 @@ public class RobotContainer {
       
     // Left Bumper
     new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value)
-      .whileTrue(new Intakecoral(0.15, m_coralholder));
+      .whileTrue(new Intakecoral(0.4, m_coralholder));
 
     // Right Bumper
     new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value)
-      .whileTrue(new Intakecoral(-0.15, m_coralholder));
+      .whileTrue(new Intakecoral(-0.2, m_coralholder));
 
     // B Button(Not sure which direction B and X go)
     new JoystickButton(m_driverController, XboxController.Button.kB.value)
@@ -169,24 +171,26 @@ public class RobotContainer {
     //   .whileTrue(new Climb(0.65, m_climbSubsystem));
     
     new JoystickButton(m_driverController, XboxController.Button.kX.value)
-    .onTrue(new RevampCoral(sensor, m_coralholder));
+      .whileTrue(new AutoAlign(limelight.getTargetPose(), m_robotDrive));
+    // new JoystickButton(m_driverController, XboxController.Button.kX.value)
+    // .onTrue(new RevampCoral(m_armsubsystem, m_coralholder));
 
 
     // L4 Dpad Right
     new POVButton(m_driverController, 90)
-      .onTrue(new L4(m_armsubsystem, 0.1, m_driverController));
+      .onTrue(new ArmToSetpoint(m_armsubsystem, 0.1, m_driverController, ArmConstants.kLFourPosition));
 
     // ArmDown DPAD Down
     new POVButton(m_driverController, 180)
     .onTrue(new ArmDown(m_armsubsystem, -0.1, m_driverController));
 
-    // L3 Dpad UP
+    // L3 Dpad Up
     new POVButton(m_driverController, 0)
-    .onTrue(new L3(m_armsubsystem, 0.1, m_driverController));
+    .onTrue(new ArmToSetpoint(m_armsubsystem, 0.1, m_driverController, ArmConstants.kLThreePosition));
 
     // L2 DPAD Left
     new POVButton(m_driverController, 270)
-    .onTrue(new L2(m_armsubsystem, 0.1, m_driverController));
+    .onTrue(new ArmToSetpoint(m_armsubsystem, 0.1, m_driverController, ArmConstants.kLTwoPosition));
     
     // DPad down
     // new POVButton(m_driverController, 180)
@@ -198,12 +202,6 @@ public class RobotContainer {
     // Select Button
     new JoystickButton(m_driverController, XboxController.Button.kBack.value)
       .onTrue(new ResetFieldRelative(m_robotDrive));
-
-    // if (aprilTagId != -1) {
-    //   Pose2d targetPose = new Pose2d(new Translation2d(aprilTagId, aprilTagId), null)
-    //   // new JoystickButton(m_driverController, XboxController.Button.kBack.value)
-    //   // .onTrue(new ResetFieldRelative(m_robotDrive));
-    // }
     
 
   }

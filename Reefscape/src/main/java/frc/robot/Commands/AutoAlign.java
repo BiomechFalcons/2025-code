@@ -18,12 +18,10 @@ public class AutoAlign extends Command {
   ProfiledPIDController xController = new ProfiledPIDController(0.05, 0, 0, new Constraints(2, 4));
   ProfiledPIDController yController = new ProfiledPIDController(0.05, 0, 0, new Constraints(2, 4));
   PIDController thetaController = new PIDController(0.05, 0, 0);
-  XboxController m_controller;
   
-  public AutoAlign(Pose2d targetPose, DriveSubsystem m_driveSubsystemc, XboxController m_controller) {
+  public AutoAlign(Pose2d targetPose, DriveSubsystem m_driveSubsystem) {
     this.targetPose = targetPose;
     this.m_driveSubsystem = m_driveSubsystem;
-    this.m_controller = m_controller;
     addRequirements(m_driveSubsystem);
 
     xController.setTolerance(0.05);
@@ -35,7 +33,7 @@ public class AutoAlign extends Command {
   @Override
   public void initialize() {
     System.out.println("Running AutoAlign command...");
-    m_controller.setRumble(RumbleType.kBothRumble, 0.1);
+    // m_controller.setRumble(RumbleType.kBothRumble, 0.1);
   }
 
   
@@ -63,7 +61,6 @@ public class AutoAlign extends Command {
   public void end(boolean interrupted) {
     m_driveSubsystem.drive(0, 0, 0, false);
     System.out.println("AutoAlign command finished");
-    m_controller.setRumble(RumbleType.kBothRumble, 0);
     
   }
 

@@ -18,9 +18,15 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTableValue;
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.Constants.AutoConstants;
@@ -58,6 +64,9 @@ public class DriveSubsystem extends SubsystemBase {
 
   // The gyro sensor
   private final PigeonIMU m_gyro = new PigeonIMU(12);
+  private Field2d field = new Field2d();
+  private NetworkTable table = NetworkTableInstance.getDefault().getTable("DriveSubsystem");
+
 
   // Odometry class for tracking robot pose
   SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
@@ -116,6 +125,11 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearLeft.getPosition(),
             m_rearRight.getPosition()
         });
+
+    
+    field.setRobotPose(getPose());
+
+    SmartDashboard.putData("Field", field);
   }
 
   public boolean checkAlliance() {
@@ -274,4 +288,5 @@ public class DriveSubsystem extends SubsystemBase {
     m_gyro.getRawGyro(ypr);
     return  ypr[0] * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
   }
+
 }
