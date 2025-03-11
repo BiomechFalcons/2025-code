@@ -4,11 +4,13 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.Limelight;
 
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -18,11 +20,12 @@ public class AutoAlign extends Command {
   ProfiledPIDController xController = new ProfiledPIDController(0.05, 0, 0, new Constraints(2, 4));
   ProfiledPIDController yController = new ProfiledPIDController(0.05, 0, 0, new Constraints(2, 4));
   PIDController thetaController = new PIDController(0.05, 0, 0);
+  Limelight limelight;
   
-  public AutoAlign(Pose2d targetPose, DriveSubsystem m_driveSubsystem) {
-    this.targetPose = targetPose;
+  public AutoAlign(Limelight limelight, DriveSubsystem m_driveSubsystem) {
     this.m_driveSubsystem = m_driveSubsystem;
-    addRequirements(m_driveSubsystem);
+    this.limelight = limelight;
+    addRequirements(m_driveSubsystem, limelight);
 
     xController.setTolerance(0.05);
     yController.setTolerance(0.05);
@@ -32,8 +35,8 @@ public class AutoAlign extends Command {
   
   @Override
   public void initialize() {
+    targetPose = limelight.getTargetPose();
     System.out.println("Running AutoAlign command...");
-    // m_controller.setRumble(RumbleType.kBothRumble, 0.1);
   }
 
   

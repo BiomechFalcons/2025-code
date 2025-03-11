@@ -161,13 +161,8 @@ public class Robot extends TimedRobot {
     } else {
       Constants.DriveConstants.kMaxSpeedMetersPerSecond = DriveConstants.kMaxSpeed;
     }
-    // if (m_robotContainer.m_driverController.getRightTriggerAxis() > 0) {
-    //   ClimbSubsystem);
-    // }
-    // else {
 
-    // }
-     
+    // SmartDashboard.putNumber("Scoring Mode", m_robotContainer.scoringMode);
   }
 
   @Override

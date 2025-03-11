@@ -94,9 +94,9 @@ public class ArmSubsystem extends SubsystemBase {
       table.putValue("Sensor", NetworkTableValue.makeBoolean(getSensor()));
 
       if (getSensor()) {
-    m_ArmFeedforwardEmpty = new ArmFeedforward(ArmConstants.kS, ArmConstants.kGC, ArmConstants.kV, ArmConstants.kA);
+            m_ArmFeedforwardEmpty = new ArmFeedforward(ArmConstants.kS, ArmConstants.kGC, ArmConstants.kV, ArmConstants.kA);
       } else {
         m_ArmFeedforwardEmpty = new ArmFeedforward(ArmConstants.kS, ArmConstants.kGE, ArmConstants.kV, ArmConstants.kA);
-      }
-     }
+    }
+    }
 }

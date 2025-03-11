@@ -119,4 +119,9 @@ public final class Constants {
     // Empty FeedForward values
     public static final double kGE = 0.05;
   }
+
+  public static final class ClimbConstants {
+    public static final double kMaxClimberPosition = 0;
+    public static final double kMinClimberPosition = 0;
+  }
 }

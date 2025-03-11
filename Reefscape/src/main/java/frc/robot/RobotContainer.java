@@ -88,7 +88,8 @@ public class RobotContainer {
   public final ArmSubsystem m_armsubsystem = new ArmSubsystem();
   private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
   private final Limelight limelight = new Limelight();
-
+  // public int scoringMode = 4;
+  // public double scoringModeConstant = ArmConstants.kLFourPosition;
 
   
 
@@ -170,10 +171,10 @@ public class RobotContainer {
     // new JoystickButton(m_driverController, XboxController.Button.kX.value)
     //   .whileTrue(new Climb(0.65, m_climbSubsystem));
     
-    new JoystickButton(m_driverController, XboxController.Button.kX.value)
-      .whileTrue(new AutoAlign(limelight.getTargetPose(), m_robotDrive));
     // new JoystickButton(m_driverController, XboxController.Button.kX.value)
-    // .onTrue(new RevampCoral(m_armsubsystem, m_coralholder));
+    //   .whileTrue(new AutoAlign(limelight, m_robotDrive));
+    new JoystickButton(m_driverController, XboxController.Button.kX.value)
+    .onTrue(new RevampCoral(m_armsubsystem, m_coralholder));
 
 
     // L4 Dpad Right
@@ -184,7 +185,7 @@ public class RobotContainer {
     new POVButton(m_driverController, 180)
     .onTrue(new ArmDown(m_armsubsystem, -0.1, m_driverController));
 
-    // L3 Dpad Up
+    // L3 Dpad Upgggggggggggggggggggggggggggggggggggggttttttttttrrhhiarvindh
     new POVButton(m_driverController, 0)
     .onTrue(new ArmToSetpoint(m_armsubsystem, 0.1, m_driverController, ArmConstants.kLThreePosition));
 
@@ -203,9 +204,21 @@ public class RobotContainer {
     new JoystickButton(m_driverController, XboxController.Button.kBack.value)
       .onTrue(new ResetFieldRelative(m_robotDrive));
     
-
+    // if (new POVButton(m_driverController, 90).getAsBoolean()) {
+    //   if (scoringMode != 4) {
+    //     scoringMode += 1;
+    //   } else {
+    //     scoringMode = 0;
+    //   }
+    // } else if (new POVButton(m_driverController, 270).getAsBoolean()) {
+    //   if (scoringMode != 0) {
+    //     scoringMode -= 1;
+    //   } else {
+    //     scoringMode = 4;
+    //   }
+    // }
   }
-//Rory Was Here
+  //Rory Was Here
   /**
    * Use this to pass the autonomous command to the main 
    * {@link Robot} class.
