@@ -15,6 +15,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTableValue;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.LimelightHelpers;
 
 public class Limelight extends SubsystemBase {
   NetworkTable limelighttable;
@@ -28,18 +29,33 @@ public class Limelight extends SubsystemBase {
     this.limelighttable = NetworkTableInstance.getDefault().getTable("limelight");
   }
 
+  public Pose2d getLimelightBotPose() {
+      // double[] botpose = limelighttable.getEntry("botpose_targetspace").getDoubleArray(new double[6]);
+      // Translation2d transl = new Translation2d(botpose[0], botpose[1]);
+      // Rotation2d rot = new Rotation2d(botpose[5]);
+      // return new Pose2d(transl, rot);
+      return LimelightHelpers.getBotPose3d_TargetSpace("").toPose2d();
+
+  }
+
 
   public Pose2d getTargetPose() {
-    if (aprilTagId != -1) {
-      Translation2d finalTranslation;
-      Rotation2d aprilTagRotation;
-      Pose3d aprilTagpose = fieldLayout.getTagPose(aprilTagId).get();
-      Translation2d aprilTagTranslation = new Translation2d(aprilTagpose.getX(), aprilTagpose.getY());
-      aprilTagRotation = new Rotation2d(aprilTagpose.getRotation().getAngle());
-      finalTranslation = new Translation2d(aprilTagTranslation.getX()-Math.cos(aprilTagRotation.getDegrees())*.45, aprilTagTranslation.getY()-Math.sin(aprilTagRotation.getDegrees())*.45);    
-      return new Pose2d(finalTranslation, aprilTagRotation);
-    }
-    return new Pose2d(new Translation2d(), new Rotation2d());
+      System.out.println("HERE");
+      if (aprilTagId != -1) {
+        Translation2d finalTranslation;
+        Rotation2d aprilTagRotation;
+        Pose3d aprilTagpose = fieldLayout.getTagPose(aprilTagId).get();
+        Translation2d aprilTagTranslation = new Translation2d(aprilTagpose.getX(), aprilTagpose.getY());
+        aprilTagRotation = new Rotation2d(aprilTagpose.getRotation().getAngle());
+        finalTranslation = new Translation2d(aprilTagTranslation.getX()-Math.cos(aprilTagRotation.getDegrees())*.45, aprilTagTranslation.getY()-Math.sin(aprilTagRotation.getDegrees())*.45);    
+        return new Pose2d(finalTranslation, aprilTagRotation);
+      } else {
+        return new Pose2d();
+      }
+
+
+    
+    // return new Pose2d(new Translation2d(), new Rotation2d());
     // if (isLeft) {
     //   double newX = finalTranslation.getX()+(.45*(-Math.sin(aprilTagRotation.getRadians())));
     //   double newY = finalTranslation.getY()+(.45*(Math.cos(aprilTagRotation.getRadians())));
@@ -54,6 +70,26 @@ public class Limelight extends SubsystemBase {
     
     
   }
+
+
+  public double getTX() {
+    return limelighttable.getEntry("tx").getDouble(-1);
+  }
+
+  public double getTY() {
+    return limelighttable.getEntry("ty").getDouble(-1);
+  }
+
+  public double getRotation() {
+    if (aprilTagId != -1) {
+      Pose3d aprilTagpose = fieldLayout.getTagPose(aprilTagId).get();
+      return aprilTagpose.getRotation().getAngle();
+    } else {
+      return 0.0;
+    }
+  }
+
+
 //Rory was Here
   @Override
   public void periodic() {

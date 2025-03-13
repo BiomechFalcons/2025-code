@@ -135,7 +135,6 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    m_robotContainer.m_robotDrive.resetOdometry(new Pose2d(new Translation2d(0, 0), new Rotation2d(0)));
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -161,7 +160,12 @@ public class Robot extends TimedRobot {
     } else {
       Constants.DriveConstants.kMaxSpeedMetersPerSecond = DriveConstants.kMaxSpeed;
     }
+    SmartDashboard.putNumber("X Target", m_robotContainer.limelight.getTargetPose().getX());
+    SmartDashboard.putNumber("Y Target", m_robotContainer.limelight.getTargetPose().getY());
+    SmartDashboard.putNumber("Current X", m_robotContainer.limelight.getLimelightBotPose().getX());
+    SmartDashboard.putNumber("Current Y", m_robotContainer.limelight.getLimelightBotPose().getY());
 
+    
     // SmartDashboard.putNumber("Scoring Mode", m_robotContainer.scoringMode);
   }
 

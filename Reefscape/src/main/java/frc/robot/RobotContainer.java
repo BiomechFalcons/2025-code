@@ -87,7 +87,7 @@ public class RobotContainer {
   public final DriveSubsystem m_robotDrive = new DriveSubsystem();
   public final ArmSubsystem m_armsubsystem = new ArmSubsystem();
   private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
-  private final Limelight limelight = new Limelight();
+  public final Limelight limelight = new Limelight();
   // public int scoringMode = 4;
   // public double scoringModeConstant = ArmConstants.kLFourPosition;
 
@@ -171,10 +171,10 @@ public class RobotContainer {
     // new JoystickButton(m_driverController, XboxController.Button.kX.value)
     //   .whileTrue(new Climb(0.65, m_climbSubsystem));
     
-    // new JoystickButton(m_driverController, XboxController.Button.kX.value)
-    //   .whileTrue(new AutoAlign(limelight, m_robotDrive));
     new JoystickButton(m_driverController, XboxController.Button.kX.value)
-    .onTrue(new RevampCoral(m_armsubsystem, m_coralholder));
+      .onTrue(new AutoAlign(limelight, m_robotDrive));
+    // new JoystickButton(m_driverController, XboxController.Button.kX.value)
+    // .onTrue(new RevampCoral(m_armsubsystem, m_coralholder));
 
 
     // L4 Dpad Right
@@ -185,7 +185,7 @@ public class RobotContainer {
     new POVButton(m_driverController, 180)
     .onTrue(new ArmDown(m_armsubsystem, -0.1, m_driverController));
 
-    // L3 Dpad Upgggggggggggggggggggggggggggggggggggggttttttttttrrhhiarvindh
+    // L3 Dpad Up
     new POVButton(m_driverController, 0)
     .onTrue(new ArmToSetpoint(m_armsubsystem, 0.1, m_driverController, ArmConstants.kLThreePosition));
 
