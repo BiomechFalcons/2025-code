@@ -95,6 +95,7 @@ public class RobotContainer {
 
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  XboxController m_emergencyController = new XboxController(1);  
   VictorSPX m_coralholder = new VictorSPX(10);
   
 
@@ -115,10 +116,13 @@ public class RobotContainer {
     NamedCommands.registerCommand("ArmDown", new ArmDown(m_armsubsystem, -0.1, m_driverController));
     NamedCommands.registerCommand("LFourThenScore", new SequentialCommandGroup(
       new ParallelCommandGroup(
-        new L4(m_armsubsystem, 0.1, m_driverController),
-        new RevampCoral(m_armsubsystem, m_coralholder)
+        new ParallelCommandGroup(
+          new ArmToSetpoint(m_armsubsystem, 0.175, m_driverController, ArmConstants.kLFourPosition),
+          new AutoAlign(limelight, m_robotDrive, true),
+          new RevampCoral(m_armsubsystem, m_coralholder)
+        )
       ),
-      new Score(0.4, m_coralholder)
+      new Score(-0.4, m_coralholder)
     ));
     
     configureButtonBindings();
@@ -157,22 +161,20 @@ public class RobotContainer {
       
     // Left Bumper
     new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value)
-      .whileTrue(new Intakecoral(0.4, m_coralholder));
+      .whileTrue(new Intakecoral(-0.4, m_coralholder));
 
     // Right Bumper
     new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value)
-      .whileTrue(new Intakecoral(-0.2, m_coralholder));
+      .whileTrue(new Intakecoral(0.3, m_coralholder));
 
     // B Button(Not sure which direction B and X go)
     new JoystickButton(m_driverController, XboxController.Button.kB.value)
       .whileTrue(new Climb(-0.25, m_climbSubsystem));
     
     // X Button
-    // new JoystickButton(m_driverController, XboxController.Button.kX.value)
-    //   .whileTrue(new Climb(0.65, m_climbSubsystem));
-    
     new JoystickButton(m_driverController, XboxController.Button.kX.value)
-      .onTrue(new AutoAlign(limelight, m_robotDrive));
+      .whileTrue(new Climb(0.65, m_climbSubsystem));
+    
     // new JoystickButton(m_driverController, XboxController.Button.kX.value)
     // .onTrue(new RevampCoral(m_armsubsystem, m_coralholder));
 
@@ -199,24 +201,28 @@ public class RobotContainer {
 
     // Start Button
     new JoystickButton(m_driverController, XboxController.Button.kStart.value)
-      .whileFalse(new ArmFeedForwardHold(m_armsubsystem));
+      .onTrue(
+        new ParallelCommandGroup(
+          new ArmToSetpoint(m_armsubsystem, 0.175, m_driverController, ArmConstants.kLFourPosition),
+          new AutoAlign(limelight, m_robotDrive, false),
+          new RevampCoral(m_armsubsystem, m_coralholder)
+        )
+      );
     // Select Button
     new JoystickButton(m_driverController, XboxController.Button.kBack.value)
+      .onTrue(
+        new ParallelCommandGroup(
+          new ArmToSetpoint(m_armsubsystem, 0.175, m_driverController, ArmConstants.kLFourPosition),
+          new AutoAlign(limelight, m_robotDrive, true),
+          new RevampCoral(m_armsubsystem, m_coralholder)
+        )
+      );
+
+    new JoystickButton(m_emergencyController, XboxController.Button.kA.value)
       .onTrue(new ResetFieldRelative(m_robotDrive));
-    
-    // if (new POVButton(m_driverController, 90).getAsBoolean()) {
-    //   if (scoringMode != 4) {
-    //     scoringMode += 1;
-    //   } else {
-    //     scoringMode = 0;
-    //   }
-    // } else if (new POVButton(m_driverController, 270).getAsBoolean()) {
-    //   if (scoringMode != 0) {
-    //     scoringMode -= 1;
-    //   } else {
-    //     scoringMode = 4;
-    //   }
-    // }
+
+    new JoystickButton(m_emergencyController, XboxController.Button.kB.value)
+      .onTrue(new RevampCoral(m_armsubsystem, m_coralholder));
   }
   //Rory Was Here
   /**

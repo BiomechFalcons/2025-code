@@ -18,17 +18,23 @@ import frc.robot.subsystems.Limelight;
 public class AutoAlign extends Command {
   Pose2d targetPose;
   DriveSubsystem m_driveSubsystem;
-  ProfiledPIDController xController = new ProfiledPIDController(0.025, 0, 0, new Constraints(1, 1));
-  ProfiledPIDController yController = new ProfiledPIDController(0.1, 0, 0, new Constraints(1, 3));
-  PIDController thetaController = new PIDController(0.1, 0, 0);
+  // PIDController yController = new PIDController(0.03, 0, 0);
+  // PIDController thetaController = new PIDController(0.1, 0, 0);
+  PIDController xController;
   Limelight limelight;
+  boolean isLeft;
   
-  public AutoAlign(Limelight limelight, DriveSubsystem m_driveSubsystem) {
+  public AutoAlign(Limelight limelight, DriveSubsystem m_driveSubsystem, boolean isLeft) {
     this.m_driveSubsystem = m_driveSubsystem;
     this.limelight = limelight;
+    this.isLeft = isLeft;
     addRequirements(m_driveSubsystem, limelight);
-
-    xController.setTolerance(10);
+    if (isLeft) {
+      xController = new PIDController(0.03, 0, 0);
+    } else {
+      xController = new PIDController(0.025, 0, 0);
+    }
+    xController.setTolerance(1);
     // yController.setTolerance(5);
     // thetaController.setTolerance(2);
   }
@@ -48,14 +54,27 @@ public class AutoAlign extends Command {
   
   @Override
   public void execute() {
-    double xSpeed = xController.calculate(limelight.getTX(), 23.8);
+    if (isLeft) {
+      double tx = limelight.getTX();
+      if (tx != -1) {
+        double xSpeed = xController.calculate(tx, 23.8);
+        m_driveSubsystem.drive(0, -xSpeed, 0, false);
+      }
+    } else {
+      double tx = limelight.getTX();
+      if (tx != -1) {
+        double xSpeed = xController.calculate(tx, -12);
+        m_driveSubsystem.drive(0, -xSpeed, 0, false);
+      }      
+    }
+
+
     // double ySpeed = yController.calculate(limelight.getTY(), -1.85);
     // System.out.println(xSpeed);
     // double xSpeed = (23.8-limelight.getTX())*0.008;
     // double rotSpeed = thetaController.calculate(m_driveSubsystem.getPose().getRotation().getRadians(), limelight.getRotation());
  
 
-    m_driveSubsystem.drive(0, xSpeed, 0, false);
 
   }
   
@@ -63,7 +82,7 @@ public class AutoAlign extends Command {
   //  && yController.atGoal() 
   @Override
   public boolean isFinished() {
-    if (xController.atGoal()) {
+    if (xController.atSetpoint() || limelight.getAprilTag() == -1) {
         return true;
     } else {
         return false;

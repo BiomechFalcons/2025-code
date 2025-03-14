@@ -46,9 +46,8 @@ public class ArmToSetpoint extends Command {
     public boolean isFinished() {
         if (m_armSubsystem.isAtSetpoint(setpoint, sign < 0)) {
             return true;
-        } else if (m_driverController.getStartButton()) {
-            return true;
-        } else {
+        }
+        else {
             return false;
         }    
     }

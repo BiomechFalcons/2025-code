@@ -91,34 +91,34 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+    System.out.println("Autonomous Init");
     m_robotContainer.m_robotDrive.zeroHeading();
     SwerveModuleState[] states = {new SwerveModuleState(0, new Rotation2d(0)), new SwerveModuleState(0, new Rotation2d(0)),new SwerveModuleState(0, new Rotation2d(0)), new SwerveModuleState(0, new Rotation2d(0))};
     m_robotContainer.m_robotDrive.setModuleStates(states);
     m_robotContainer.driveStraight().schedule();
-    // m_robotContainer.m_robotDrive.resetEncoders();
     Autos autoSelected = autoChooser.getSelected();
     SmartDashboard.putNumber("Pose X Init", m_robotContainer.m_robotDrive.getPoseForPathPlanner().getX());
     SmartDashboard.putNumber("Pose Y Init", m_robotContainer.m_robotDrive.getPoseForPathPlanner().getY());
 
 
-    switch (autoSelected) {
-      case FOUR_CORAL_RIGHT:
-        m_robotContainer.fourCoralAutoRight().schedule();
-        System.out.println("Four Coral Right");
-        break;
-      case THREE_CORAL_LEFT:
-        m_robotContainer.threeCoralAutoLeft().schedule();
-        System.out.println("Three Coral left");
-        break;
-      case ONE_CORAL_LEFT:
-        m_robotContainer.oneCoralAutoLeft().schedule();
-        System.out.println("One Coral left");
-        break;
-      case DRIVE_STRAIGHT:
-        m_robotContainer.driveStraight().schedule();
-        System.out.println("Striaght");
-        break;
-    }
+    // switch (autoSelected) {
+    //   case FOUR_CORAL_RIGHT:
+    //     m_robotContainer.fourCoralAutoRight().schedule();
+    //     System.out.println("Four Coral Right");
+    //     break;
+    //   case THREE_CORAL_LEFT:
+    //     m_robotContainer.threeCoralAutoLeft().schedule();
+    //     System.out.println("Three Coral left");
+    //     break;
+    //   case ONE_CORAL_LEFT:
+    //     m_robotContainer.oneCoralAutoLeft().schedule();
+    //     System.out.println("One Coral left");
+    //     break;
+    //   case DRIVE_STRAIGHT:
+    //     m_robotContainer.driveStraight().schedule();
+    //     System.out.println("Striaght");
+    //     break;
+    // }
   }
 
   /** This function is called periodically during autonomous. */

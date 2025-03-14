@@ -40,7 +40,6 @@ public class Limelight extends SubsystemBase {
 
 
   public Pose2d getTargetPose() {
-      System.out.println("HERE");
       if (aprilTagId != -1) {
         Translation2d finalTranslation;
         Rotation2d aprilTagRotation;
@@ -74,6 +73,10 @@ public class Limelight extends SubsystemBase {
 
   public double getTX() {
     return limelighttable.getEntry("tx").getDouble(-1);
+  }
+
+  public int getAprilTag() {
+    return (int) limelighttable.getEntry("tid").getDouble(-1);
   }
 
   public double getTY() {
