@@ -95,7 +95,7 @@ public class Robot extends TimedRobot {
     m_robotContainer.m_robotDrive.zeroHeading();
     SwerveModuleState[] states = {new SwerveModuleState(0, new Rotation2d(0)), new SwerveModuleState(0, new Rotation2d(0)),new SwerveModuleState(0, new Rotation2d(0)), new SwerveModuleState(0, new Rotation2d(0))};
     m_robotContainer.m_robotDrive.setModuleStates(states);
-    m_robotContainer.driveStraight().schedule();
+    m_robotContainer.twoCoralAutoRight().schedule();
     Autos autoSelected = autoChooser.getSelected();
     SmartDashboard.putNumber("Pose X Init", m_robotContainer.m_robotDrive.getPoseForPathPlanner().getX());
     SmartDashboard.putNumber("Pose Y Init", m_robotContainer.m_robotDrive.getPoseForPathPlanner().getY());
@@ -143,9 +143,9 @@ public class Robot extends TimedRobot {
         // Turning is controlled by the X axis of the right stick.
         new RunCommand(
             () -> m_robotContainer.m_robotDrive.drive(
-                -MathUtil.applyDeadband(m_robotContainer.m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(m_robotContainer.m_driverController.getLeftX(), OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(m_robotContainer.m_driverController.getRightX(), OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(Math.pow(m_robotContainer.m_driverController.getLeftY(), 3), OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(Math.pow(m_robotContainer.m_driverController.getLeftX(), 3), OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(Math.pow(m_robotContainer.m_driverController.getRightX(), 3), OIConstants.kDriveDeadband),
                 Constants.DriveConstants.fieldRelative),
             m_robotContainer.m_robotDrive));
         
@@ -156,9 +156,18 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {    
     if (m_robotContainer.m_driverController.getLeftTriggerAxis() >= 0.7) {
-      Constants.DriveConstants.kMaxSpeedMetersPerSecond = 0.75;
-    } else {
+      Constants.DriveConstants.kMaxSpeedMetersPerSecond = 0.7;
+    } else if (m_robotContainer.m_driverController.getLeftTriggerAxis() > 0) {
+      Constants.DriveConstants.kMaxSpeedMetersPerSecond = (2-m_robotContainer.m_driverController.getLeftTriggerAxis()*1.3);
+    } 
+    else {
       Constants.DriveConstants.kMaxSpeedMetersPerSecond = DriveConstants.kMaxSpeed;
+    }
+    if (m_robotContainer.m_driverController.getRightTriggerAxis() > 0) {
+      m_robotContainer.m_climbSubsystem.m_climberMotor.set(m_robotContainer.m_driverController.getRightTriggerAxis()*0.65);
+    }
+    else if (m_robotContainer.m_driverController.getBButton() == false && m_robotContainer.m_driverController.getXButton() == false) {
+      m_robotContainer.m_climbSubsystem.m_climberMotor.set(0);
     }
     SmartDashboard.putNumber("X Target", m_robotContainer.limelight.getTargetPose().getX());
     SmartDashboard.putNumber("Y Target", m_robotContainer.limelight.getTargetPose().getY());

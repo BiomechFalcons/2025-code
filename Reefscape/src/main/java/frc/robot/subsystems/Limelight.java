@@ -100,9 +100,6 @@ public class Limelight extends SubsystemBase {
 
     if (id != -1) {
      aprilTagId = id;
-     table.putValue("Is AprilTag Detected", NetworkTableValue.makeBoolean(true));
-    } else {
-      table.putValue("Is AprilTag Detected", NetworkTableValue.makeBoolean(false));
     }
   }
 }

@@ -89,7 +89,7 @@ public class DriveSubsystem extends SubsystemBase {
       this::getRobotRelativeSpeeds, 
       (speeds, feedsforwards) -> autoDrive(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond, true),
       new PPHolonomicDriveController(
-        new PIDConstants(4, 0.0, 0.0), 
+        new PIDConstants(7, 0.0, 0.0), 
         new PIDConstants(0.05, 0.0, 0.0)
         ), 
         getRobotConfig(), this::shouldFlipPath, this);
@@ -216,13 +216,13 @@ public class DriveSubsystem extends SubsystemBase {
     // Convert the commanded speeds into the correct units for the drivetrain
     // double xSpeedDelivered = xSpeed * DriveConstants.kMaxSpeedMetersPerSecond;
     // double ySpeedDelivered = ySpeed * DriveConstants.kMaxSpeedMetersPerSecond;
-    double rotDelivered = rot * DriveConstants.kMaxAngularSpeed;
+    // double rotDelivered = rot
 
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
         fieldRelative
-            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotDelivered,
+            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot,
                 Rotation2d.fromDegrees(m_gyro.getYaw()))
-            : new ChassisSpeeds(xSpeed, ySpeed, rotDelivered));
+            : new ChassisSpeeds(xSpeed, ySpeed, rot));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, AutoConstants.kMaxSpeedMetersPerSecond);
     m_frontLeft.setDesiredState(swerveModuleStates[0]);

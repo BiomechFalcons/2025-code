@@ -57,13 +57,13 @@ public class AutoAlign extends Command {
     if (isLeft) {
       double tx = limelight.getTX();
       if (tx != -1) {
-        double xSpeed = xController.calculate(tx, 23.8);
+        double xSpeed = xController.calculate(tx, 24.8);
         m_driveSubsystem.drive(0, -xSpeed, 0, false);
       }
     } else {
       double tx = limelight.getTX();
       if (tx != -1) {
-        double xSpeed = xController.calculate(tx, -12);
+        double xSpeed = xController.calculate(tx, -10);
         m_driveSubsystem.drive(0, -xSpeed, 0, false);
       }      
     }

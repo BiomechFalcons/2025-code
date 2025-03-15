@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimbConstants;
 
 public class ClimbSubsystem extends SubsystemBase {
-  SparkMax m_climberMotor = new SparkMax(9, MotorType.kBrushless);
+  public SparkMax m_climberMotor = new SparkMax(9, MotorType.kBrushless);
   private NetworkTable table = NetworkTableInstance.getDefault().getTable("Climb");
   private AbsoluteEncoder m_encoder = m_climberMotor.getAbsoluteEncoder();
 

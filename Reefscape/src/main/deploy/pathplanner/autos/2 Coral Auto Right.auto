@@ -5,28 +5,34 @@
     "data": {
       "commands": [
         {
-          "type": "sequential",
+          "type": "path",
+          "data": {
+            "pathName": "1 Coral Auto Right"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Autoalign"
+          }
+        },
+        {
+          "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Drive Straight"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "LFourThenScore"
+                  "pathName": "2 Coral Right Get Coral"
                 }
               }
             ]
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "ArmDown"
+            "pathName": "2 Coral Right Score 2nd"
           }
         }
       ]

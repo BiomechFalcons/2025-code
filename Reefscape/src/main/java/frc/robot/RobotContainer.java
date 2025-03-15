@@ -33,6 +33,7 @@ import frc.robot.Commands.ArmToSetpoint;
 import frc.robot.Commands.AutoAlign;
 import frc.robot.Commands.Climb;
 import frc.robot.Commands.DriveStraightAuto;
+import frc.robot.Commands.IntakeAuto;
 import frc.robot.Commands.Intakecoral;
 import frc.robot.Commands.L4;
 import frc.robot.Commands.L3;
@@ -86,7 +87,7 @@ public class RobotContainer {
   // The robot's subsystems
   public final DriveSubsystem m_robotDrive = new DriveSubsystem();
   public final ArmSubsystem m_armsubsystem = new ArmSubsystem();
-  private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
+  public final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
   public final Limelight limelight = new Limelight();
   // public int scoringMode = 4;
   // public double scoringModeConstant = ArmConstants.kLFourPosition;
@@ -109,10 +110,26 @@ public class RobotContainer {
     // Configure the button bindings
     NamedCommands.registerCommand("LFourPos", new L4(m_armsubsystem, 0.1, m_driverController));
     NamedCommands.registerCommand("ScoreThenArmDown", new SequentialCommandGroup(
-      new Score(-0.1, m_coralholder),
+      new ParallelCommandGroup(
+        new AutoAlign(limelight, m_robotDrive, true),
+        new ArmToSetpoint(m_armsubsystem, 0.175, m_driverController, ArmConstants.kLFourPosition),
+        new RevampCoral(m_armsubsystem, m_coralholder)          
+      ),
+      new Score(-0.4, m_coralholder),
       new ArmDown(m_armsubsystem, -0.1, m_driverController)
     ));
-    NamedCommands.registerCommand("Score", new Score(-0.1, m_coralholder));
+    NamedCommands.registerCommand("Autoalign", 
+      new AutoAlign(limelight, m_robotDrive, true)
+    );
+    NamedCommands.registerCommand("Score", 
+    new SequentialCommandGroup(
+      new ParallelCommandGroup(
+        new AutoAlign(limelight, m_robotDrive, true),
+        new ArmToSetpoint(m_armsubsystem, 0.175, m_driverController, ArmConstants.kLFourPosition),
+        new RevampCoral(m_armsubsystem, m_coralholder)          
+      ),
+      new Score(-0.4, m_coralholder)     
+    ));
     NamedCommands.registerCommand("ArmDown", new ArmDown(m_armsubsystem, -0.1, m_driverController));
     NamedCommands.registerCommand("LFourThenScore", new SequentialCommandGroup(
       new ParallelCommandGroup(
@@ -124,6 +141,9 @@ public class RobotContainer {
       ),
       new Score(-0.4, m_coralholder)
     ));
+    NamedCommands.registerCommand("Intake", 
+    new IntakeAuto(m_armsubsystem, m_coralholder)
+    );
     
     configureButtonBindings();
 
@@ -150,14 +170,14 @@ public class RobotContainer {
 
     // Y Button
     new JoystickButton(m_driverController, XboxController.Button.kY.value)
-      .whileTrue(new ArmFeedForwardMove(0.07, m_armsubsystem));
+      .whileTrue(new ArmFeedForwardMove(0.18, m_armsubsystem));
       
     // new JoystickButton(m_driverController, XboxController.Button.kY.value)
       // .whileTrue(new LFour(m_armsubsystem, 0.07));
 
     // A Button
     new JoystickButton(m_driverController, XboxController.Button.kA.value)
-      .whileTrue(new ArmFeedForwardMove(-0.07, m_armsubsystem));
+      .whileTrue(new ArmFeedForwardMove(-0.18, m_armsubsystem));
       
     // Left Bumper
     new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value)
@@ -203,18 +223,20 @@ public class RobotContainer {
     new JoystickButton(m_driverController, XboxController.Button.kStart.value)
       .onTrue(
         new ParallelCommandGroup(
-          new ArmToSetpoint(m_armsubsystem, 0.175, m_driverController, ArmConstants.kLFourPosition),
+          new ArmToSetpoint(m_armsubsystem, 0.2, m_driverController, ArmConstants.kLFourPosition),
           new AutoAlign(limelight, m_robotDrive, false),
-          new RevampCoral(m_armsubsystem, m_coralholder)
+          new RevampCoral(m_armsubsystem, m_coralholder),
+          new Score(-0.1, m_coralholder)
         )
       );
     // Select Button
     new JoystickButton(m_driverController, XboxController.Button.kBack.value)
       .onTrue(
         new ParallelCommandGroup(
-          new ArmToSetpoint(m_armsubsystem, 0.175, m_driverController, ArmConstants.kLFourPosition),
+          new ArmToSetpoint(m_armsubsystem, 0.2, m_driverController, ArmConstants.kLFourPosition),
           new AutoAlign(limelight, m_robotDrive, true),
-          new RevampCoral(m_armsubsystem, m_coralholder)
+          new RevampCoral(m_armsubsystem, m_coralholder),
+          new Score(-0.1, m_coralholder)
         )
       );
 
@@ -303,6 +325,15 @@ public class RobotContainer {
       return Commands.none();
     }
   }
+
+  public Command twoCoralAutoRight() {
+    try {
+      return new PathPlannerAuto("2 Coral Auto Right");
+    } catch (Exception e) {
+      System.out.println("Error " + e);
+      return Commands.none();
+    }
+  }
   
 
   public Command oneCoralAutoLeft() {
@@ -316,6 +347,16 @@ public class RobotContainer {
     }
   }
 
+  public Command oneCoralAutoRight() {
+    try {
+      return new PathPlannerAuto("1 Coral Auto Right");
+      // PathPlannerPath straight = PathPlannerPath.fromPathFile("Drive Straight");
+      // return AutoBuilder.followPath(straight);
+    } catch (Exception e) {
+      System.out.println("Error " + e);
+      return Commands.none();
+    }
+  }
   // 1 Coral Auto Left
 
   public Command driveStraight() {
