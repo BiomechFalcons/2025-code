@@ -16,7 +16,7 @@ import frc.robot.subsystems.Limelight;
 
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class AutoAlign extends Command {
+public class AutoAlignXBack extends Command {
   Pose2d targetPose;
   DriveSubsystem m_driveSubsystem;
   // PIDController yController = new PIDController(0.03, 0, 0);
@@ -26,7 +26,7 @@ public class AutoAlign extends Command {
   boolean isLeft;
   int mode;
   
-  public AutoAlign(Limelight limelight, DriveSubsystem m_driveSubsystem, boolean isLeft) {
+  public AutoAlignXBack(Limelight limelight, DriveSubsystem m_driveSubsystem, boolean isLeft) {
     this.m_driveSubsystem = m_driveSubsystem;
     this.limelight = limelight;
     this.isLeft = isLeft;
@@ -42,29 +42,22 @@ public class AutoAlign extends Command {
   
   @Override
   public void initialize() {
-    targetPose = limelight.getTargetPose();
-    System.out.println(targetPose);
-    System.out.println("Running AutoAlign command...");
-    System.out.println("target x " + targetPose.getX());
-    System.out.println("target y "+ targetPose.getY());
-
-
   }
 
   
   @Override
   public void execute() {
     if (isLeft) {
-      double tx = limelight.getTX();
+      double tx = limelight.getBackTX();
       if (tx != -1) {
-        double xSpeed = xController.calculate(tx, LimelightConstants.kLFourLeftTX);
-        m_driveSubsystem.drive(0, -xSpeed, 0, false);
+        double xSpeed = xController.calculate(tx, LimelightConstants.kLTwoThreeLeftTX);
+        m_driveSubsystem.drive(0, xSpeed, 0, false);
       }
     } else {
-      double tx = limelight.getTX();
+      double tx = limelight.getBackTX();
       if (tx != -1) {
-        double xSpeed = xController.calculate(tx, LimelightConstants.kLFourRightTX);
-        m_driveSubsystem.drive(0, -xSpeed, 0, false);
+        double xSpeed = xController.calculate(tx, LimelightConstants.kLTwoThreeRightTX);
+        m_driveSubsystem.drive(0, xSpeed, 0, false);
       }      
     }
 

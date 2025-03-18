@@ -84,7 +84,7 @@ public class DriveSubsystem extends SubsystemBase {
     // Usage reporting for MAXSwerve template
     HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_MaxSwerve);    
     AutoBuilder.configure(
-      this::getPoseForPathPlanner, 
+      this::getPose, 
       this::resetOdometry, 
       this::getRobotRelativeSpeeds, 
       (speeds, feedsforwards) -> autoDrive(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond, true),

@@ -19,6 +19,7 @@ import frc.robot.LimelightHelpers;
 
 public class Limelight extends SubsystemBase {
   NetworkTable limelighttable;
+  NetworkTable limelightableBack;
   int aprilTagId = -1;
   AprilTagFieldLayout fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
   private NetworkTable table = NetworkTableInstance.getDefault().getTable("Limelight Subsystem");
@@ -27,6 +28,7 @@ public class Limelight extends SubsystemBase {
   /** Creates a new Limelight. */
   public Limelight() {
     this.limelighttable = NetworkTableInstance.getDefault().getTable("limelight");
+    this.limelightableBack = NetworkTableInstance.getDefault().getTable("limelight-back");
   }
 
   public Pose2d getLimelightBotPose() {
@@ -51,23 +53,6 @@ public class Limelight extends SubsystemBase {
       } else {
         return new Pose2d();
       }
-
-
-    
-    // return new Pose2d(new Translation2d(), new Rotation2d());
-    // if (isLeft) {
-    //   double newX = finalTranslation.getX()+(.45*(-Math.sin(aprilTagRotation.getRadians())));
-    //   double newY = finalTranslation.getY()+(.45*(Math.cos(aprilTagRotation.getRadians())));
-    //   Translation2d targetTranslation = new Translation2d(newX, newY);
-    //   return new Pose2d(targetTranslation, aprilTagRotation);
-    // } else {
-    //   double newX = finalTranslation.getX()+(.45*(Math.sin(aprilTagRotation.getRadians())));
-    //   double newY = finalTranslation.getY()+(.45*(Math.cos(aprilTagRotation.getRadians())));
-    //   Translation2d targetTranslation = new Translation2d(newX, newY);
-    //   return new Pose2d(targetTranslation, aprilTagRotation);
-    // }
-    
-    
   }
 
 
@@ -79,8 +64,21 @@ public class Limelight extends SubsystemBase {
     return (int) limelighttable.getEntry("tid").getDouble(-1);
   }
 
+  public int getAprilTagBack() {
+    return (int) limelightableBack.getEntry("tid").getDouble(-1);
+ 
+  }
+
   public double getTY() {
     return limelighttable.getEntry("ty").getDouble(-1);
+  }
+
+  public double getBackTY() {
+    return limelightableBack.getEntry("ty").getDouble(-1);
+  }
+
+  public double getBackTX() {
+    return limelightableBack.getEntry("tx").getDouble(-1);
   }
 
   public double getRotation() {

@@ -23,6 +23,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogTriggerOutput;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
@@ -31,13 +32,12 @@ import frc.robot.Commands.ArmFeedForwardHold;
 import frc.robot.Commands.ArmFeedForwardMove;
 import frc.robot.Commands.ArmToSetpoint;
 import frc.robot.Commands.AutoAlign;
+import frc.robot.Commands.AutoAlignXBack;
+import frc.robot.Commands.AutoAlignYBack;
 import frc.robot.Commands.Climb;
 import frc.robot.Commands.DriveStraightAuto;
 import frc.robot.Commands.IntakeAuto;
 import frc.robot.Commands.Intakecoral;
-import frc.robot.Commands.L4;
-import frc.robot.Commands.L3;
-import frc.robot.Commands.L2;
 // import frc.robot.Commands.LFour;
 import frc.robot.Commands.ResetFieldRelative;
 import frc.robot.Commands.RevampCoral;
@@ -54,6 +54,7 @@ import frc.robot.subsystems.Limelight;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -98,7 +99,7 @@ public class RobotContainer {
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   XboxController m_emergencyController = new XboxController(1);  
   VictorSPX m_coralholder = new VictorSPX(10);
-  
+  public int scoringMode = 4;
 
 
   // double[] botPose;
@@ -108,7 +109,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the button bindings
-    NamedCommands.registerCommand("LFourPos", new L4(m_armsubsystem, 0.1, m_driverController));
+    NamedCommands.registerCommand("LFourPos", new ArmToSetpoint(m_armsubsystem, 0.175, m_driverController, ArmConstants.kLFourPosition));
     NamedCommands.registerCommand("ScoreThenArmDown", new SequentialCommandGroup(
       new ParallelCommandGroup(
         new AutoAlign(limelight, m_robotDrive, true),
@@ -118,8 +119,11 @@ public class RobotContainer {
       new Score(-0.4, m_coralholder),
       new ArmDown(m_armsubsystem, -0.1, m_driverController)
     ));
-    NamedCommands.registerCommand("Autoalign", 
+    NamedCommands.registerCommand("AutoalignLeft", 
       new AutoAlign(limelight, m_robotDrive, true)
+    );
+    NamedCommands.registerCommand("AutoalignRight", 
+      new AutoAlign(limelight, m_robotDrive, false)
     );
     NamedCommands.registerCommand("Score", 
     new SequentialCommandGroup(
@@ -199,54 +203,82 @@ public class RobotContainer {
     // .onTrue(new RevampCoral(m_armsubsystem, m_coralholder));
 
 
-    // L4 Dpad Right
-    new POVButton(m_driverController, 90)
-      .onTrue(new ArmToSetpoint(m_armsubsystem, 0.1, m_driverController, ArmConstants.kLFourPosition));
+    // // L4 Right
+    // new POVButton(m_driverController, 90)
+    //   .and(new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value))
+    //   .onTrue(
+    //     getScoringCommand(4, false)
+    //   );
 
+    // // L4 Left
+    // new POVButton(m_driverController, 90)
+    //   .and(new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value))
+    //   .onTrue(
+    //     getScoringCommand(4, true)
+    //   );
+    
+    // // L2 Right
+    // new POVButton(m_driverController, 270)
+    //   .and(new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value))
+    //   .onTrue(
+    //     getScoringCommand(2, false)
+    //   );    
+
+    // // L2 Left
+    // new POVButton(m_driverController, 270)
+    //   .and(new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value))
+    //   .onTrue(
+    //     getScoringCommand(2, true)
+    //   );     
+    
+    // // L3 Right
+    // new POVButton(m_driverController, 0)
+    // .and(new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value))
+    // .onTrue(
+    //   getScoringCommand(3, false)
+    // );    
+
+    // // L3 Left
+    // new POVButton(m_driverController, 0)
+    //   .and(new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value))
+    //   .onTrue(
+    //     getScoringCommand(3, true)
+    //   );  
     // ArmDown DPAD Down
     new POVButton(m_driverController, 180)
-    .onTrue(new ArmDown(m_armsubsystem, -0.1, m_driverController));
-
-    // L3 Dpad Up
-    new POVButton(m_driverController, 0)
-    .onTrue(new ArmToSetpoint(m_armsubsystem, 0.1, m_driverController, ArmConstants.kLThreePosition));
-
-    // L2 DPAD Left
-    new POVButton(m_driverController, 270)
-    .onTrue(new ArmToSetpoint(m_armsubsystem, 0.1, m_driverController, ArmConstants.kLTwoPosition));
-    
-    // DPad down
-    // new POVButton(m_driverController, 180)
-    //   .whileTrue(new ArmFeedForwardHold(m_armsubsystem));
-
-    // Start Button
-    new JoystickButton(m_driverController, XboxController.Button.kStart.value)
-      .onTrue(
-        new ParallelCommandGroup(
-          new ArmToSetpoint(m_armsubsystem, 0.2, m_driverController, ArmConstants.kLFourPosition),
-          new AutoAlign(limelight, m_robotDrive, false),
-          new RevampCoral(m_armsubsystem, m_coralholder),
-          new Score(-0.1, m_coralholder)
-        )
-      );
-    // Select Button
-    new JoystickButton(m_driverController, XboxController.Button.kBack.value)
-      .onTrue(
-        new ParallelCommandGroup(
-          new ArmToSetpoint(m_armsubsystem, 0.2, m_driverController, ArmConstants.kLFourPosition),
-          new AutoAlign(limelight, m_robotDrive, true),
-          new RevampCoral(m_armsubsystem, m_coralholder),
-          new Score(-0.1, m_coralholder)
-        )
-      );
+      .onTrue(new ArmDown(m_armsubsystem, -0.1, m_driverController));
 
     new JoystickButton(m_emergencyController, XboxController.Button.kA.value)
       .onTrue(new ResetFieldRelative(m_robotDrive));
-
-    new JoystickButton(m_emergencyController, XboxController.Button.kB.value)
-      .onTrue(new RevampCoral(m_armsubsystem, m_coralholder));
   }
-  //Rory Was Here
+
+  public Command getScoringCommand(int mode, boolean isLeft) {
+    if (mode == 4) {
+        return new ParallelCommandGroup( 
+          new ArmToSetpoint(m_armsubsystem, 0.2, m_driverController, ArmConstants.kLFourPosition),
+          new AutoAlign(limelight, m_robotDrive, isLeft),
+          new RevampCoral(m_armsubsystem, m_coralholder),
+          new Score(-0.1, m_coralholder)
+        );
+    } else if (mode == 3) {
+        return new ParallelCommandGroup(
+          new ArmToSetpoint(m_armsubsystem, 0.2, m_driverController, ArmConstants.kLThreePosition),
+          new AutoAlignYBack(limelight, m_robotDrive),
+          new AutoAlignXBack(limelight, m_robotDrive, isLeft),
+          new RevampCoral(m_armsubsystem, m_coralholder),
+          new Score(-0.1, m_coralholder)
+        );   
+    } else {
+      return new ParallelCommandGroup(
+          new ArmToSetpoint(m_armsubsystem, 0.2, m_driverController, ArmConstants.kLTwoPosition),
+          new AutoAlignYBack(limelight, m_robotDrive),
+          new AutoAlignXBack(limelight, m_robotDrive, isLeft),
+          new RevampCoral(m_armsubsystem, m_coralholder),
+          new Score(-0.1, m_coralholder)
+      );
+    }
+  }
+
   /**
    * Use this to pass the autonomous command to the main 
    * {@link Robot} class.
@@ -294,37 +326,9 @@ public class RobotContainer {
     return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false));
   }
 
-
-
-
-  public void getLimelightBotPose() {
-    // if (botPose.length > 0) {
-    //   double x = botPose[0]; // x position (meters)
-    //   double y = botPose[1]; // y position (meters)
-    //   double z = botPose[2]; // z position (meters)
-    //   double pitch = botPose[3]; // pitch (degrees)
-    //   double yaw = botPose[4]; // yaw (degrees)
-    //   double roll = botPose[5]; // roll (degrees)
-    // }
-  }
-
-  
-  public Command autoDriveStraight() {
-    return new DriveStraightAuto(m_robotDrive);
-  }
-
   /**
    * Autonomous Functions
    */
-  public Command threeCoralAutoLeft() {
-    try {
-      PathPlannerPath threeCoralAuto = PathPlannerPath.fromPathFile("3 Coral Auto Left");
-      return AutoBuilder.followPath(threeCoralAuto);
-    } catch (Exception e) {
-      System.out.println("Error " + e);
-      return Commands.none();
-    }
-  }
 
   public Command twoCoralAutoRight() {
     try {
@@ -335,12 +339,18 @@ public class RobotContainer {
     }
   }
   
+  public Command twoCoralAutoLeft() {
+    try {
+      return new PathPlannerAuto("2 Coral Auto Left");
+    } catch (Exception e) {
+      System.out.println("Error " + e);
+      return Commands.none();
+    }
+  }
 
   public Command oneCoralAutoLeft() {
     try {
       return new PathPlannerAuto("1 Coral Auto Left");
-      // PathPlannerPath straight = PathPlannerPath.fromPathFile("Drive Straight");
-      // return AutoBuilder.followPath(straight);
     } catch (Exception e) {
       System.out.println("Error " + e);
       return Commands.none();
@@ -350,8 +360,6 @@ public class RobotContainer {
   public Command oneCoralAutoRight() {
     try {
       return new PathPlannerAuto("1 Coral Auto Right");
-      // PathPlannerPath straight = PathPlannerPath.fromPathFile("Drive Straight");
-      // return AutoBuilder.followPath(straight);
     } catch (Exception e) {
       System.out.println("Error " + e);
       return Commands.none();
@@ -359,24 +367,10 @@ public class RobotContainer {
   }
   // 1 Coral Auto Left
 
-  public Command driveStraight() {
+  public Command oneCoralAutoStraight() {
     try {
-      return new PathPlannerAuto("Drive Straight");
-      // PathPlannerPath straight = PathPlannerPath.fromPathFile("Drive Straight");
-      // return AutoBuilder.followPath(straight);
+      return new PathPlannerAuto("1 Coral Auto Straight");
     } catch (Exception e) {
-      System.out.println("Error " + e);
-      return Commands.none();
-    }
-  }
-
-//Four coral at once? That's a steal!
-
-  public Command fourCoralAutoRight() {
-    try {
-      PathPlannerPath fourCoralAutoRight = PathPlannerPath.fromPathFile("4 Coral Auto Right");
-      return AutoBuilder.followPath(fourCoralAutoRight);
-    } catch(Exception e) {
       System.out.println("Error " + e);
       return Commands.none();
     }

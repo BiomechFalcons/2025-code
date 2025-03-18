@@ -124,4 +124,12 @@ public final class Constants {
     public static final double kMaxClimberPosition = 0;
     public static final double kMinClimberPosition = 0;
   }
+
+  public static final class LimelightConstants {
+    public static final double kLFourLeftTX = 24.8;
+    public static final double kLFourRightTX = -10;
+    public static final double kLTwoThreeLeftTX = 0;
+    public static final double kLTwoThreeRightTX = 0;
+    public static final double kLTwoThreeTY = 0;
+  }
 }

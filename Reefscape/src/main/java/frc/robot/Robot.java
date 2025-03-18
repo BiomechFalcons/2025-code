@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -36,10 +37,11 @@ import frc.robot.subsystems.ClimbSubsystem;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private enum Autos {
-    DRIVE_STRAIGHT,
+    ONE_CORAL_STRAIGHT,
     ONE_CORAL_LEFT,
-    FOUR_CORAL_RIGHT,
-    THREE_CORAL_LEFT
+    ONE_CORAL_RIGHT,
+    TWO_CORAL_RIGHT,
+    TWO_CORAL_LEFT
   }
     
   private final SendableChooser<Autos> autoChooser = new SendableChooser<>();
@@ -55,11 +57,15 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-    autoChooser.addOption("Four Coral Autonomous Right", Autos.FOUR_CORAL_RIGHT);
-    autoChooser.addOption("Three Coral Autonomous Left", Autos.THREE_CORAL_LEFT);
-    autoChooser.addOption("One Coral Autonomous Left", Autos.ONE_CORAL_LEFT);
-    autoChooser.addOption("Drive Straight", Autos.DRIVE_STRAIGHT);
+    autoChooser.addOption("Two Coral Auto Right", Autos.TWO_CORAL_RIGHT);
+    autoChooser.addOption("Two Coral Auto Left", Autos.TWO_CORAL_LEFT);
+    autoChooser.addOption("One Coral Auto Left", Autos.ONE_CORAL_LEFT);
+    autoChooser.addOption("One Coral Auto Right", Autos.ONE_CORAL_RIGHT);
+    autoChooser.addOption("One Coral Auto Straight", Autos.ONE_CORAL_STRAIGHT);
     SmartDashboard.putData(autoChooser);
+    SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());    
+
+
     // autoChooser.addOption("4 Coral Auto Right", fourcoralautoright);
     // SmartDashboard.putData(autoChooser);
   }
@@ -78,7 +84,7 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-
+    SmartDashboard.putNumber("Scoring Mode", m_robotContainer.scoringMode);
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -95,30 +101,28 @@ public class Robot extends TimedRobot {
     m_robotContainer.m_robotDrive.zeroHeading();
     SwerveModuleState[] states = {new SwerveModuleState(0, new Rotation2d(0)), new SwerveModuleState(0, new Rotation2d(0)),new SwerveModuleState(0, new Rotation2d(0)), new SwerveModuleState(0, new Rotation2d(0))};
     m_robotContainer.m_robotDrive.setModuleStates(states);
-    m_robotContainer.twoCoralAutoRight().schedule();
     Autos autoSelected = autoChooser.getSelected();
     SmartDashboard.putNumber("Pose X Init", m_robotContainer.m_robotDrive.getPoseForPathPlanner().getX());
     SmartDashboard.putNumber("Pose Y Init", m_robotContainer.m_robotDrive.getPoseForPathPlanner().getY());
 
 
-    // switch (autoSelected) {
-    //   case FOUR_CORAL_RIGHT:
-    //     m_robotContainer.fourCoralAutoRight().schedule();
-    //     System.out.println("Four Coral Right");
-    //     break;
-    //   case THREE_CORAL_LEFT:
-    //     m_robotContainer.threeCoralAutoLeft().schedule();
-    //     System.out.println("Three Coral left");
-    //     break;
-    //   case ONE_CORAL_LEFT:
-    //     m_robotContainer.oneCoralAutoLeft().schedule();
-    //     System.out.println("One Coral left");
-    //     break;
-    //   case DRIVE_STRAIGHT:
-    //     m_robotContainer.driveStraight().schedule();
-    //     System.out.println("Striaght");
-    //     break;
-    // }
+    switch (autoSelected) {
+      case TWO_CORAL_RIGHT:
+        m_robotContainer.twoCoralAutoRight().schedule();
+        break;
+      case TWO_CORAL_LEFT:
+        m_robotContainer.twoCoralAutoLeft().schedule();
+        break;
+      case ONE_CORAL_LEFT:
+        m_robotContainer.oneCoralAutoLeft().schedule();
+        break;
+      case ONE_CORAL_RIGHT:
+        m_robotContainer.oneCoralAutoRight().schedule();
+        break;
+      case ONE_CORAL_STRAIGHT:
+        m_robotContainer.oneCoralAutoStraight().schedule();
+        break;
+    }
   }
 
   /** This function is called periodically during autonomous. */
@@ -169,12 +173,8 @@ public class Robot extends TimedRobot {
     else if (m_robotContainer.m_driverController.getBButton() == false && m_robotContainer.m_driverController.getXButton() == false) {
       m_robotContainer.m_climbSubsystem.m_climberMotor.set(0);
     }
-    SmartDashboard.putNumber("X Target", m_robotContainer.limelight.getTargetPose().getX());
-    SmartDashboard.putNumber("Y Target", m_robotContainer.limelight.getTargetPose().getY());
-    SmartDashboard.putNumber("Current X", m_robotContainer.limelight.getLimelightBotPose().getX());
-    SmartDashboard.putNumber("Current Y", m_robotContainer.limelight.getLimelightBotPose().getY());
 
-    
+
     // SmartDashboard.putNumber("Scoring Mode", m_robotContainer.scoringMode);
   }
 

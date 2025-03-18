@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.029815573770492,
-        "y": 2.400665983606557
+        "x": 6.32950819672131,
+        "y": 1.9691086065573769
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.346516393442624,
-        "y": 2.976075819672131
+        "x": 5.070799180327868,
+        "y": 2.832223360655737
       },
       "prevControl": {
-        "x": 5.981864754098362,
-        "y": 2.3527151639344246
+        "x": 5.454405737704918,
+        "y": 2.2328381147540983
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,10 +42,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -78.69006752598
+    "rotation": -57.99461679191663
   },
   "reversed": false,
-  "folder": null,
+  "folder": "1 Coral Auto Right Paths",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 1.5481576989780077

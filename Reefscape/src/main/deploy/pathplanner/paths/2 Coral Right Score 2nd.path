@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7792008196721311,
-        "y": 1.3457479508196706
+        "x": 1.151,
+        "y": 1.058
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9295573770492869,
-        "y": 2.388893442628249
+        "x": 1.9779713114754096,
+        "y": 1.5255635245901635
       },
       "isLocked": false,
       "linkedName": null
@@ -20,8 +20,8 @@
         "y": 2.8801741803278684
       },
       "prevControl": {
-        "x": 2.565368852449815,
-        "y": 1.957120901629737
+        "x": 3.2246926229508195,
+        "y": 2.4486168032786884
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
     "rotation": -121.18497465873834
   },
   "reversed": false,
-  "folder": null,
+  "folder": "2 Coral Auto Right Paths",
   "idealStartingState": {
     "velocity": 0,
     "rotation": -126.59999007966768

@@ -237,7 +237,7 @@
     "rotation": -61.55707137563666
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Archive",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0

@@ -2,7 +2,14 @@
   "robotWidth": 0.889,
   "robotLength": 0.889,
   "holonomicMode": true,
-  "pathFolders": [],
+  "pathFolders": [
+    "1 Coral Auto Left Paths",
+    "1 Coral Auto Right Paths",
+    "2 Coral Auto Left Paths",
+    "2 Coral Auto Right Paths",
+    "Archive",
+    "1 Coral Auto Straight Paths"
+  ],
   "autoFolders": [],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
