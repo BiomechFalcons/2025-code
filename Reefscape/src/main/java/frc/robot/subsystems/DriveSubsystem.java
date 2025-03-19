@@ -87,10 +87,10 @@ public class DriveSubsystem extends SubsystemBase {
       this::getPose, 
       this::resetOdometry, 
       this::getRobotRelativeSpeeds, 
-      (speeds, feedsforwards) -> autoDrive(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond, true),
+      (speeds, feedsforwards) -> autoDrive(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond, false),
       new PPHolonomicDriveController(
-        new PIDConstants(7, 0.0, 0.0), 
-        new PIDConstants(0.05, 0.0, 0.0)
+        new PIDConstants(10, 0.0, 0.0), 
+        new PIDConstants(7, 0.0, 0.0)
         ), 
         getRobotConfig(), this::shouldFlipPath, this);
 
@@ -161,6 +161,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @param pose The pose to which to set the odometry.
    */
   public void resetOdometry(Pose2d pose) {
+    System.out.println("Resetting odometry");
     m_odometry.resetPosition(
         Rotation2d.fromDegrees(m_gyro.getYaw()),
         new SwerveModulePosition[] {
@@ -224,7 +225,7 @@ public class DriveSubsystem extends SubsystemBase {
                 Rotation2d.fromDegrees(m_gyro.getYaw()))
             : new ChassisSpeeds(xSpeed, ySpeed, rot));
     SwerveDriveKinematics.desaturateWheelSpeeds(
-        swerveModuleStates, AutoConstants.kMaxSpeedMetersPerSecond);
+        swerveModuleStates, 2);
     m_frontLeft.setDesiredState(swerveModuleStates[0]);
     m_frontRight.setDesiredState(swerveModuleStates[1]);
     m_rearLeft.setDesiredState(swerveModuleStates[2]);

@@ -15,6 +15,12 @@
           "data": {
             "name": "ScoreThenArmDown"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ArmDown"
+          }
         }
       ]
     }

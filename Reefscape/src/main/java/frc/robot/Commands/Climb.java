@@ -13,6 +13,7 @@ public class Climb extends Command {
     public Climb(double power, ClimbSubsystem m_climbSubsystem) {
         this.m_climbSubsystem = m_climbSubsystem;
         this.power = power;
+        addRequirements(m_climbSubsystem);
     }
 
     public void initialize() {

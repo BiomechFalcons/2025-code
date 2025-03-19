@@ -27,7 +27,7 @@ public class Score extends Command {
     }
 
     public boolean isFinished() {
-        if (Math.round((System.currentTimeMillis() - startTime) / 1000) > 1.5) {
+        if (Math.round((System.currentTimeMillis() - startTime) / 1000) > 1) {
             return true;
         } else {
         return false;

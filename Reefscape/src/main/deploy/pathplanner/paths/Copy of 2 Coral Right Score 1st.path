@@ -8,27 +8,48 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.509323770491802,
-        "y": 2.208862704918032
+        "x": 6.32950819672131,
+        "y": 1.9691086065573769
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.214651639344262,
-        "y": 2.940112704918032
+        "x": 5.130737704918032,
+        "y": 2.868186475409835
       },
       "prevControl": {
-        "x": 6.053790983606557,
-        "y": 2.1609118852459015
+        "x": 5.167966356487221,
+        "y": 3.134991811655689
+      },
+      "nextControl": {
+        "x": 4.914959016393443,
+        "y": 1.3217725409836065
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 0.8751024590163935,
+        "y": 1.2258709016393436
+      },
+      "prevControl": {
+        "x": 2.301639344262295,
+        "y": 0.9141905737704917
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": -62.30052719194504
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -42,13 +63,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -58.73626830562258
+    "rotation": -125.27242144859844
   },
   "reversed": false,
-  "folder": "1 Coral Auto Right Paths",
+  "folder": "2 Coral Auto Right Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 1.5481576989780077
+    "rotation": -2.489552921999225
   },
   "useDefaultConstraints": false
 }

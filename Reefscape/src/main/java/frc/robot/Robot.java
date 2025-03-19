@@ -85,6 +85,10 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     SmartDashboard.putNumber("Scoring Mode", m_robotContainer.scoringMode);
+    SmartDashboard.putNumber("Pose X", m_robotContainer.m_robotDrive.getPoseForPathPlanner().getX());
+    SmartDashboard.putNumber("Pose Y", m_robotContainer.m_robotDrive.getPoseForPathPlanner().getY());
+    SmartDashboard.putNumber("Pose X normal", m_robotContainer.m_robotDrive.getPose().getX());
+    SmartDashboard.putNumber("Pose Y Normal", m_robotContainer.m_robotDrive.getPose().getY());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -99,15 +103,17 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     System.out.println("Autonomous Init");
     m_robotContainer.m_robotDrive.zeroHeading();
-    SwerveModuleState[] states = {new SwerveModuleState(0, new Rotation2d(0)), new SwerveModuleState(0, new Rotation2d(0)),new SwerveModuleState(0, new Rotation2d(0)), new SwerveModuleState(0, new Rotation2d(0))};
-    m_robotContainer.m_robotDrive.setModuleStates(states);
+    // SwerveModuleState[] states = {new SwerveModuleState(0, new Rotation2d(0)), new SwerveModuleState(0, new Rotation2d(0)),new SwerveModuleState(0, new Rotation2d(0)), new SwerveModuleState(0, new Rotation2d(0))};
+    // m_robotContainer.m_robotDrive.setModuleStates(states);
+    // m_robotContainer.twoCoralAutoRight().schedule();
     Autos autoSelected = autoChooser.getSelected();
-    SmartDashboard.putNumber("Pose X Init", m_robotContainer.m_robotDrive.getPoseForPathPlanner().getX());
-    SmartDashboard.putNumber("Pose Y Init", m_robotContainer.m_robotDrive.getPoseForPathPlanner().getY());
+    System.out.println(autoSelected);
+   
 
 
     switch (autoSelected) {
       case TWO_CORAL_RIGHT:
+        m_robotContainer.m_robotDrive.resetOdometry(new Pose2d(new Translation2d(7.145, 1.873), new Rotation2d(0)));
         m_robotContainer.twoCoralAutoRight().schedule();
         break;
       case TWO_CORAL_LEFT:
@@ -129,9 +135,9 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     SmartDashboard.putNumber("Heading", m_robotContainer.m_robotDrive.getHeading());
-    SmartDashboard.putNumber("Pose X", m_robotContainer.m_robotDrive.getPoseForPathPlanner().getX());
-    SmartDashboard.putNumber("Pose Y", m_robotContainer.m_robotDrive.getPoseForPathPlanner().getY());
-  }
+   
+  } 
+
 
   @Override
   public void teleopInit() {
