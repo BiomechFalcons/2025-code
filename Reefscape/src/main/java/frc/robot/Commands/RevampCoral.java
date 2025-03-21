@@ -25,13 +25,13 @@ public class RevampCoral extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-      coralIntake.set(ControlMode.PercentOutput, -0.28);
+      coralIntake.set(ControlMode.PercentOutput, -0.2);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    coralIntake.set(ControlMode.PercentOutput, -0.28);
+    coralIntake.set(ControlMode.PercentOutput, -0.2);
 
   }
 

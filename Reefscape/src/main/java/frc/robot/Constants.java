@@ -25,8 +25,8 @@ public final class Constants {
   public static final class DriveConstants {
     // Driving Parameters - Note that these are not the maximum capable speeds of
     // the robot, rather the allowed maximum speeds
-    public static double kMaxSpeedMetersPerSecond = 3;
-    public static final double kMaxSpeed = 3;
+    public static double kMaxSpeedMetersPerSecond = 3.5;
+    public static final double kMaxSpeed = 3.5;
     public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
     public static boolean fieldRelative = true;
 
@@ -107,9 +107,9 @@ public final class Constants {
   public static final class ArmConstants {
     // public static final double kArmInitPos = 44.2; //Degrees
     public static final double kArmInitOffset = -0.139; // Rotations
-    public static final double kLFourPosition = 138 ; // degrees
-    public static final double kLThreePosition = 65;
-    public static final double kLTwoPosition = 50;
+    public static final double kLFourPosition = 141.25 ; // degrees
+    public static final double kLThreePosition = 63;
+    public static final double kLTwoPosition = 42;
     public static final double kArmDownPosition = 4;
     // Coral FeedForward values
     public static final double kS = 0;
@@ -126,8 +126,8 @@ public final class Constants {
   }
 
   public static final class LimelightConstants {
-    public static final double kLFourLeftTX = 24.8;
-    public static final double kLFourRightTX = -10;
+    public static final double kLFourLeftTX = 23.9;
+    public static final double kLFourRightTX = -12.5;
     public static final double kLTwoThreeLeftTX = 0;
     public static final double kLTwoThreeRightTX = 0;
     public static final double kLTwoThreeTY = 0;

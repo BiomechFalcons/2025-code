@@ -13,7 +13,13 @@
         {
           "type": "named",
           "data": {
-            "name": "ScoreThenArmDown"
+            "name": "ScoreRight"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ArmDown"
           }
         }
       ]

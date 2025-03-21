@@ -25,6 +25,7 @@ public class AutoAlign extends Command {
   Limelight limelight;
   boolean isLeft;
   int mode;
+  long startTime;
   
   public AutoAlign(Limelight limelight, DriveSubsystem m_driveSubsystem, boolean isLeft) {
     this.m_driveSubsystem = m_driveSubsystem;
@@ -32,9 +33,9 @@ public class AutoAlign extends Command {
     this.isLeft = isLeft;
     addRequirements(m_driveSubsystem, limelight);
     if (isLeft) {
-      xController = new PIDController(0.03, 0, 0);
+      xController = new PIDController(0.022, 0, 0);
     } else {
-      xController = new PIDController(0.025, 0, 0);
+      xController = new PIDController(0.022, 0, 0);
     }
     xController.setTolerance(1);
   }
@@ -43,6 +44,7 @@ public class AutoAlign extends Command {
   @Override
   public void initialize() {
     targetPose = limelight.getTargetPose();
+    startTime = System.currentTimeMillis();
     System.out.println(targetPose);
     System.out.println("Running AutoAlign command...");
     System.out.println("target x " + targetPose.getX());
@@ -82,7 +84,7 @@ public class AutoAlign extends Command {
   //  && yController.atGoal() 
   @Override
   public boolean isFinished() {
-    if (xController.atSetpoint() || limelight.getAprilTag() == -1) {
+    if (xController.atSetpoint() || limelight.getAprilTag() == -1 || Math.round((System.currentTimeMillis() - startTime) / 1000) > 5) {
         return true;
     } else {
         return false;

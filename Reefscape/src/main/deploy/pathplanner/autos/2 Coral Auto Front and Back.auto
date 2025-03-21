@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "2 Coral Left Score 1st"
+            "pathName": "2 Coral FandB 1"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "ScoreRight"
+            "name": "ScoreLeft"
           }
         },
         {
@@ -23,7 +23,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "2 Coral Left Get Coral"
+                  "pathName": "2 Coral FandB 2"
                 }
               },
               {
@@ -44,13 +44,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "2 Coral Left Score 2nd"
+            "pathName": "2 Coral FandB 3"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "ScoreLeft"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ArmDown"
           }
         }
       ]

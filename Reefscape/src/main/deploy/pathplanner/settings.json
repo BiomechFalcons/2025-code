@@ -5,13 +5,14 @@
   "pathFolders": [
     "1 Coral Auto Left Paths",
     "1 Coral Auto Right Paths",
+    "1 Coral Auto Straight Paths",
     "2 Coral Auto Left Paths",
     "2 Coral Auto Right Paths",
     "Archive",
-    "1 Coral Auto Straight Paths"
+    "2 Coral Auto Front and Back Paths"
   ],
   "autoFolders": [],
-  "defaultMaxVel": 2.0,
+  "defaultMaxVel": 2.5,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,

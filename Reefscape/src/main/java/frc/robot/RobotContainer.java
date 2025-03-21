@@ -32,8 +32,8 @@ import frc.robot.Commands.ArmFeedForwardHold;
 import frc.robot.Commands.ArmFeedForwardMove;
 import frc.robot.Commands.ArmToSetpoint;
 import frc.robot.Commands.AutoAlign;
-import frc.robot.Commands.AutoAlignXBack;
-import frc.robot.Commands.AutoAlignYBack;
+// import frc.robot.Commands.AutoAlignXBack;
+// import frc.robot.Commands.AutoAlignYBack;
 import frc.robot.Commands.Climb;
 import frc.robot.Commands.DriveStraightAuto;
 import frc.robot.Commands.IntakeAuto;
@@ -133,7 +133,7 @@ public class RobotContainer {
       ),
       new Score(-0.4, m_coralholder)     
     ));
-    NamedCommands.registerCommand("ArmDown", new ArmDown(m_armsubsystem, -0.1, m_driverController));
+    NamedCommands.registerCommand("ArmDown", new ArmDown(m_armsubsystem, -0.2, m_driverController));
     NamedCommands.registerCommand("LFourThenScore", new SequentialCommandGroup(
       new ParallelCommandGroup(
         new ParallelCommandGroup(
@@ -147,7 +147,24 @@ public class RobotContainer {
     NamedCommands.registerCommand("Intake", 
     new IntakeAuto(m_armsubsystem, m_coralholder)
     );
-    
+    NamedCommands.registerCommand("ScoreRight", new SequentialCommandGroup(
+      new ParallelCommandGroup(
+        new AutoAlign(limelight, m_robotDrive, true),
+        new ArmToSetpoint(m_armsubsystem, 0.2, m_driverController, ArmConstants.kLFourPosition),
+        new RevampCoral(m_armsubsystem, m_coralholder)          
+      ),
+      Commands.waitSeconds(0.5),
+      new Score(-0.4, m_coralholder)
+    ));
+    NamedCommands.registerCommand("ScoreRight", new SequentialCommandGroup(
+      new ParallelCommandGroup(
+        new AutoAlign(limelight, m_robotDrive, false),
+        new ArmToSetpoint(m_armsubsystem, 0.2, m_driverController, ArmConstants.kLFourPosition),
+        new RevampCoral(m_armsubsystem, m_coralholder)          
+      ),
+      Commands.waitSeconds(0.5),
+      new Score(-0.4, m_coralholder)
+    ));
     configureButtonBindings();
 
     // Configure default commands
@@ -173,14 +190,14 @@ public class RobotContainer {
 
     // Y Button
     new JoystickButton(m_driverController, XboxController.Button.kY.value)
-      .whileTrue(new ArmFeedForwardMove(0.18, m_armsubsystem));
+      .whileTrue(new ArmFeedForwardMove(0.08, m_armsubsystem));
       
     // new JoystickButton(m_driverController, XboxController.Button.kY.value)
       // .whileTrue(new LFour(m_armsubsystem, 0.07));
 
     // A Button
     new JoystickButton(m_driverController, XboxController.Button.kA.value)
-      .whileTrue(new ArmFeedForwardMove(-0.18, m_armsubsystem));
+      .whileTrue(new ArmFeedForwardMove(-0.08, m_armsubsystem));
       
     // Left Bumper
     new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value)
@@ -188,7 +205,7 @@ public class RobotContainer {
 
     // Right Bumper
     new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value)
-      .whileTrue(new Intakecoral(0.3, m_coralholder));
+      .whileTrue(new Intakecoral(0.4, m_coralholder));
 
     // B Button(Not sure which direction B and X go)
     new JoystickButton(m_driverController, XboxController.Button.kB.value)
@@ -200,7 +217,7 @@ public class RobotContainer {
     
      // ArmDown DPAD Down
      new POVButton(m_driverController, 180)
-     .onTrue(new ArmDown(m_armsubsystem, -0.1, m_driverController));
+     .onTrue(new ArmDown(m_armsubsystem, -0.16, m_driverController));
 
    // L4 Dpad Right
    new POVButton(m_driverController, 90)
@@ -224,8 +241,7 @@ public class RobotContainer {
         new AutoAlign(limelight, m_robotDrive, true),
         new ArmToSetpoint(m_armsubsystem, 0.2, m_driverController, ArmConstants.kLFourPosition),
         new RevampCoral(m_armsubsystem, m_coralholder)
-      ),
-      new Score(-0.1, m_coralholder)
+      )
      ));  
 
     new JoystickButton(m_driverController, XboxController.Button.kStart.value)
@@ -234,8 +250,7 @@ public class RobotContainer {
         new AutoAlign(limelight, m_robotDrive, false),
         new ArmToSetpoint(m_armsubsystem, 0.2, m_driverController, ArmConstants.kLFourPosition),
         new RevampCoral(m_armsubsystem, m_coralholder)
-      ),
-      new Score(-0.1, m_coralholder)
+      )
      ));    
 
     // new JoystickButton(m_driverController, XboxController.Button.kX.value)
@@ -392,6 +407,7 @@ public class RobotContainer {
   }
   
   public Command twoCoralAutoLeft() {
+    System.out.println("Two Coral Auto Left");
     try {
       return new PathPlannerAuto("2 Coral Auto Left");
     } catch (Exception e) {

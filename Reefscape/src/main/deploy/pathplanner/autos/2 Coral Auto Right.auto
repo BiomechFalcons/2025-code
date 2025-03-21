@@ -13,7 +13,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ScoreThenArmDown"
+            "name": "ScoreLeft"
           }
         },
         {
@@ -50,7 +50,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ScoreThenArmDown"
+            "name": "ScoreLeft"
           }
         },
         {

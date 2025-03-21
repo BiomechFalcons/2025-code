@@ -15,11 +15,15 @@ import frc.robot.subsystems.ArmSubsystem;
 public class IntakeAuto extends Command {
   ArmSubsystem m_armSubsystem;
   VictorSPX coralIntake;
-  
+  long startTime;
+  boolean started;
 
   public IntakeAuto(ArmSubsystem m_armSubsystem, VictorSPX coralIntake) {
     this.m_armSubsystem = m_armSubsystem;
     this.coralIntake = coralIntake;
+    this.m_armSubsystem = m_armSubsystem;
+    this.started = false;
+    addRequirements(m_armSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -32,7 +36,10 @@ public class IntakeAuto extends Command {
   @Override
   public void execute() {
     coralIntake.set(ControlMode.PercentOutput, -0.28);
-
+    if (m_armSubsystem.getSensor() && !started) {
+      started = true;
+      startTime = System.currentTimeMillis();
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -44,6 +51,10 @@ public class IntakeAuto extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_armSubsystem.getSensor();
+    if (Math.round((System.currentTimeMillis() - startTime) / 1000) > 0.5 && m_armSubsystem.getSensor()) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

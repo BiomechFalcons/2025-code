@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.9269467213114755,
-        "y": 2.7842725409836064
+        "x": 5.018578767123288,
+        "y": 2.8004066780821915
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.464565514468427,
-        "y": 2.0617951545750612
+        "x": 4.55619756028024,
+        "y": 2.0779292916736463
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.2587090163934425,
-        "y": 0.9981045081967216
+        "x": 1.202054794520548,
+        "y": 0.9522474315068495
       },
       "prevControl": {
-        "x": 3.3805327868852455,
-        "y": 1.321772540983608
+        "x": 3.3238785650123512,
+        "y": 1.275915464293736
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "name"
     }
   ],
   "rotationTargets": [],
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.0,
+    "maxVelocity": 2.5,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -48,7 +48,7 @@
   "folder": "2 Coral Auto Right Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -58.626994859891624
+    "rotation": -59.14661551935684
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 5.130737704918032,
-        "y": 2.916137295081967
+        "x": 5.168835616438356,
+        "y": 2.905586472602739
       },
       "prevControl": {
-        "x": 5.514344262295082,
-        "y": 2.316752049180328
+        "x": 5.552442173815406,
+        "y": 2.3062012267011003
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -57.99461679191663
+    "rotation": -60.260000000000005
   },
   "reversed": false,
   "folder": "2 Coral Auto Right Paths",
