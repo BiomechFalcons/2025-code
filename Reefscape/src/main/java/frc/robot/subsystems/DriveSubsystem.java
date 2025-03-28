@@ -96,6 +96,12 @@ public class DriveSubsystem extends SubsystemBase {
 
   }
 
+  public void driveRobotRelative(ChassisSpeeds robotRelativeSpeeds) {
+    ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(robotRelativeSpeeds, 0.02);
+    SwerveModuleState[] targetStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(targetSpeeds);
+    setModuleStates(targetStates);
+  }
+
   public RobotConfig getRobotConfig() {
     try {
       return RobotConfig.fromGUISettings();

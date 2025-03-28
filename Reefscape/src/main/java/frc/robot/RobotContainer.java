@@ -147,7 +147,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("Intake", 
     new IntakeAuto(m_armsubsystem, m_coralholder)
     );
-    NamedCommands.registerCommand("ScoreRight", new SequentialCommandGroup(
+    NamedCommands.registerCommand("ScoreLeft", new SequentialCommandGroup(
       new ParallelCommandGroup(
         new AutoAlign(limelight, m_robotDrive, true),
         new ArmToSetpoint(m_armsubsystem, 0.2, m_driverController, ArmConstants.kLFourPosition),
@@ -201,11 +201,11 @@ public class RobotContainer {
       
     // Left Bumper
     new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value)
-      .whileTrue(new Intakecoral(-0.4, m_coralholder));
+      .whileTrue(new Intakecoral(-0.55, m_coralholder));
 
     // Right Bumper
     new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value)
-      .whileTrue(new Intakecoral(0.4, m_coralholder));
+      .whileTrue(new Intakecoral(0.55, m_coralholder));
 
     // B Button(Not sure which direction B and X go)
     new JoystickButton(m_driverController, XboxController.Button.kB.value)
@@ -217,7 +217,7 @@ public class RobotContainer {
     
      // ArmDown DPAD Down
      new POVButton(m_driverController, 180)
-     .onTrue(new ArmDown(m_armsubsystem, -0.16, m_driverController));
+     .onTrue(new ArmDown(m_armsubsystem, -0.2, m_driverController));
 
    // L4 Dpad Right
    new POVButton(m_driverController, 90)

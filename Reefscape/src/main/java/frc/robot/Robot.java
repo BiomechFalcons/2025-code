@@ -25,6 +25,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTableValue;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
@@ -49,7 +50,7 @@ public class Robot extends TimedRobot {
     TWO_CORAL_LEFT
   }
 
-  private final SendableChooser<Autos> autoChooser = new SendableChooser<>();
+  private final SendableChooser<Command> autoChooser = new SendableChooser<>();
   private RobotContainer m_robotContainer;
   // NetworkTable table = NetworkTableInstance.getDefault();
 
@@ -64,13 +65,12 @@ public class Robot extends TimedRobot {
     // and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-    autoChooser.addOption("Two Coral Auto Right", Autos.TWO_CORAL_RIGHT);
-    autoChooser.addOption("Two Coral Auto Left", Autos.TWO_CORAL_LEFT);
-    autoChooser.addOption("One Coral Auto Left", Autos.ONE_CORAL_LEFT);
-    autoChooser.addOption("One Coral Auto Right", Autos.ONE_CORAL_RIGHT);
-    autoChooser.addOption("One Coral Auto Straight", Autos.ONE_CORAL_STRAIGHT);
+    autoChooser.addOption("Two Coral Auto Right", m_robotContainer.twoCoralAutoRight());
+    autoChooser.addOption("Two Coral Auto Left", m_robotContainer.twoCoralAutoLeft());
+    autoChooser.addOption("One Coral Auto Left", m_robotContainer.oneCoralAutoLeft());
+    autoChooser.addOption("One Coral Auto Right", m_robotContainer.oneCoralAutoRight());
+    autoChooser.addOption("One Coral Auto Straight", m_robotContainer.oneCoralAutoStraight());
     SmartDashboard.putData(autoChooser);
-    SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
 
     // autoChooser.addOption("4 Coral Auto Right", fourcoralautoright);
     // SmartDashboard.putData(autoChooser);
@@ -101,6 +101,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Pose Y", m_robotContainer.m_robotDrive.getPoseForPathPlanner().getY());
     SmartDashboard.putNumber("Pose X normal", m_robotContainer.m_robotDrive.getPose().getX());
     SmartDashboard.putNumber("Pose Y Normal", m_robotContainer.m_robotDrive.getPose().getY());
+    SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -125,28 +126,26 @@ public class Robot extends TimedRobot {
     // Rotation2d(0)), new SwerveModuleState(0, new Rotation2d(0))};
     // m_robotContainer.m_robotDrive.setModuleStates(states);
     // m_robotContainer.twoCoralAutoRight().schedule();
-    Autos autoSelected = autoChooser.getSelected();
-    System.out.println(autoSelected);
-   
+    autoChooser.getSelected().schedule();   
 
 
-    switch (autoSelected) {
-      case TWO_CORAL_RIGHT:
-        m_robotContainer.twoCoralAutoRight().schedule();
-        break;
-      case TWO_CORAL_LEFT:
-        m_robotContainer.twoCoralAutoLeft().schedule();
-        break;
-            case ONE_CORAL_LEFT:
-        m_robotContainer.oneCoralAutoLeft().schedule();
-        break;
-      case ONE_CORAL_RIGHT:
-        m_robotContainer.oneCoralAutoRight().schedule();
-        break;
-      case ONE_CORAL_STRAIGHT:
-        m_robotContainer.oneCoralAutoStraight().schedule();
-        break;
-    }
+    // switch (autoSelected) {
+    //   case TWO_CORAL_RIGHT:
+    //     m_robotContainer.twoCoralAutoRight().schedule();
+    //     break;
+    //   case TWO_CORAL_LEFT:
+    //     m_robotContainer.twoCoralAutoLeft().schedule();
+    //     break;
+    //         case ONE_CORAL_LEFT:
+    //     m_robotContainer.oneCoralAutoLeft().schedule();
+    //     break;
+    //   case ONE_CORAL_RIGHT:
+    //     m_robotContainer.oneCoralAutoRight().schedule();
+    //     break;
+    //   case ONE_CORAL_STRAIGHT:
+    //     m_robotContainer.oneCoralAutoStraight().schedule();
+    //     break;
+    // }
   }
 
   /** This function is called periodically during autonomous. */
@@ -184,6 +183,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+
     if (m_robotContainer.m_driverController.getLeftTriggerAxis() >= 0.7) {
       Constants.DriveConstants.kMaxSpeedMetersPerSecond = 0.7;
     } else if (m_robotContainer.m_driverController.getLeftTriggerAxis() > 0) {

@@ -33,9 +33,9 @@ public class AutoAlign extends Command {
     this.isLeft = isLeft;
     addRequirements(m_driveSubsystem, limelight);
     if (isLeft) {
-      xController = new PIDController(0.022, 0, 0);
+      xController = new PIDController(0.02, 0, 0);
     } else {
-      xController = new PIDController(0.022, 0, 0);
+      xController = new PIDController(0.02, 0, 0);
     }
     xController.setTolerance(1);
   }
