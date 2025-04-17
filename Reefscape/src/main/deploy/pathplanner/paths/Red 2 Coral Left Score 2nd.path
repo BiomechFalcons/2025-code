@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.1686475409836055,
-        "y": 6.102
+        "x": 1.1268442622950818,
+        "y": 7.36357581967213
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.263733552631578,
-        "y": 6.161019736842105
+        "x": 1.8144022325280411,
+        "y": 6.76639883520276
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "HP 2 Coral Auto Left"
     },
     {
       "anchor": {
-        "x": 4.974897540983607,
-        "y": 4.966034836065573
+        "x": 3.9319672131147536,
+        "y": 5.073924180327869
       },
       "prevControl": {
-        "x": 5.56182188308887,
-        "y": 5.5337157571182045
+        "x": 3.373908002588438,
+        "y": 5.526144575064711
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 61.022000000000006
+    "rotation": 118.01146908936468
   },
   "reversed": false,
   "folder": "2 Coral Auto Left Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 124.59228868750999
   },
   "useDefaultConstraints": true
 }

@@ -67,6 +67,7 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     autoChooser.addOption("Two Coral Auto Right", m_robotContainer.twoCoralAutoRight());
     autoChooser.addOption("Two Coral Auto Left", m_robotContainer.twoCoralAutoLeft());
+    autoChooser.addOption("Red Two Coral Auto Left", m_robotContainer.redTwoCoralAutoLeft());
     autoChooser.addOption("One Coral Auto Left", m_robotContainer.oneCoralAutoLeft());
     autoChooser.addOption("One Coral Auto Right", m_robotContainer.oneCoralAutoRight());
     autoChooser.addOption("One Coral Auto Straight", m_robotContainer.oneCoralAutoStraight());

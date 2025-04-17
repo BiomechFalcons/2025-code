@@ -416,6 +416,16 @@ public class RobotContainer {
     }
   }
 
+  public Command redTwoCoralAutoLeft() {
+    System.out.println("2 Coral Auto Left Red");
+    try {
+      return new PathPlannerAuto("2 Coral Auto Left Red");
+    } catch (Exception e) {
+      System.out.println("Error " + e);
+      return Commands.none();
+    }
+  }  
+
   public Command oneCoralAutoLeft() {
     try {
       return new PathPlannerAuto("1 Coral Auto Left");
