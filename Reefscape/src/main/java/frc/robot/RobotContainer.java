@@ -221,15 +221,15 @@ public class RobotContainer {
 
    // L4 Dpad Right
    new POVButton(m_driverController, 90)
-     .onTrue(new ArmToSetpoint(m_armsubsystem, 0.2, m_driverController, ArmConstants.kLFourPosition));
+     .onTrue(new ArmToSetpoint(m_armsubsystem, 0.4, m_driverController, ArmConstants.kLFourPosition));
 
    // L3 Dpad Up
    new POVButton(m_driverController, 0)
-     .onTrue(new ArmToSetpoint(m_armsubsystem, 0.2, m_driverController, ArmConstants.kLThreePosition));
+     .onTrue(new ArmToSetpoint(m_armsubsystem, 0.4, m_driverController, ArmConstants.kLThreePosition));
 
    // L2 Dpad Left
    new POVButton(m_driverController, 270)
-     .onTrue(new ArmToSetpoint(m_armsubsystem, 0.2, m_driverController, ArmConstants.kLTwoPosition));
+     .onTrue(new ArmToSetpoint(m_armsubsystem, 0.4, m_driverController, ArmConstants.kLTwoPosition));
 
 
    new JoystickButton(m_emergencyController, XboxController.Button.kA.value)

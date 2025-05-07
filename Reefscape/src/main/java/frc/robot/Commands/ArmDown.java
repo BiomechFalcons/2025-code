@@ -27,7 +27,6 @@ public class ArmDown extends Command {
     }
 
     public void initialize() {
-        System.out.println("LFour Command");
     }
 
     public void execute() {        
@@ -40,8 +39,6 @@ public class ArmDown extends Command {
 
     public boolean isFinished() {
         if (m_armSubsystem.isAtSetpoint(setpoint, true)) {
-            return true;
-        } else if (m_driverController.getStartButton()) {
             return true;
         } else {
             return false;

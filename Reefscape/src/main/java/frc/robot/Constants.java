@@ -107,7 +107,7 @@ public final class Constants {
   public static final class ArmConstants {
     // public static final double kArmInitPos = 44.2; //Degrees
     public static final double kArmInitOffset = -0.139; // Rotations
-    public static final double kLFourPosition = 143; // degrees
+    public static final double kLFourPosition = 151; // degrees
     public static final double kLThreePosition = 69;
     public static final double kLTwoPosition = 48;
     public static final double kArmDownPosition = 4;
@@ -126,8 +126,8 @@ public final class Constants {
   }
 
   public static final class LimelightConstants {
-    public static final double kLFourLeftTX = 23.1;
-    public static double kLFourRightTX = -11.024;
+    public static final double kLFourLeftTX = -15.8;
+    public static double kLFourRightTX = 10.19;
     public static final double kLTwoThreeLeftTX = 0;
     public static final double kLTwoThreeRightTX = 0;
     public static final double kLTwoThreeTY = 0;

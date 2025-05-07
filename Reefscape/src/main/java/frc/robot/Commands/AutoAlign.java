@@ -19,8 +19,6 @@ import frc.robot.subsystems.Limelight;
 public class AutoAlign extends Command {
   Pose2d targetPose;
   DriveSubsystem m_driveSubsystem;
-  // PIDController yController = new PIDController(0.03, 0, 0);
-  // PIDController thetaController = new PIDController(0.1, 0, 0);
   PIDController xController;
   Limelight limelight;
   boolean isLeft;
@@ -33,11 +31,11 @@ public class AutoAlign extends Command {
     this.isLeft = isLeft;
     addRequirements(m_driveSubsystem, limelight);
     if (isLeft) {
-      xController = new PIDController(0.018, 0, 0.001);
+      xController = new PIDController(0.012, 0, 0.001);
     } else {
-      xController = new PIDController(0.018, 0, 0.001);
+      xController = new PIDController(0.012, 0, 0.001);
     }
-    xController.setTolerance(1);
+    xController.setTolerance(1.5);
   }
 
   
@@ -60,13 +58,13 @@ public class AutoAlign extends Command {
       double tx = limelight.getTX();
       if (tx != -1) {
         double xSpeed = xController.calculate(tx, LimelightConstants.kLFourLeftTX);
-        m_driveSubsystem.drive(0, -xSpeed, 0, false);
+        m_driveSubsystem.drive(0, xSpeed, 0, false);
       }
     } else {
       double tx = limelight.getTX();
       if (tx != -1) {
         double xSpeed = xController.calculate(tx, LimelightConstants.kLFourRightTX);
-        m_driveSubsystem.drive(0, -xSpeed, 0, false);
+        m_driveSubsystem.drive(0, xSpeed, 0, false);
       }      
     }
 

@@ -33,24 +33,11 @@ public class ArmSubsystem extends SubsystemBase {
     private double kG;
 
     public ArmSubsystem() {
-        // sparkMaxConfig.closedLoop.pid(0.05,0, 0);
-        //m_encoder.setPosition(0);
-        // armMotor.configure(sparkMaxConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        // position = 0;
-        // m_closedloopcontroller.setReference(position, ControlType.kPosition);
-    //    m_ArmFeedforwardEmpty = new ArmFeedforward(0, 0.0625, 0.35, 0.04);
-    //    m_ArmFeedforwardCoral = new ArmFeedforward(0, 0.0625, 0.35, 0.04);
         this.table = NetworkTableInstance.getDefault().getTable("Arm");
     }
 
-    // public void setArmPosition(double pos) {
-    //     position = pos;
-    //     m_closedloopcontroller.setReference(position, ControlType.kPosition);
-    // }
-
     public void setArmPower(double armPower) {
         double power = armPower;
-
         armMotor.set(power);
     }
 
@@ -93,10 +80,10 @@ public class ArmSubsystem extends SubsystemBase {
 
       table.putValue("Sensor", NetworkTableValue.makeBoolean(getSensor()));
 
-      if (getSensor()) {
+    //   if (getSensor()) {
             m_ArmFeedforwardEmpty = new ArmFeedforward(ArmConstants.kS, ArmConstants.kGC, ArmConstants.kV, ArmConstants.kA);
-      } else {
-        m_ArmFeedforwardEmpty = new ArmFeedforward(ArmConstants.kS, ArmConstants.kGE, ArmConstants.kV, ArmConstants.kA);
-    }
+    //   } else {
+    //     m_ArmFeedforwardEmpty = new ArmFeedforward(ArmConstants.kS, ArmConstants.kGE, ArmConstants.kV, ArmConstants.kA);
+    // }
     }
 }
