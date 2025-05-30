@@ -20,6 +20,10 @@ public class Climb extends Command {
         m_climbSubsystem.setClimbPower(power);
     }
 
+    public void execute() {
+        m_climbSubsystem.setClimbPower(power);
+    }
+
     public void end(boolean interrupted) {
         m_climbSubsystem.setClimbPower(0);
     }

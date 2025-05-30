@@ -27,17 +27,22 @@ public class ReleaseCoral extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (m_ArmSubsystem.getArmPosition()*360 > 125) {
-      coralIntake.set(ControlMode.PercentOutput, -power);
-    } else {
+    if (m_ArmSubsystem.getArmPosition()*360 > 115) {
       coralIntake.set(ControlMode.PercentOutput, power);
+    } else {
+      coralIntake.set(ControlMode.PercentOutput, -power);
     }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
-
+  public void execute() {
+    if (m_ArmSubsystem.getArmPosition()*360 > 115) {
+      coralIntake.set(ControlMode.PercentOutput, power);
+    } else {
+      coralIntake.set(ControlMode.PercentOutput, -power);
+    }
+  }
   // Called once the command ends or is interrupted.
   public void end(boolean interrupted) {
       coralIntake.set(ControlMode.PercentOutput, 0);
