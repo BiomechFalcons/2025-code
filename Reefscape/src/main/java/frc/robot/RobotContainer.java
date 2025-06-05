@@ -91,32 +91,35 @@ public class RobotContainer {
     new JoystickButton(m_driverController, driverBindings[1])
       .whileTrue(new ArmFeedForwardMove(-0.08, m_armsubsystem));
 
-    // Right Bumper
+    // Left Bumper
     new JoystickButton(m_driverController, driverBindings[2])
+      .whileTrue(new ReleaseCoral(m_armsubsystem, -0.55, m_coralholder));
+    // Right Bumper
+    new JoystickButton(m_driverController, driverBindings[3])
       .whileTrue(new ReleaseCoral(m_armsubsystem, 0.55, m_coralholder));
 
     // B Button(Not sure which direction B and X go)
-    new JoystickButton(m_driverController, driverBindings[3])
+    new JoystickButton(m_driverController, driverBindings[4])
       .whileTrue(new Climb(-0.85, m_climbSubsystem));
     
     // X Button
-    new JoystickButton(m_driverController, driverBindings[4])
+    new JoystickButton(m_driverController, driverBindings[5])
       .whileTrue(new Climb(0.65, m_climbSubsystem));
     
      // ArmDown DPAD Down
-     new POVButton(m_driverController, driverBindings[5])
+     new POVButton(m_driverController, driverBindings[6])
      .onTrue(new ArmDown(m_armsubsystem, -0.2, m_driverController));
 
     // L4 Dpad Right
-    new POVButton(m_driverController, driverBindings[6])
+    new POVButton(m_driverController, driverBindings[7])
       .onTrue(new ArmToSetpoint(m_armsubsystem, 0.4, m_driverController, ArmConstants.kLFourPosition));
 
     // L3 Dpad Up
-    new POVButton(m_driverController, driverBindings[7])
+    new POVButton(m_driverController, driverBindings[8])
       .onTrue(new ArmToSetpoint(m_armsubsystem, 0.4, m_driverController, ArmConstants.kLThreePosition));
 
     // L2 Dpad Left
-    new POVButton(m_driverController, driverBindings[8])
+    new POVButton(m_driverController, driverBindings[9])
       .onTrue(new ArmToSetpoint(m_armsubsystem, 0.4, m_driverController, ArmConstants.kLTwoPosition));
 
    // Reset Field Relative Emergency Controller
@@ -124,7 +127,7 @@ public class RobotContainer {
      .onTrue(new ResetFieldRelative(m_robotDrive));
 
     // AutoAlign  
-    new JoystickButton(m_driverController, driverBindings[9])
+    new JoystickButton(m_driverController, driverBindings[10])
      .onTrue(new SequentialCommandGroup(
       new ParallelCommandGroup(
         new AutoAlign(limelight, m_robotDrive, true),
@@ -133,7 +136,7 @@ public class RobotContainer {
       )
      ));  
 
-    new JoystickButton(m_driverController, driverBindings[10])
+    new JoystickButton(m_driverController, driverBindings[11])
      .onTrue(new SequentialCommandGroup(
       new ParallelCommandGroup(
         new AutoAlign(limelight, m_robotDrive, false),

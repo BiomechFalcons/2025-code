@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.HashMap;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -151,6 +153,7 @@ public final class Constants {
     public static final int[] DAVID = {
       XboxController.Button.kY.value, // Arm Up Manual
       XboxController.Button.kA.value, // Arm Down Manual
+      XboxController.Button.kLeftBumper.value, // Release Coral AND Intake (INVERSE)
       XboxController.Button.kRightBumper.value, // Release Coral AND Intake
       XboxController.Button.kB.value, // Climber (Unclimb)
       XboxController.Button.kX.value, // Climber (Climb)
@@ -165,6 +168,7 @@ public final class Constants {
     public static final int[] ZACH = {
       XboxController.Button.kY.value, // Arm Up Manual
       XboxController.Button.kA.value, // Arm Down Manual
+      XboxController.Button.kLeftBumper.value, // Release Coral AND Intake (INVERSE)
       XboxController.Button.kRightBumper.value, // Release Coral AND Intake
       XboxController.Button.kB.value, // Climber (Unclimb)
       XboxController.Button.kX.value, // Climber (Climb)
@@ -179,6 +183,7 @@ public final class Constants {
     public static final int[] JONAH = {
       XboxController.Button.kY.value, // Arm Up Manual
       XboxController.Button.kA.value, // Arm Down Manual
+      XboxController.Button.kLeftBumper.value, // Release Coral AND Intake (INVERSE)
       XboxController.Button.kRightBumper.value, // Release Coral AND Intake
       XboxController.Button.kB.value, // Climber (Unclimb)
       XboxController.Button.kX.value, // Climber (Climb)
@@ -193,6 +198,7 @@ public final class Constants {
     public static final int[] NICHOLAS = {
       XboxController.Button.kB.value, // Arm Up Manual
       XboxController.Button.kA.value, // Arm Down Manual
+      XboxController.Button.kLeftBumper.value, // Release Coral AND Intake (INVERSE)
       XboxController.Button.kRightBumper.value, // Release Coral AND Intake
       XboxController.Button.kX.value, // Climber (Unclimb)
       XboxController.Button.kY.value, // Climber (Climb)
@@ -207,6 +213,7 @@ public final class Constants {
     public static final int[] ARVINDH = {
       XboxController.Button.kY.value, // Arm Up Manual
       XboxController.Button.kA.value, // Arm Down Manual
+      XboxController.Button.kLeftBumper.value, // Release Coral AND Intake (INVERSE)
       XboxController.Button.kRightBumper.value, // Release Coral AND Intake
       XboxController.Button.kB.value, // Climber (Unclimb)
       XboxController.Button.kX.value, // Climber (Climb)
