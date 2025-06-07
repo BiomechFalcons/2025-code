@@ -4,10 +4,13 @@
 
 package frc.robot;
 
+import java.util.HashMap;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.XboxController;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -107,7 +110,7 @@ public final class Constants {
   public static final class ArmConstants {
     // public static final double kArmInitPos = 44.2; //Degrees
     public static final double kArmInitOffset = -0.139; // Rotations
-    public static final double kLFourPosition = 154; // degrees
+    public static final double kLFourPosition = 161; // degrees
     public static final double kLThreePosition = 74;
     public static final double kLTwoPosition = 48;
     public static final double kArmDownPosition = 4;
@@ -126,10 +129,100 @@ public final class Constants {
   }
 
   public static final class LimelightConstants {
-    public static final double kLFourLeftTX = -15.8;
-    public static double kLFourRightTX = 10.19;
+    public static final double kLFourLeftTX = -17.48;
+    public static double kLFourRightTX = 9.88;
     public static final double kLTwoThreeLeftTX = 0;
     public static final double kLTwoThreeRightTX = 0;
     public static final double kLTwoThreeTY = 0;
+  }
+
+
+  public static final class DriverButtonBindings {
+    /*
+     * For Arm setpoints, there are dpad values ranging from 0-270.
+     * 0 - Up
+     * 90 - Right
+     * 180 - Down
+     * 270 - Left
+     */
+    public static final int DPAD_DOWN = 180;
+    public static final int DPAD_UP = 0;
+    public static final int DPAD_RIGHT = 90;
+    public static final int DPAD_LEFT = 270;
+
+    public static final int[] DAVID = {
+      XboxController.Button.kY.value, // Arm Up Manual
+      XboxController.Button.kA.value, // Arm Down Manual
+      XboxController.Button.kLeftBumper.value, // Release Coral AND Intake (INVERSE)
+      XboxController.Button.kRightBumper.value, // Release Coral AND Intake
+      XboxController.Button.kB.value, // Climber (Unclimb)
+      XboxController.Button.kX.value, // Climber (Climb)
+      DPAD_DOWN, // ArmDown Setpoint
+      DPAD_RIGHT, // L4 Setpoint
+      DPAD_UP, // L3 Setpoint
+      DPAD_LEFT, // L2 Setpoint
+      XboxController.Button.kBack.value, // AutoAlign Left AND L4 Setpoint
+      XboxController.Button.kStart.value // AutoAlign Right AND L4 Setpoint
+    };
+
+    public static final int[] ZACH = {
+      XboxController.Button.kY.value, // Arm Up Manual
+      XboxController.Button.kA.value, // Arm Down Manual
+      XboxController.Button.kLeftBumper.value, // Release Coral AND Intake (INVERSE)
+      XboxController.Button.kRightBumper.value, // Release Coral AND Intake
+      XboxController.Button.kB.value, // Climber (Unclimb)
+      XboxController.Button.kX.value, // Climber (Climb)
+      DPAD_DOWN, // ArmDown Setpoint
+      DPAD_RIGHT, // L4 Setpoint
+      DPAD_UP, // L3 Setpoint
+      DPAD_LEFT, // L2 Setpoint
+      XboxController.Button.kBack.value, // AutoAlign Left AND L4 Setpoint
+      XboxController.Button.kStart.value // AutoAlign Right AND L4 Setpoint
+    };
+
+    public static final int[] JONAH = {
+      XboxController.Button.kY.value, // Arm Up Manual
+      XboxController.Button.kA.value, // Arm Down Manual
+      XboxController.Button.kLeftBumper.value, // Release Coral AND Intake (INVERSE)
+      XboxController.Button.kRightBumper.value, // Release Coral AND Intake
+      XboxController.Button.kB.value, // Climber (Unclimb)
+      XboxController.Button.kX.value, // Climber (Climb)
+      DPAD_DOWN, // ArmDown Setpoint
+      DPAD_RIGHT, // L4 Setpoint
+      DPAD_UP, // L3 Setpoint
+      DPAD_LEFT, // L2 Setpoint
+      XboxController.Button.kBack.value, // AutoAlign Left AND L4 Setpoint
+      XboxController.Button.kStart.value // AutoAlign Right AND L4 Setpoint
+    };
+
+    public static final int[] NICHOLAS = {
+      XboxController.Button.kB.value, // Arm Up Manual
+      XboxController.Button.kA.value, // Arm Down Manual
+      XboxController.Button.kLeftBumper.value, // Release Coral AND Intake (INVERSE)
+      XboxController.Button.kRightBumper.value, // Release Coral AND Intake
+      XboxController.Button.kX.value, // Climber (Unclimb)
+      XboxController.Button.kY.value, // Climber (Climb)
+      DPAD_DOWN, // ArmDown Setpoint
+      DPAD_UP, // L4 Setpoint
+      DPAD_RIGHT, // L3 Setpoint
+      DPAD_LEFT, // L2 Setpoint
+      XboxController.Button.kBack.value, // AutoAlign Left AND L4 Setpoint
+      XboxController.Button.kStart.value // AutoAlign Right AND L4 Setpoint
+    };
+
+    public static final int[] ARVINDH = {
+      XboxController.Button.kY.value, // Arm Up Manual
+      XboxController.Button.kA.value, // Arm Down Manual
+      XboxController.Button.kLeftBumper.value, // Release Coral AND Intake (INVERSE)
+      XboxController.Button.kRightBumper.value, // Release Coral AND Intake
+      XboxController.Button.kB.value, // Climber (Unclimb)
+      XboxController.Button.kX.value, // Climber (Climb)
+      DPAD_DOWN, // ArmDown Setpoint
+      DPAD_RIGHT, // L4 Setpoint
+      DPAD_UP, // L3 Setpoint
+      DPAD_LEFT, // L2 Setpoint
+      XboxController.Button.kBack.value, // AutoAlign Left AND L4 Setpoint
+      XboxController.Button.kStart.value // AutoAlign Right AND L4 Setpoint
+    };
   }
 }
