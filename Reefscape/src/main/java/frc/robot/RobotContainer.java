@@ -113,7 +113,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("ScoreThenArmDown", new SequentialCommandGroup(
       new ParallelCommandGroup(
         new AutoAlign(limelight, m_robotDrive, true),
-        new ArmToSetpoint(m_armsubsystem, 0.175, m_driverController, ArmConstants.kLFourPosition),
+        new ArmToSetpoint(m_armsubsystem, 0.2, m_driverController, ArmConstants.kLFourPosition),
         new RevampCoral(m_armsubsystem, m_coralholder)          
       ),
       new Score(-0.4, m_coralholder)
@@ -128,7 +128,7 @@ public class RobotContainer {
     new SequentialCommandGroup(
       new ParallelCommandGroup(
         new AutoAlign(limelight, m_robotDrive, true),
-        new ArmToSetpoint(m_armsubsystem, 0.175, m_driverController, ArmConstants.kLFourPosition),
+        new ArmToSetpoint(m_armsubsystem, 0.2, m_driverController, ArmConstants.kLFourPosition),
         new RevampCoral(m_armsubsystem, m_coralholder)          
       ),
       new Score(-0.4, m_coralholder)     
@@ -137,7 +137,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("LFourThenScore", new SequentialCommandGroup(
       new ParallelCommandGroup(
         new ParallelCommandGroup(
-          new ArmToSetpoint(m_armsubsystem, 0.175, m_driverController, ArmConstants.kLFourPosition),
+          new ArmToSetpoint(m_armsubsystem, 0.2, m_driverController, ArmConstants.kLFourPosition),
           new AutoAlign(limelight, m_robotDrive, true),
           new RevampCoral(m_armsubsystem, m_coralholder)
         )
