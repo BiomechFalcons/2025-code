@@ -65,11 +65,15 @@ public class Elevator extends SubsystemBase {
     }
 
     public double getEncoderDistance() {
-      return m_encoder.getPosition();
+      return -m_encoder.getPosition();
     }
 
     public boolean isAtGoal() {
-      System.out.println(getEncoderDistance());
+      System.out.println(getEncoderDistance() + "Goal Reached = " + m_controller.atGoal());
+      if (m_controller.atGoal()) {
+        m_motor.setVoltage(0);
+        m_motor2.setVoltage(0);
+      }
       return m_controller.atGoal();
     }
 
@@ -87,12 +91,12 @@ public class Elevator extends SubsystemBase {
                 m_controller.setGoal(1);
                  
                 }
-                else if (yButtonPressed)
+              else if (yButtonPressed)
                 {
                   // L3
                   m_controller.setGoal(5);
                 }
-                else if (bButtonPressed)
+              else if (bButtonPressed)
                 {
                   // L4
                   m_controller.setGoal(7);
