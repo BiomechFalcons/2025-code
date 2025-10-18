@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.144672131147541,
+        "y": 1.8732069672131149
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 6.509323770491802,
+        "y": 2.208862704918032
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.214651639344262,
+        "y": 2.940112704918032
+      },
+      "prevControl": {
+        "x": 6.053790983606557,
+        "y": 2.1609118852459015
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -58.73626830562258
+  },
+  "reversed": false,
+  "folder": "1 Coral Auto Right Paths",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 1.5481576989780077
+  },
+  "useDefaultConstraints": false
+}

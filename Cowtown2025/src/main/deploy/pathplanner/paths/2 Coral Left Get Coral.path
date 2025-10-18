@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 4.965852272727273,
+        "y": 5.0819886363636355
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 4.253845693779905,
+        "y": 5.495722188995215
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.1268442622950818,
+        "y": 7.36357581967213
+      },
+      "prevControl": {
+        "x": 2.5360305220017247,
+        "y": 6.660560019413286
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "HP 2 Coral Auto Left"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 2.5,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 124.59228868750999
+  },
+  "reversed": false,
+  "folder": "2 Coral Auto Left Paths",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 61.022000000000006
+  },
+  "useDefaultConstraints": true
+}

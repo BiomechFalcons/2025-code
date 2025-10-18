@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 5.76986301369863,
+        "y": 3.777076198630137
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 6.164353145277578,
+        "y": 1.0060235670511894
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.3523116438356164,
+        "y": 0.8771190068493149
+      },
+      "prevControl": {
+        "x": 3.2093017754145636,
+        "y": 1.059931506849315
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "HP 2 Coral FandB "
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 2.5,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -126.25383773744477
+  },
+  "reversed": false,
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "useDefaultConstraints": true
+}

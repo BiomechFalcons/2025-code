@@ -1,0 +1,68 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "2 Coral Right Score 1st"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ScoreLeft"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "ArmDown"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "2 Coral Right Get Coral"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "2 Coral Right Score 2nd"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ScoreLeft"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ArmDown"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

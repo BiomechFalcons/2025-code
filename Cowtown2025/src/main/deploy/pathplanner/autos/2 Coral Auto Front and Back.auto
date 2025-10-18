@@ -1,0 +1,68 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "2 Coral FandB 1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ScoreLeft"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "2 Coral FandB 2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ArmDown"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "2 Coral FandB 3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ScoreLeft"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ArmDown"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}
