@@ -48,6 +48,6 @@ public class ElevatorToSetpoint extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (m_elevator.isAtGoal() || m_controller.getLeftBumperButton());
+    return (m_elevator.isAtGoal());
   }
 }

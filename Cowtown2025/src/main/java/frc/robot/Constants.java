@@ -53,20 +53,20 @@ public final class Constants {
     // SPARK MAX CAN IDs
 
     // Front Right CAN IDs
-    public static final int kFrontRightTurningCanId = 3; // 1FRSM
-    public static final int kFrontRightDrivingCanId = 4; // 2FRDM
+    public static final int kFrontRightTurningCanId = 7; // 1FRSM
+    public static final int kFrontRightDrivingCanId = 8; // 2FRDM
   
     // Rear Right CAN IDs
-    public static final int kRearRightTurningCanId = 5; // 3BRSM
-    public static final int kRearRightDrivingCanId = 6; // 4BRDM
+    public static final int kRearRightTurningCanId = 1; // 3BRSM
+    public static final int kRearRightDrivingCanId = 2; // 4BRDM
 
     // Rear Left CAN IDs
-    public static final int kRearLeftTurningCanId = 7; // 5BLSM
-    public static final int kRearLeftDrivingCanId = 8; // 6BLDM
+    public static final int kRearLeftTurningCanId = 3; // 5BLSM
+    public static final int kRearLeftDrivingCanId = 4; // 6BLDM
 
     // Front Left CAN IDs
-    public static final int kFrontLeftTurningCanId = 1; // 7FLSM
-    public static final int kFrontLeftDrivingCanId = 2; // 8FLDM  
+    public static final int kFrontLeftTurningCanId = 5; // 7FLSM
+    public static final int kFrontLeftDrivingCanId = 6; // 8FLDM  
     
 
     
@@ -100,8 +100,8 @@ public final class Constants {
   }
 
   public static final class AutoConstants {
-    public static final double kMaxSpeedMetersPerSecond = 1;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 1.5;
+    public static final double kMaxSpeedMetersPerSecond = 3.5;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 3.5;
     public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI*.8;
     public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
 
@@ -139,8 +139,8 @@ public final class Constants {
   }
 
   public static final class LimelightConstants {
-    public static final double kLFourLeftTX = -17.48;
-    public static double kLFourRightTX = 9.88;
+    public static final double kLFourLeftTX = -16.23;
+    public static final double kLFourRightTX = 18.92;
     public static final double kLTwoThreeLeftTX = 0;
     public static final double kLTwoThreeRightTX = 0;
     public static final double kLTwoThreeTY = 0;
@@ -162,7 +162,7 @@ public final class Constants {
   }
   public static final class IntakeConstants {
     public static final int kArmMotorCanID = 9;
-    public static final int kIntakeMotorCanID = 10;
+    public static final int kIntakeMotorCanID = 14;
   }
   public static final class ElevatorConstants{
     // Elevator
@@ -178,13 +178,13 @@ public final class Constants {
    public static double kV = 0.3; */
         // Elevator
         public static double kDt = 0.02;
-        public static double kMaxVelocity = 0.1;
-        public static double kMaxAcceleration =  1.75;
-        public static double kP = 15; //0.015 - 0.02 :3 ! :D ^_^ 
+        // public static double kMaxVelocity = 5.5;
+        // public static double kMaxAcceleration =  5;
+        public static double kP = 0.15;  
         public static double kI = 0.0;
         public static double kD = 0.0;
         public static double kS = 1.1;
-        public static double kG = 3; //0.11
+        public static double kG = 0.3; //0.11
         public static double kV = 0.7;
 }
 }

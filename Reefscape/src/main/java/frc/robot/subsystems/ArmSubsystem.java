@@ -29,7 +29,7 @@ public class ArmSubsystem extends SubsystemBase {
     private ArmFeedforward m_ArmFeedforwardCoral;
     private boolean hasCoral;
     private NetworkTable table;
-    private DigitalInput sensor = new DigitalInput(0);
+    private DigitalInput sensor = new DigitalInput(9);
     private double kG;
 
     public ArmSubsystem() {

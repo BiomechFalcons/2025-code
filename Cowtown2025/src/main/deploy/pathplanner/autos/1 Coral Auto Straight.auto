@@ -9,18 +9,6 @@
           "data": {
             "pathName": "1 Coral Straight"
           }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ScoreRight"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ArmDown"
-          }
         }
       ]
     }

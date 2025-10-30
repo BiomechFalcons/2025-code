@@ -5,16 +5,21 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Commands.Arm;
+import frc.robot.Commands.AutoAlign;
+import frc.robot.Commands.AutoIntake;
 import frc.robot.Commands.ElevatorToSetpoint;
 import frc.robot.Commands.Intake;
+import frc.robot.Commands.ResetFieldRelative;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.DriverButtonBindings;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Limelight;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -30,6 +35,8 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import java.util.HashMap;
 
+import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonObjectFormatVisitor;
 
@@ -48,24 +55,45 @@ public class RobotContainer {
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   XboxController m_emergencyController = new XboxController(1);  
-  
-  // SparkMax m_intakeMotor = new SparkMax(Constants.IntakeConstants.kIntakeMotorCanID, MotorType.kBrushless);
+  public final Limelight limelight = new Limelight();
+
+  //SparkMax m_intakeMotor = new SparkMax(Constants.IntakeConstants.kIntakeMotorCanID, MotorType.kBrushless);
+  PWMVictorSPX m_intakeMotorTop = new PWMVictorSPX(0);
+  VictorSPX m_intakeMotorBottom = new VictorSPX(Constants.IntakeConstants.kIntakeMotorCanID);
   // SparkMax m_armMotor = new SparkMax(Constants.IntakeConstants.kArmMotorCanID, MotorType.kBrushless);
   Elevator m_elevator = new Elevator();
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    // m_driverController.povUp().onTrue(new InstantCommand(() -> armMotor.set(0.01))) 
-    //                         .onFalse(new InstantCommand(()-> armMotor.set(0)));
-    // m_driverController.povDown().onTrue(new InstantCommand(() -> armMotor.set(-0.1)))
-    //                           .onFalse(new InstantCommand(()-> armMotor.set(0)));     
+    // m_driverController.povUp().onTrue(new InstantCommand(() -> m_intakeMotor.set(0.1))) 
+    //                         .onFalse(new InstantCommand(()-> m_intakeMotor.set(0)));
+    // m_driverController.povDown().onTrue(new InstantCommand(() -> m_intakeMotor.set(-0.1)))
+    //                           .onFalse(new InstantCommand(()-> m_intakeMotor.set(0)));     
+    NamedCommands.registerCommand("AutoalignLeft", 
+    new AutoAlign(limelight, m_robotDrive, true)
+  );
+  NamedCommands.registerCommand("AutoalignRight", 
+    new AutoAlign(limelight, m_robotDrive, false)
+  );
+  NamedCommands.registerCommand("L4", 
+    new ElevatorToSetpoint(m_elevator, "b", m_driverController)
+  );
+  // NamedCommands.registerCommand("Score", 
+  //   new AutoIntake(m_intakeMotorTop, m_intakeMotorBottom, m_elevator)
+  // );
+  NamedCommands.registerCommand("L1", 
+  new ElevatorToSetpoint(m_elevator, "a", m_driverController)
+);
     configureButtonBindings();                    
   }
   private void configureButtonBindings() {
     // Intake in
-    // new JoystickButton(m_driverController, XboxController.Button.kA.value)
-    //   .whileTrue(new Intake(0.7, m_intakeMotor));
+    new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value)
+       .whileTrue(new Intake(-0.7, m_intakeMotorTop, m_intakeMotorBottom));
+
+    new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value)
+       .whileTrue(new Intake(0.5, m_intakeMotorTop, m_intakeMotorBottom));
     // // Intake Out
     // new JoystickButton(m_driverController, XboxController.Button.kB.value)
     //   .whileTrue(new Intake(-0.5, m_intakeMotor));
@@ -75,9 +103,33 @@ public class RobotContainer {
     // // Arm Up
     // new JoystickButton(m_driverController, XboxController.Button.kY.value)
     //   .whileTrue(new Arm(-0.2, m_armMotor));
-
+    //new POVButton(m_driverController, Constants.DriverButtonBindings.DPAD_UP)
+    //.onTrue(new AutoIntake(m_intakeMotorTop, m_intakeMotorBottom, m_elevator));
     new JoystickButton(m_driverController, XboxController.Button.kX.value)
     .onTrue(new ElevatorToSetpoint(m_elevator, "x", m_driverController));
+    new JoystickButton(m_driverController, XboxController.Button.kA.value)
+    .onTrue(new ElevatorToSetpoint(m_elevator, "a", m_driverController));
+    new JoystickButton(m_driverController, XboxController.Button.kY.value)
+    .onTrue(new ElevatorToSetpoint(m_elevator, "y", m_driverController));
+    new JoystickButton(m_driverController, XboxController.Button.kB.value)
+    .onTrue(new ElevatorToSetpoint(m_elevator, "b", m_driverController));
+
+    // David Controls
+    // new POVButton(m_driverController, Constants.DriverButtonBindings.DPAD_LEFT)
+    // .onTrue(new ElevatorToSetpoint(m_elevator, "x", m_driverController));
+    // new POVButton(m_driverController, Constants.DriverButtonBindings.DPAD_DOWN)
+    // .onTrue(new ElevatorToSetpoint(m_elevator, "a", m_driverController));
+    // new POVButton(m_driverController, Constants.DriverButtonBindings.DPAD_UP)
+    // .onTrue(new ElevatorToSetpoint(m_elevator, "y", m_driverController));
+    // new POVButton(m_driverController, Constants.DriverButtonBindings.DPAD_RIGHT)
+    // .onTrue(new ElevatorToSetpoint(m_elevator, "b", m_driverController));
+
+    new JoystickButton(m_driverController, XboxController.Button.kBack.value)
+    .onTrue(new AutoAlign(limelight, m_robotDrive, true));
+    new JoystickButton(m_driverController, XboxController.Button.kStart.value)
+    .onTrue(new AutoAlign(limelight, m_robotDrive, false));
+    // new POVButton(m_driverController, Constants.DriverButtonBindings.DPAD_DOWN)
+    // .onTrue(new ResetFieldRelative(m_robotDrive));
   }
       
 
@@ -156,7 +208,10 @@ public class RobotContainer {
 
   public Command oneCoralAutoStraight() {
     try {
-      return new PathPlannerAuto("1 Coral Auto Straight");
+      return new SequentialCommandGroup(
+        new PathPlannerAuto("1 Coral Auto Straight"),
+        new AutoIntake(m_intakeMotorTop, m_intakeMotorBottom, m_elevator)
+      );
     } catch (Exception e) {
       System.out.println("Error " + e);
       return Commands.none();

@@ -72,6 +72,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Pose X normal", m_robotContainer.m_robotDrive.getPose().getX());
     SmartDashboard.putNumber("Pose Y Normal", m_robotContainer.m_robotDrive.getPose().getY());
     SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
+    SmartDashboard.putNumber("Elevator Encoder", m_robotContainer.m_elevator.getEncoderDistance());
+    SmartDashboard.putBoolean("Sensor", m_robotContainer.m_elevator.isCoralDetected());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -139,6 +141,8 @@ public class Robot extends TimedRobot {
     } else if (m_robotContainer.m_driverController.getLeftTriggerAxis() > 0) {
       Constants.DriveConstants.kMaxSpeedMetersPerSecond = (2
           - m_robotContainer.m_driverController.getLeftTriggerAxis() * 1.2);
+    } else if (m_robotContainer.m_driverController.getRightTriggerAxis() > 0.1) {
+      Constants.DriveConstants.kMaxSpeedMetersPerSecond = 3.5 + (m_robotContainer.m_driverController.getRightTriggerAxis() * 0.5);
     } else {
       Constants.DriveConstants.kMaxSpeedMetersPerSecond = DriveConstants.kMaxSpeed;
     }
